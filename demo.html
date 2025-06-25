@@ -13,9 +13,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-okaidia.min.css">
 
     <!-- Chosen Palette: Cosmic Latte & Tech Blue -->
-    <!-- Application Structure Plan: The page is now streamlined to focus on the interactive tools. It leads with the AI Readiness Monitor and the AI-Powered Refinement section. The conceptual and case-study sections have been removed to create a more direct, tool-focused experience. -->
+    <!-- Application Structure Plan: The page is now streamlined to focus on the interactive tools. It leads with the AI Readiness Monitor and the AI-Powered Refinement section. The "Best Practices" section is re-introduced to provide context and best practices. -->
     <!-- Visualization & Content Choices: 
-        - Section Order: 1. AI Readiness Monitor, 2. AI-Powered Refinement, 3. Workflow, 4. Conclusion.
+        - Section Order: 1. AI Readiness Monitor, 2. AI-Powered Refinement, 3. Best Practices, 4. Workflow, 5. Conclusion.
         - AI Logic Enhancement: The fixSpecWithAI function generates meaningful descriptions instead of placeholders.
         - Library/Method: Vanilla JS, Chart.js, and js-yaml are used. Prism.js is added for code highlighting. The AI logic is simulated in JavaScript to demonstrate the concept. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
@@ -141,6 +141,39 @@
             margin-top: 0.5rem;
             color: #4b5563;
         }
+        .interactive-table-row {
+            cursor: pointer;
+        }
+        .interactive-table-row:hover {
+            background-color: #f9fafb;
+        }
+        .interactive-table-details {
+            display: none;
+        }
+        .interactive-table-details code {
+            background-color: #f3f4f6;
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+        }
+        .llm-output-box {
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            background-color: #f9fafb;
+            min-height: 120px;
+        }
+        .llm-query {
+            font-style: italic;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+        .llm-response-bad {
+            color: #b91c1c;
+        }
+        .llm-response-good {
+            color: #047857;
+        }
     </style>
 </head>
 <body class="bg-primary">
@@ -154,9 +187,9 @@
                 <div class="hidden md:block">
                     <div id="nav-links-desktop" class="ml-10 flex items-baseline space-x-4">
                         <a href="#ai-readiness-monitor" class="text-gray-600 hover:text-accent px-3 py-2 rounded-md text-sm font-medium transition">Monitor</a>
+                        <a href="#crafting-specs" class="text-gray-600 hover:text-accent px-3 py-2 rounded-md text-sm font-medium transition">Best Practices</a>
                         <a href="#workflow" class="text-gray-600 hover:text-accent px-3 py-2 rounded-md text-sm font-medium transition">Workflow</a>
                         <a href="#conclusion" class="text-gray-600 hover:text-accent px-3 py-2 rounded-md text-sm font-medium transition">Conclusion</a>
-                        <button id="speaker-notes-btn" class="hidden bg-accent-light text-accent font-semibold px-3 py-2 rounded-md text-sm hover:bg-accent hover:text-white transition">Speaker Notes</button>
                     </div>
                 </div>
                 <div class="-mr-2 flex md:hidden">
@@ -171,9 +204,9 @@
         <div class="md:hidden hidden" id="mobile-menu">
             <div id="nav-links-mobile" class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                  <a href="#ai-readiness-monitor" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Monitor</a>
+                 <a href="#crafting-specs" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Best Practices</a>
                 <a href="#workflow" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Workflow</a>
                 <a href="#conclusion" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Conclusion</a>
-                 <button id="speaker-notes-btn-mobile" class="hidden w-full text-left bg-accent-light text-accent font-semibold block px-3 py-2 rounded-md text-base hover:bg-accent hover:text-white transition">Speaker Notes</button>
             </div>
         </div>
     </nav>
@@ -315,6 +348,138 @@ paths:
             </div>
         </section>
 
+        <!-- Crafting Semantically Expressive Specs Section -->
+        <section id="crafting-specs" class="mb-20">
+             <div class="bg-secondary p-6 sm:p-8 rounded-xl shadow-lg border border-gray-200">
+                <div id="bestpractices-specs">
+                    <h3 class="text-2xl font-semibold mb-2 text-center">Best Practices</h3>
+                    <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">To serve both humans and AI, specs must be rich with meaning. Click on any row to expand and see best practices for key OpenAPI fields that contribute to a more intelligent API contract.</p>
+                    <div class="overflow-x-auto" id="semantic-table-container">
+                    </div>
+                </div>
+                <!-- LLM Interpretation Examples -->
+                <div class="mt-12">
+                    <h3 class="text-2xl font-semibold mb-2 text-center">How LLM Agents Read Your Spec</h3>
+                    <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">The richness of your spec directly impacts an AI's ability to understand and act. Here’s a side-by-side look at how an LLM interprets a poor spec versus a semantically rich one using the Snackbuddy API.</p>
+                
+                    <!-- Example 1: info.description -->
+                    <div class="mb-8">
+                        <h4 class="text-xl font-semibold mb-4">Field: <code>info.description</code></h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <!-- Before -->
+                            <div>
+                                <h5 class="font-bold text-red-500 mb-2">Poor Spec</h5>
+                                <pre><code class="language-yaml">
+info:
+  title: Snack API
+  version: 1.0.0
+                                </code></pre>
+                                <div class="llm-output-box mt-4">
+                                    <p class="llm-query">User: "What's this API for?"</p>
+                                    <p class="llm-response llm-response-bad">🤖 Uh... snacks? It's the 'Snack API'. I assume it involves snacks. Can I get you a 404? That's a 'Resource Not Found' cracker, very dry.</p>
+                                </div>
+                            </div>
+                            <!-- After -->
+                            <div>
+                                 <h5 class="font-bold text-green-600 mb-2">Rich Spec</h5>
+                                 <pre><code class="language-yaml">
+info:
+  title: Snackbuddy API
+  version: 1.0.0
+  description: >
+    The official API for ranking, reviewing, and 
+    requesting snacks for your office. Never
+    suffer through a bad snack day again.
+                                 </code></pre>
+                                 <div class="llm-output-box mt-4">
+                                    <p class="llm-query">User: "What's this API for?"</p>
+                                    <p class="llm-response llm-response-good">🤖 This is the Snackbuddy API! It lets you rank, review, and request snacks for your office. Let's end the tyranny of bad snack days together!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Example 2: operationId -->
+                    <div class="mb-8">
+                        <h4 class="text-xl font-semibold mb-4">Field: <code>operationId</code></h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <!-- Before -->
+                            <div>
+                                <h5 class="font-bold text-red-500 mb-2">Poor Spec</h5>
+                                <pre><code class="language-yaml">
+paths:
+  /snacks/{id}:
+    get:
+      summary: Get a snack
+                                </code></pre>
+                                <div class="llm-output-box mt-4">
+                                    <p class="llm-query">User: "Find the snack with ID 'pretzels-101'."</p>
+                                    <p class="llm-response llm-response-bad">🤖 I see an operation to "Get a snack", but I don't have a specific name for that action. It's like a button with no label. I'm not pressing it.</p>
+                                </div>
+                            </div>
+                            <!-- After -->
+                            <div>
+                                 <h5 class="font-bold text-green-600 mb-2">Rich Spec</h5>
+                                 <pre><code class="language-yaml">
+paths:
+  /snacks/{id}:
+    get:
+      summary: Get a specific snack by its ID.
+      operationId: getSnackById
+                                 </code></pre>
+                                 <div class="llm-output-box mt-4">
+                                    <p class="llm-query">User: "Find the snack with ID 'pretzels-101'."</p>
+                                    <p class="llm-response llm-response-good">🤖 Roger that! Calling `getSnackById` with the ID 'pretzels-101'. Prepare for pretzel details!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Example 3: examples -->
+                    <div class="mb-8">
+                        <h4 class="text-xl font-semibold mb-4">Field: <code>examples</code></h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <!-- Before -->
+                            <div>
+                                <h5 class="font-bold text-red-500 mb-2">Poor Spec</h5>
+                                <pre><code class="language-yaml">
+requestBody:
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/NewSnack'
+                                </code></pre>
+                                <div class="llm-output-box mt-4">
+                                    <p class="llm-query">User: "Add 'spicy chips' to the snack list."</p>
+                                    <p class="llm-response llm-response-bad">🤖 I can add a snack, but what *is* a snack? What fields do I need? Is 'spicy' a valid flavour? Is 'chips' a food group? I'm so confused.</p>
+                                </div>
+                            </div>
+                            <!-- After -->
+                            <div>
+                                 <h5 class="font-bold text-green-600 mb-2">Rich Spec</h5>
+                                 <pre><code class="language-yaml">
+requestBody:
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/NewSnack'
+      examples:
+        newSnackExample:
+          value:
+            name: Spicy Chips
+            type: salty
+            rating: 5
+                                 </code></pre>
+                                 <div class="llm-output-box mt-4">
+                                    <p class="llm-query">User: "Add 'spicy chips' to the snack list."</p>
+                                    <p class="llm-response llm-response-good">🤖 OK. I will create a new 'salty' snack called "Spicy Chips" with a rating of 5. Sound good?</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- AI-Augmented Workflow -->
         <section id="workflow" class="mb-20">
             <h2 class="text-3xl font-bold text-center mb-4">The New AI-Augmented Workflow</h2>
@@ -405,16 +570,27 @@ paths:
             const fixerLoader = document.getElementById('fixer-loader');
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
+            const semanticTableContainer = document.getElementById('semantic-table-container');
 
             // --- DATA ---
             const reportChecks = [
-                { key: 'info.title', field: 'info.title & description', purpose: 'High-level overview of API capabilities, target users, and ideal use cases.' },
+                { key: 'info.title', field: 'info.title & description', purpose: 'High-level overview of API capabilities, target users (including AI), and ideal use cases.' },
                 { key: 'paths.{...}.description', field: 'paths.{...}.description', purpose: 'Detailed explanation of an operation\'s capability, *why* and *when* to use it.' },
                 { key: 'operationId', field: 'operationId', purpose: 'Unique, machine-friendly identifier used by AI to reference and call the operation.' },
                 { key: 'parameters', field: 'parameters.*', purpose: 'Defines data type, format, and validation rules to guide AI in generating valid parameter values.' },
                 { key: 'examples', field: 'examples', purpose: 'Concrete request/response payloads that show the AI how to structure requests.' },
                 { key: 'responses', field: 'responses.{...}', purpose: 'Explains what an HTTP status code means, helping AI to interpret outcomes and handle errors.' },
                 { key: 'securitySchemes', field: 'securitySchemes', purpose: 'Defines security mechanisms (e.g., API Key, OAuth2) so the AI can authenticate.' }
+            ];
+            
+            const semanticTableData = [
+                { field: 'info.title & description', purpose: 'High-level overview of API capabilities, target users (including AI), and ideal use cases. Crucial for initial AI understanding.', bestPractice: 'description: > This API manages personal or team todos, supporting AI agents in task orchestration.' },
+                { field: 'paths.{...}.description', purpose: 'Detailed explanation of the operation\'s capability, *why* and *when* an AI should use it. Critical for AI decision-making.', bestPractice: 'description: > Fetches a single todo item. Use this when an AI agent needs to display details of a known task.' },
+                { field: 'operationId', purpose: 'Unique, machine-friendly, action-oriented identifier for the operation. Used by AI to reference and call the operation.', bestPractice: 'operationId: getTodoById' },
+                { field: 'parameters.*', purpose: 'Defines data type, format, and validation rules. Guides AI in generating valid and meaningful parameter values.', bestPractice: 'schema: { type: integer, format: int64, minimum: 1 }' },
+                { field: 'examples', purpose: 'Provides concrete examples of request and response payloads. Highly valuable for AI to learn how to structure requests.', bestPractice: 'example: { "task": "Buy milk", "priority": "high" }' },
+                { field: 'responses.{...}', purpose: 'Explains what a particular HTTP status code means. Helps AI interpret outcomes and handle errors.', bestPractice: '"404": { description: "Todo item not found." }' },
+                { field: 'securitySchemes', purpose: 'Defines security mechanisms (e.g., API Key, OAuth2). Critical for AI to understand how to authenticate requests.', bestPractice: 'securitySchemes: { apiKeyAuth: { type: apiKey, in: header, name: "X-API-KEY" } }' }
             ];
 
             // --- EVENT LISTENERS ---
@@ -503,6 +679,51 @@ paths:
             });
 
             // --- CORE FUNCTIONS ---
+             function populateSemanticTable() {
+                if (semanticTableContainer) {
+                    const table = document.createElement('table');
+                    table.className = 'min-w-full bg-white divide-y divide-gray-200 rounded-lg shadow';
+                    table.innerHTML = `
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">OpenAPI Field</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purpose for AI</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200"></tbody>`;
+                    
+                    const tbody = table.querySelector('tbody');
+                    semanticTableData.forEach(item => {
+                        const tr = document.createElement('tr');
+                        tr.className = 'interactive-table-row';
+                        tr.innerHTML = `
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${item.field}</td>
+                            <td class="px-6 py-4 text-sm text-gray-500">${item.purpose}</td>`;
+                        
+                        const detailsTr = document.createElement('tr');
+                        detailsTr.className = 'interactive-table-details bg-gray-50'
+                        detailsTr.style.display = 'none';
+                        detailsTr.innerHTML = `<td colspan="2" class="px-6 py-4 text-sm text-gray-700"><strong>Best Practice:</strong> <code>${item.bestPractice.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></td>`;
+
+                        tbody.appendChild(tr);
+                        tbody.appendChild(detailsTr);
+                    });
+
+                    semanticTableContainer.appendChild(table);
+
+                    tbody.addEventListener('click', (e) => {
+                        const row = e.target.closest('.interactive-table-row');
+                        if (row) {
+                            const detailsRow = row.nextElementSibling;
+                            if(detailsRow && detailsRow.classList.contains('interactive-table-details')) {
+                                detailsRow.style.display = detailsRow.style.display === 'table-row' ? 'none' : 'table-row';
+                            }
+                        }
+                    });
+                }
+            }
+
+
             function updateGauge(needleId, scoreId, score) {
                 const needle = document.getElementById(needleId);
                 const scoreEl = document.getElementById(scoreId);
@@ -691,6 +912,9 @@ paths:
 
                 return fixedSpec;
             }
+
+            // --- INITIALIZE UI ---
+            populateSemanticTable();
         });
     </script>
 </body>
