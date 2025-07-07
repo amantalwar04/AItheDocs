@@ -422,13 +422,43 @@
 
     </main>
 
-    <footer style="text-align: center; padding: 10px; background-color: #f0f0f0;">
-        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
-                        <div class="flex-shrink-0 mt-4 sm:mt-0 sm:ml-6">
+    <!-- Footer Section -->
+    <footer class="w-full bg-gray-800 py-8 shadow-inner">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Main Profile Card Container - Horizontal Layout -->
+            <div class="w-full bg-white rounded-lg shadow-xl overflow-hidden flex flex-col sm:flex-row items-center justify-between p-4 sm:p-5">
+                
+                <div class="flex items-center w-full sm:w-auto">
+                    <!-- Profile Picture -->
+                    <div class="flex-shrink-0">
+                         <!-- IMPORTANT: The placeholder URL has been replaced with the provided image. -->
+                        <img src="https://media.licdn.com/dms/image/v2/D5603AQHBpURdGFrGzw/profile-displayphoto-shrink_400_400/B56ZcsAWwSHEAk-/0/1748789980642?e=1757548800&v=beta&t=KPZrxUujkFJTQTQe41aCiY753XR94jbw2y2d1nwu74M" 
+                             onerror="this.onerror=null;this.src='https://placehold.co/100x100/e2e8f0/a0aec0?text=Pic';"
+                             alt="Aman Talwar's profile picture" 
+                             class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-gray-300">
+                    </div>
+                    
+                    <!-- Profile Details Section -->
+                    <div class="flex-grow ml-4 text-left">
+                        <h1 class="text-lg sm:text-xl font-bold text-gray-800">Amandeep Singh Talwar </h1>
+                        <p class="text-gray-600 mt-1 text-xs sm:text-sm">
+                            Strategic Leader | Expert in Technical Communication, Automation & Digital Transformation | Driving Growth & Innovation
+                        </p>
+                        <div class="mt-2 text-xs text-gray-500 flex items-center space-x-3">
+                            <span>Hyderabad, Telangana, India </span>
+                            <span class="hidden sm:inline">·</span>
+                            <span class="font-semibold text-blue-600">500+ connections</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Action Button Section -->
+                <div class="flex-shrink-0 mt-4 sm:mt-0 sm:ml-6">
                     <a href="https://www.linkedin.com/in/amantalwar/" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto text-center bg-blue-600 text-white font-semibold py-2 px-6 rounded-full hover:bg-blue-700 transition duration-300 ease-in-out whitespace-nowrap">
                         View Profile
                     </a>
                 </div>
+            </div>
         </div>
     </footer>
 
