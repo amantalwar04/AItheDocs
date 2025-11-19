@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Release Notes Generator - Interactive Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --autodesk-blue: #1D91D0;
+            --autodesk-black: #000000;
+            --autodesk-white: #FFFFFF;
+            --autodesk-dark: #1A1A1A;
+            --success-green: #4caf50;
+            --warning-orange: #ff9800;
+            --error-red: #f44336;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            overflow: hidden;
+        }
+
+        .header {
+            background: var(--autodesk-dark);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--autodesk-blue);
+        }
+
+        .header h1 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        .header .subtitle {
+            color: #ccc;
+            font-size: 0.85em;
+            margin: 5px 0 0 0;
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--autodesk-blue);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75em;
+            margin: 0 5px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 0;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .left-panel, .right-panel {
+            overflow-y: auto;
+        }
+
+        .left-panel {
+            background: #f8f9fa;
+            border-right: 2px solid #e0e0e0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 8px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 3px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.8em;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #d0d0d0;
+            border-radius: 4px;
+            font-size: 12px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--autodesk-blue);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 40px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--autodesk-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0577b3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(6, 150, 215, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 3px solid var(--autodesk-blue);
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 3px;
+            font-size: 0.75em;
+        }
+
+        .info-box h3 {
+            color: var(--autodesk-blue);
+            margin-bottom: 4px;
+            font-size: 0.95em;
+        }
+
+        .info-box p {
+            margin: 3px 0;
+            line-height: 1.3;
+        }
+
+        .demo-mode-notice {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning-orange);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .output-container {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tab-content {
+            display: none;
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        .right-panel {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .output-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid #e0e0e0;
+            background: #f8f9fa;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .tab.active {
+            color: var(--autodesk-blue);
+            border-bottom-color: var(--autodesk-blue);
+            background: white;
+        }
+
+        .tab-content.active {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .output-box {
+            background: #f8f9fa;
+            border: 1px solid #d0d0d0;
+            border-radius: 3px;
+            padding: 20px;
+            min-height: 300px;
+            max-height: 600px;
+            overflow-y: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            color: #333;
+        }
+
+        .preview-box {
+            background: white;
+            padding: 0;
+            border-radius: 0;
+            height: 100%;
+            overflow-y: auto;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            display: flex;
+            align-items: center;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .preview-box h1 {
+            color: #1a1a1a;
+            font-size: 2em;
+            font-weight: 600;
+            border-bottom: 2px solid #333;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .preview-box h2 {
+            color: #2c3e50;
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-top: 35px;
+            margin-bottom: 18px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e0e0e0;
+            letter-spacing: -0.3px;
+        }
+
+        .preview-box h3 {
+            color: #34495e;
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+
+        .preview-box p {
+            margin: 12px 0;
+            font-size: 1em;
+            line-height: 1.7;
+        }
+
+        .preview-box strong {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .preview-box ul {
+            list-style: disc;
+            padding-left: 25px;
+            margin: 15px 0;
+        }
+
+        .preview-box li {
+            padding: 6px 0;
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .preview-box li ul {
+            margin-top: 8px;
+            list-style: circle;
+        }
+
+        .preview-box .confluence-image {
+            background: #fafafa;
+            border: 1px solid #d0d0d0;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 2px;
+            text-align: center;
+        }
+
+        .preview-box .confluence-image img {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+            border-radius: 2px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+        }
+
+        .preview-box .confluence-image div {
+            margin-top: 12px;
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .preview-box .image-placeholder {
+            font-size: 2em;
+            color: #666;
+            margin-bottom: 10px;
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            padding: 40px;
+            border-radius: 8px;
+        }
+
+        .preview-box code {
+            background: #f5f5f5;
+            padding: 3px 8px;
+            border-radius: 2px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: #c7254e;
+            font-size: 0.9em;
+            border: 1px solid #e8e8e8;
+        }
+
+        .preview-box pre {
+            background: #f8f8f8;
+            border: 1px solid #e0e0e0;
+            border-radius: 2px;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .preview-box pre code {
+            background: transparent;
+            padding: 0;
+            border: none;
+            color: #333;
+            font-size: 0.9em;
+        }
+
+        .preview-box hr {
+            border: none;
+            border-top: 1px solid #d0d0d0;
+            margin: 40px 0;
+        }
+
+        .preview-box em {
+            font-style: italic;
+            color: #555;
+        }
+
+        .preview-box a {
+            color: #0066cc;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .preview-box a:hover {
+            border-bottom-color: #0066cc;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--autodesk-blue);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            background: var(--autodesk-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: #0577b3;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--autodesk-blue);
+        }
+
+        .stat-label {
+            font-size: 0.7em;
+            color: #666;
+        }
+
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .left-panel {
+                border-right: none;
+                border-bottom: 2px solid #e0e0e0;
+            }
+        }
+
+        .sample-data {
+            font-size: 0.75em;
+            color: #666;
+            margin-top: 3px;
+            line-height: 1.2;
+        }
+
+        .feature-list {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .feature-list h3 {
+            color: var(--autodesk-blue);
+            margin-bottom: 15px;
+        }
+
+        .feature-list ul {
+            list-style: none;
+        }
+
+        .feature-list li::before {
+            content: "✓ ";
+            color: var(--success-green);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        /* Workflow Visualization Styles */
+        .workflow-container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 20px;
+            height: 100%;
+            padding: 0;
+        }
+
+        .workflow-left {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        .workflow-header {
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .workflow-header h2 {
+            color: var(--autodesk-dark);
+            margin-bottom: 3px;
+            font-size: 1em;
+        }
+
+        .workflow-header p {
+            font-size: 0.7em;
+            line-height: 1.2;
+            color: #666;
+            margin: 0;
+        }
+
+        .workflow-diagram {
+            width: 100%;
+            position: relative;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            padding: 5px 0;
+        }
+
+        .workflow-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 2px 0;
+            position: relative;
+        }
+
+        .workflow-node {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 6px 8px;
+            min-width: 110px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .workflow-node.active {
+            border-color: var(--autodesk-blue);
+            background: #e3f2fd;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,100,178,0.3);
+        }
+
+        .workflow-node.mcp-server {
+            border-color: var(--success-green);
+            background: #f1f8f4;
+        }
+
+        .workflow-node.mcp-server.active {
+            border-color: var(--success-green);
+            background: #e8f5e9;
+            box-shadow: 0 4px 12px rgba(76,175,80,0.3);
+        }
+
+        .workflow-node-icon {
+            font-size: 1em;
+            margin-bottom: 3px;
+        }
+
+        .workflow-node-title {
+            font-weight: 600;
+            color: var(--autodesk-dark);
+            margin-bottom: 1px;
+            font-size: 0.75em;
+        }
+
+        .workflow-node-desc {
+            font-size: 0.65em;
+            color: #666;
+            line-height: 1.1;
+        }
+
+        .workflow-arrow {
+            font-size: 1em;
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .workflow-arrow.active {
+            color: var(--autodesk-blue);
+            animation: pulse 1s infinite;
+        }
+
+        .workflow-arrow-vertical {
+            display: flex;
+            justify-content: center;
+            margin: 0;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .workflow-legend {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 5px;
+            padding: 4px 8px;
+            background: #f8f9fa;
+            border-radius: 3px;
+            font-size: 0.65em;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-box {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            border: 2px solid;
+            flex-shrink: 0;
+        }
+
+        .legend-box.client {
+            border-color: var(--autodesk-blue);
+            background: #e3f2fd;
+        }
+
+        .legend-box.server {
+            border-color: var(--success-green);
+            background: #e8f5e9;
+        }
+
+        .workflow-right {
+            background: #f8f9fa;
+            border-left: 2px solid #e0e0e0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .workflow-controls {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .workflow-controls .btn {
+            flex: 1;
+            padding: 8px;
+            font-size: 0.8em;
+        }
+
+        .workflow-status {
+            background: white;
+            border: 1px solid #d0d0d0;
+            border-radius: 6px;
+            padding: 12px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .workflow-status h3 {
+            margin: 0 0 10px 0;
+            color: var(--autodesk-blue);
+            font-size: 0.9em;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .status-message {
+            padding: 8px;
+            margin: 6px 0;
+            background: #f8f9fa;
+            border-left: 3px solid #ccc;
+            border-radius: 3px;
+            font-size: 0.75em;
+            opacity: 0.4;
+            transition: all 0.3s;
+            line-height: 1.3;
+        }
+
+        .status-message.visible {
+            opacity: 1;
+            background: #e8f5e9;
+            border-left-color: var(--success-green);
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <h1>MCP Release Notes Generator <span style="font-size: 0.5em; color: #ff9800; font-weight: normal;">(Demo Mode - Using Sample Data)</span></h1>
+                <p class="subtitle">Transform JIRA tickets into polished release notes in seconds</p>
+            </div>
+            <div>
+                <span class="badge">AI-Powered</span>
+                <span class="badge">MCP Server</span>
+                <span class="badge">Zero Manual Work</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Left Panel: Input Form -->
+            <div class="left-panel">
+                <form id="releaseNotesForm">
+                    <div class="form-group">
+                        <label for="dataSources">Data Sources:</label>
+                        <div style="display: flex; gap: 12px; margin-bottom: 6px;">
+                            <label style="display: flex; align-items: center; gap: 4px; font-size: 0.85em;">
+                                <input type="checkbox" id="includeJira" checked>
+                                <span>📋 JIRA</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 4px; font-size: 0.85em;">
+                                <input type="checkbox" id="includeConfluence" checked>
+                                <span>📚 Confluence</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 4px; font-size: 0.85em;">
+                                <input type="checkbox" id="includeGithub" checked>
+                                <span>💻 GitHub</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="jql">JIRA Query (JQL):</label>
+                        <textarea id="jql" placeholder="e.g., project = ABC AND fixVersion = '2.0'">project = MCP AND fixVersion = '2.0.0' AND status = Done</textarea>
+                        <div class="sample-data">Fetches completed tickets for v2.0.0</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confluenceSpace">Confluence Space:</label>
+                        <input type="text" id="confluenceSpace" value="MCP" placeholder="Space key">
+                        <div class="sample-data">Pulls documentation updates from this space</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="githubRepo">GitHub Repository:</label>
+                        <input type="text" id="githubRepo" value="autodesk/mcp-server" placeholder="owner/repo">
+                        <div class="sample-data">Includes merged PRs and key commits</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="format">Output Format:</label>
+                        <select id="format">
+                            <option value="markdown">Markdown</option>
+                            <option value="html">HTML</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="grouping">Group By:</label>
+                        <select id="grouping">
+                            <option value="type">Type (Feature, Bug, Improvement)</option>
+                            <option value="component">Component</option>
+                            <option value="priority">Priority</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="style">Writing Style:</label>
+                        <select id="style">
+                            <option value="professional">Professional</option>
+                            <option value="technical">Technical</option>
+                            <option value="user-friendly">User-Friendly</option>
+                        </select>
+                    </div>
+
+                <div class="info-box">
+                    <h3>⚡ Speed & Efficiency</h3>
+                    <p><strong>Manual Process:</strong></p>
+                    <p style="margin-left: 10px;">• Check JIRA: 45 min<br>• Review Confluence: 30 min<br>• Scan GitHub: 30 min<br>• Write & format: 45 min</p>
+                    <p style="margin-top: 8px;"><strong>With MCP:</strong> 2 minutes automated</p>
+                    <p style="margin-top: 10px; color: var(--success-green); font-weight: bold;">
+                        = 98% time saved!
+                    </p>
+                </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary" id="generateBtn">
+                            🚀 Generate Release Notes
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="resetBtn">
+                            ↻ Reset
+                        </button>
+                    </div>
+                </form>
+
+                <div class="stats" id="stats" style="display: none;">
+                    <div class="stat">
+                        <div class="stat-value" id="ticketCount">0</div>
+                        <div class="stat-label">Total Items</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="processingTime">0s</div>
+                        <div class="stat-label">Processing Time</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="wordCount">0</div>
+                        <div class="stat-label">Words Generated</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Output -->
+            <div class="right-panel">
+                <div class="output-tabs">
+                    <button class="tab active" data-tab="preview">📄 Preview</button>
+                    <button class="tab" data-tab="markdown">📝 Markdown</button>
+                    <button class="tab" data-tab="html">🌐 HTML</button>
+                    <button class="tab" data-tab="workflow">⚙️ Workflow</button>
+                </div>
+
+                <div class="output-container">
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                        <p>Generating release notes with AI...</p>
+                        <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                            Fetching tickets → AI processing → Formatting output
+                        </p>
+                    </div>
+
+                    <div class="tab-content active" id="preview">
+                        <div class="preview-box" id="previewContent">
+                            <div style="padding: 20px 30px; max-width: 750px; margin: 0 auto; width: 100%;">
+                                <!-- Header Section -->
+                                <div style="text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #e0e0e0;">
+                                    <h2 style="color: var(--autodesk-dark); font-size: 1.4em; margin-bottom: 6px; font-weight: 600;">MCP Release Notes Generator</h2>
+                                    <p style="color: #666; font-size: 0.85em; line-height: 1.3; margin: 0;">Automated multi-source documentation aggregation powered by AI</p>
+                                </div>
+
+                                <!-- Capabilities Grid -->
+                                <div style="margin-bottom: 20px;">
+                                    <h3 style="color: var(--autodesk-dark); font-size: 1em; margin-bottom: 10px; font-weight: 600;">Key Capabilities</h3>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                        <div style="background: #f8f9fa; padding: 10px; border-radius: 4px; border: 1px solid #e0e0e0;">
+                                            <h4 style="color: var(--autodesk-blue); font-size: 0.8em; margin-bottom: 4px; font-weight: 600;">Multi-Source Integration</h4>
+                                            <p style="font-size: 0.72em; color: #666; line-height: 1.3; margin: 0;">Connects to JIRA, Confluence, and GitHub to aggregate data seamlessly.</p>
+                                        </div>
+                                        <div style="background: #f8f9fa; padding: 10px; border-radius: 4px; border: 1px solid #e0e0e0;">
+                                            <h4 style="color: var(--autodesk-blue); font-size: 0.8em; margin-bottom: 4px; font-weight: 600;">AI-Powered Processing</h4>
+                                            <p style="font-size: 0.72em; color: #666; line-height: 1.3; margin: 0;">Transforms raw data into professional, readable release notes automatically.</p>
+                                        </div>
+                                        <div style="background: #f8f9fa; padding: 10px; border-radius: 4px; border: 1px solid #e0e0e0;">
+                                            <h4 style="color: var(--autodesk-blue); font-size: 0.8em; margin-bottom: 4px; font-weight: 600;">Rich Media Support</h4>
+                                            <p style="font-size: 0.72em; color: #666; line-height: 1.3; margin: 0;">Includes diagrams and images from Confluence documentation.</p>
+                                        </div>
+                                        <div style="background: #f8f9fa; padding: 10px; border-radius: 4px; border: 1px solid #e0e0e0;">
+                                            <h4 style="color: var(--autodesk-blue); font-size: 0.8em; margin-bottom: 4px; font-weight: 600;">Multiple Output Formats</h4>
+                                            <p style="font-size: 0.72em; color: #666; line-height: 1.3; margin: 0;">Generates release notes in Markdown, HTML, and other formats.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- CTA Section -->
+                                <div style="text-align: center; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); padding: 18px; border-radius: 6px;">
+                                    <h3 style="color: var(--autodesk-dark); font-size: 1.05em; margin-bottom: 6px; font-weight: 600;">Ready to Get Started</h3>
+                                    <p style="color: #555; font-size: 0.8em; line-height: 1.3; margin-bottom: 10px;">Configure your data sources on the left and click "Generate Release Notes" to see the automated documentation in action.</p>
+                                    <div style="display: inline-block; background: white; padding: 8px 20px; border-radius: 5px; border: 2px solid var(--autodesk-blue); color: var(--autodesk-blue); font-weight: 600; font-size: 0.75em;">
+                                        ← Configure options and generate
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="action-buttons" id="previewActions" style="display: none;">
+                            <button class="action-btn" onclick="copyToClipboard('preview')">Copy</button>
+                            <button class="action-btn" onclick="downloadFile('preview')">Download</button>
+                            <button class="action-btn" onclick="shareOutput()">Share</button>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="markdown">
+                        <div class="output-box" id="markdownContent"></div>
+                        <div class="action-buttons" id="markdownActions" style="display: none;">
+                            <button class="action-btn" onclick="copyToClipboard('markdown')">📋 Copy Markdown</button>
+                            <button class="action-btn" onclick="downloadFile('markdown')">💾 Download .md</button>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="html">
+                        <div class="output-box" id="htmlContent"></div>
+                        <div class="action-buttons" id="htmlActions" style="display: none;">
+                            <button class="action-btn" onclick="copyToClipboard('html')">📋 Copy HTML</button>
+                            <button class="action-btn" onclick="downloadFile('html')">💾 Download .html</button>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="workflow">
+                        <div class="workflow-container">
+                            <!-- Left side: Diagram and controls -->
+                            <div class="workflow-left">
+                                <div class="workflow-header">
+                                    <h2>MCP Server Orchestration Workflow</h2>
+                                    <p>JQL query initiates the process. JIRA returns tickets with embedded links. Client then queries Confluence and GitHub based on those links.</p>
+                                </div>
+
+                                <div class="workflow-diagram">
+                                    <!-- Row 1: JQL Query -->
+                                    <div class="workflow-row">
+                                        <div class="workflow-node" id="node-jql">
+                                            <div class="workflow-node-icon">🔍</div>
+                                            <div class="workflow-node-title">JQL Query</div>
+                                            <div class="workflow-node-desc">User provides query</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="workflow-arrow-vertical">
+                                        <div class="workflow-arrow" id="arrow-1">↓</div>
+                                    </div>
+
+                                    <!-- Row 2: Query JIRA First -->
+                                    <div class="workflow-row">
+                                        <div class="workflow-node mcp-server" id="node-jira">
+                                            <div class="workflow-node-icon">🎫</div>
+                                            <div class="workflow-node-title">JIRA MCP Server</div>
+                                            <div class="workflow-node-desc">Returns tickets + links</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="workflow-arrow-vertical">
+                                        <div class="workflow-arrow" id="arrow-2">↓</div>
+                                    </div>
+
+                                    <!-- Row 3: Client analyzes JIRA response -->
+                                    <div class="workflow-row">
+                                        <div class="workflow-node" id="node-client-analyze">
+                                            <div class="workflow-node-icon">🔎</div>
+                                            <div class="workflow-node-title">MCP Client</div>
+                                            <div class="workflow-node-desc">Extracts Confluence & GitHub links</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="workflow-arrow-vertical">
+                                        <div class="workflow-arrow" id="arrow-3">↓</div>
+                                    </div>
+
+                                    <!-- Row 4: Parallel queries based on links -->
+                                    <div class="workflow-row">
+                                        <div class="workflow-node mcp-server" id="node-confluence">
+                                            <div class="workflow-node-icon">📚</div>
+                                            <div class="workflow-node-title">Confluence Server</div>
+                                            <div class="workflow-node-desc">Fetch linked docs</div>
+                                        </div>
+                                        <div class="workflow-node mcp-server" id="node-github">
+                                            <div class="workflow-node-icon">💻</div>
+                                            <div class="workflow-node-title">GitHub Server</div>
+                                            <div class="workflow-node-desc">Fetch linked PRs</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="workflow-arrow-vertical">
+                                        <div class="workflow-arrow" id="arrow-4">↓</div>
+                                    </div>
+
+                                    <!-- Row 5: Client aggregates all -->
+                                    <div class="workflow-row">
+                                        <div class="workflow-node" id="node-client-aggregate">
+                                            <div class="workflow-node-icon">🔄</div>
+                                            <div class="workflow-node-title">MCP Client</div>
+                                            <div class="workflow-node-desc">Aggregates all data</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="workflow-arrow-vertical">
+                                        <div class="workflow-arrow" id="arrow-5">↓</div>
+                                    </div>
+
+                                    <!-- Row 6: AI Processing -->
+                                    <div class="workflow-row">
+                                        <div class="workflow-node" id="node-ai">
+                                            <div class="workflow-node-icon">🤖</div>
+                                            <div class="workflow-node-title">AI Processing</div>
+                                            <div class="workflow-node-desc">Generates release notes</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="workflow-arrow-vertical">
+                                        <div class="workflow-arrow" id="arrow-6">↓</div>
+                                    </div>
+
+                                    <!-- Row 7: Final Output -->
+                                    <div class="workflow-row">
+                                        <div class="workflow-node" id="node-output">
+                                            <div class="workflow-node-icon">📄</div>
+                                            <div class="workflow-node-title">Release Notes</div>
+                                            <div class="workflow-node-desc">Professional output</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="workflow-legend">
+                                    <div class="legend-item">
+                                        <div class="legend-box client"></div>
+                                        <span>MCP Client</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-box server"></div>
+                                        <span>MCP Servers</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right side: Controls and status -->
+                            <div class="workflow-right">
+                                <div class="workflow-controls">
+                                    <button class="btn btn-primary" onclick="startWorkflowAnimation()">▶️ Play</button>
+                                    <button class="btn btn-secondary" onclick="resetWorkflowAnimation()">🔄 Reset</button>
+                                </div>
+
+                                <div class="workflow-status">
+                                    <h3>Live Process Status</h3>
+                                    <div id="status-1" class="status-message">1. User provides JQL query</div>
+                                    <div id="status-2" class="status-message">2. Client queries JIRA Server with JQL</div>
+                                    <div id="status-3" class="status-message">3. JIRA returns tickets with embedded links</div>
+                                    <div id="status-4" class="status-message">4. Client extracts Confluence & GitHub links</div>
+                                    <div id="status-5" class="status-message">5. Client queries Confluence for linked docs</div>
+                                    <div id="status-6" class="status-message">6. Client queries GitHub for linked PRs</div>
+                                    <div id="status-7" class="status-message">7. Client aggregates data from all sources</div>
+                                    <div id="status-8" class="status-message">8. AI processes aggregated data</div>
+                                    <div id="status-9" class="status-message">9. ✓ Release notes generated!</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data from multiple sources for demo
+        const sampleData = {
+            jira: [
+                {
+                    key: "MCP-101",
+                    type: "New Feature",
+                    summary: "Add support for Azure OpenAI integration",
+                    description: "Implement Azure OpenAI provider with OAuth2 support",
+                    priority: "High",
+                    assignee: "Sarah Chen",
+                    confluenceLinks: ["Architecture Decision: MCP Server Design"],
+                    githubLinks: ["PR-247"],
+                    internalUrl: "https://jira.autodesk.com/browse/MCP-101"
+                },
+                {
+                    key: "MCP-102",
+                    type: "New Feature",
+                    summary: "Real-time progress updates with Server-Sent Events",
+                    description: "Add SSE support for sequential ticket processing",
+                    priority: "Medium",
+                    assignee: "Mike Rodriguez",
+                    confluenceLinks: [],
+                    githubLinks: ["PR-251"],
+                    internalUrl: "https://jira.autodesk.com/browse/MCP-102"
+                },
+                {
+                    key: "MCP-103",
+                    type: "Bug Fix",
+                    summary: "Fix rate limiting on JIRA API calls",
+                    description: "Implement exponential backoff for rate-limited requests",
+                    priority: "High",
+                    assignee: "Sarah Chen",
+                    confluenceLinks: [],
+                    githubLinks: ["commit-d8e9f1a"],
+                    internalUrl: "https://jira.autodesk.com/browse/MCP-103"
+                },
+                {
+                    key: "MCP-105",
+                    type: "Bug Fix",
+                    summary: "Resolve authentication token expiration issues",
+                    description: "Implement automatic token refresh mechanism",
+                    priority: "High",
+                    assignee: "Alex Kumar",
+                    confluenceLinks: ["Release Process Documentation Updated"],
+                    githubLinks: ["commit-a3f7b2c"],
+                    internalUrl: "https://jira.autodesk.com/browse/MCP-105"
+                }
+            ],
+            confluence: [
+                {
+                    id: "Architecture Decision: MCP Server Design",
+                    title: "Architecture Decision: MCP Server Design",
+                    author: "Tech Lead",
+                    content: "We've decided to implement a modular MCP architecture allowing plug-and-play data sources. This design enables teams to easily add new integrations without modifying core code. The architecture supports multiple AI providers and can scale horizontally to handle increased load.",
+                    hasImage: true,
+                    imageCaption: "System Architecture Diagram",
+                    imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect width='400' height='300' fill='%23f5f5f5'/%3E%3Crect x='50' y='50' width='100' height='60' fill='%230696D7' stroke='%23333' stroke-width='2'/%3E%3Ctext x='100' y='85' text-anchor='middle' fill='white' font-family='Arial' font-size='14'%3EMCP Server%3C/text%3E%3Crect x='250' y='30' width='100' height='40' fill='%234caf50' stroke='%23333' stroke-width='2'/%3E%3Ctext x='300' y='55' text-anchor='middle' fill='white' font-family='Arial' font-size='12'%3EJIRA%3C/text%3E%3Crect x='250' y='90' width='100' height='40' fill='%234caf50' stroke='%23333' stroke-width='2'/%3E%3Ctext x='300' y='115' text-anchor='middle' fill='white' font-family='Arial' font-size='12'%3EConfluence%3C/text%3E%3Crect x='250' y='150' width='100' height='40' fill='%234caf50' stroke='%23333' stroke-width='2'/%3E%3Ctext x='300' y='175' text-anchor='middle' fill='white' font-family='Arial' font-size='12'%3EGitHub%3C/text%3E%3Cline x1='150' y1='70' x2='250' y2='50' stroke='%23333' stroke-width='2'/%3E%3Cline x1='150' y1='80' x2='250' y2='110' stroke='%23333' stroke-width='2'/%3E%3Cline x1='150' y1='90' x2='250' y2='170' stroke='%23333' stroke-width='2'/%3E%3C/svg%3E",
+                    internalUrl: "https://confluence.autodesk.com/display/MCP/Architecture"
+                },
+                {
+                    id: "User Feedback Summary - Q4 2024",
+                    title: "User Feedback Summary - Q4 2024",
+                    author: "Product Team",
+                    content: "Based on user research with 50+ technical writers, customers are requesting better multi-source aggregation and improved error messages. Key findings: 85% want GitHub integration, 73% need image support from Confluence. These insights have been incorporated into the v2.0 roadmap.",
+                    hasImage: false,
+                    internalUrl: "https://confluence.autodesk.com/display/MCP/Feedback"
+                },
+                {
+                    id: "Release Process Documentation Updated",
+                    title: "Release Process Documentation Updated",
+                    author: "DevOps Team",
+                    content: "Updated our release pipeline documentation to include automated testing and deployment steps. New CI/CD workflow reduces deployment time by 60% and includes automatic rollback capabilities. All changes are now validated through a comprehensive test suite before production deployment.",
+                    hasImage: true,
+                    imageCaption: "CI/CD Pipeline Flowchart",
+                    imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='200'%3E%3Crect width='500' height='200' fill='%23f5f5f5'/%3E%3Crect x='20' y='70' width='80' height='60' fill='%230696D7' stroke='%23333' stroke-width='2'/%3E%3Ctext x='60' y='105' text-anchor='middle' fill='white' font-family='Arial' font-size='12'%3ECode%3C/text%3E%3Crect x='140' y='70' width='80' height='60' fill='%230696D7' stroke='%23333' stroke-width='2'/%3E%3Ctext x='180' y='105' text-anchor='middle' fill='white' font-family='Arial' font-size='12'%3ETest%3C/text%3E%3Crect x='260' y='70' width='80' height='60' fill='%230696D7' stroke='%23333' stroke-width='2'/%3E%3Ctext x='300' y='105' text-anchor='middle' fill='white' font-family='Arial' font-size='12'%3EBuild%3C/text%3E%3Crect x='380' y='70' width='80' height='60' fill='%234caf50' stroke='%23333' stroke-width='2'/%3E%3Ctext x='420' y='105' text-anchor='middle' fill='white' font-family='Arial' font-size='12'%3EDeploy%3C/text%3E%3Cline x1='100' y1='100' x2='140' y2='100' stroke='%23333' stroke-width='2' marker-end='url(%23arrow)'/%3E%3Cline x1='220' y1='100' x2='260' y2='100' stroke='%23333' stroke-width='2' marker-end='url(%23arrow)'/%3E%3Cline x1='340' y1='100' x2='380' y2='100' stroke='%23333' stroke-width='2' marker-end='url(%23arrow)'/%3E%3Cdefs%3E%3Cmarker id='arrow' markerWidth='10' markerHeight='10' refX='9' refY='3' orient='auto' markerUnits='strokeWidth'%3E%3Cpath d='M0,0 L0,6 L9,3 z' fill='%23333'/%3E%3C/marker%3E%3C/defs%3E%3C/svg%3E",
+                    internalUrl: "https://confluence.autodesk.com/display/MCP/CI-CD"
+                }
+            ],
+            github: [
+                {
+                    id: "PR-247",
+                    type: "pull_request",
+                    number: 247,
+                    title: "Implement multi-source data aggregation",
+                    author: "sarah-chen",
+                    merged: true,
+                    description: "Adds ability to pull from JIRA, Confluence, and GitHub simultaneously. Implements parallel fetching with proper error handling.",
+                    url: "https://github.com/autodesk/mcp-server/pull/247",
+                    filesChanged: 12,
+                    linesAdded: 347,
+                    linesRemoved: 89
+                },
+                {
+                    id: "PR-251",
+                    type: "pull_request",
+                    number: 251,
+                    title: "Add image support in Confluence connector",
+                    author: "mike-rodriguez",
+                    merged: true,
+                    description: "Extract and include images from Confluence pages in generated docs. Supports PNG, JPG, and SVG formats.",
+                    url: "https://github.com/autodesk/mcp-server/pull/251",
+                    filesChanged: 8,
+                    linesAdded: 203,
+                    linesRemoved: 45
+                },
+                {
+                    id: "commit-a3f7b2c",
+                    type: "commit",
+                    sha: "a3f7b2c",
+                    message: "Fix: Handle Confluence pages with attachments",
+                    author: "alex-kumar",
+                    url: "https://github.com/autodesk/mcp-server/commit/a3f7b2c"
+                },
+                {
+                    id: "commit-d8e9f1a",
+                    type: "commit",
+                    sha: "d8e9f1a",
+                    message: "Feat: Add GitHub API rate limit handling",
+                    author: "sarah-chen",
+                    url: "https://github.com/autodesk/mcp-server/commit/d8e9f1a"
+                },
+                {
+                    id: "issue-189",
+                    type: "issue",
+                    number: 189,
+                    title: "Documentation for multi-source setup",
+                    state: "closed",
+                    author: "community-user",
+                    url: "https://github.com/autodesk/mcp-server/issues/189"
+                }
+            ]
+        };
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.dataset.tab;
+                
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(targetTab).classList.add('active');
+            });
+        });
+
+        // Form submission
+        document.getElementById('releaseNotesForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await generateReleaseNotes();
+        });
+
+        // Reset button
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            document.getElementById('releaseNotesForm').reset();
+            document.getElementById('previewContent').innerHTML = `
+                <div style="padding: 20px 30px; max-width: 750px; margin: 0 auto; width: 100%;">
+                    <!-- Header Section -->
+                    <div style="text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #e0e0e0;">
+                        <h2 style="color: var(--autodesk-dark); font-size: 1.4em; margin-bottom: 6px; font-weight: 600;">MCP Release Notes Generator</h2>
+                        <p style="color: #666; font-size: 0.85em; line-height: 1.3; margin: 0;">Automated multi-source documentation aggregation powered by AI</p>
+                    </div>
+
+                    <!-- Capabilities Grid -->
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: var(--autodesk-dark); font-size: 1em; margin-bottom: 10px; font-weight: 600;">Key Capabilities</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div style="background: #f8f9fa; padding: 10px; border-radius: 4px; border: 1px solid #e0e0e0;">
+                                <h4 style="color: var(--autodesk-blue); font-size: 0.8em; margin-bottom: 4px; font-weight: 600;">Multi-Source Integration</h4>
+                                <p style="font-size: 0.72em; color: #666; line-height: 1.3; margin: 0;">Connects to JIRA, Confluence, and GitHub to aggregate data seamlessly.</p>
+                            </div>
+                            <div style="background: #f8f9fa; padding: 10px; border-radius: 4px; border: 1px solid #e0e0e0;">
+                                <h4 style="color: var(--autodesk-blue); font-size: 0.8em; margin-bottom: 4px; font-weight: 600;">AI-Powered Processing</h4>
+                                <p style="font-size: 0.72em; color: #666; line-height: 1.3; margin: 0;">Transforms raw data into professional, readable release notes automatically.</p>
+                            </div>
+                            <div style="background: #f8f9fa; padding: 10px; border-radius: 4px; border: 1px solid #e0e0e0;">
+                                <h4 style="color: var(--autodesk-blue); font-size: 0.8em; margin-bottom: 4px; font-weight: 600;">Rich Media Support</h4>
+                                <p style="font-size: 0.72em; color: #666; line-height: 1.3; margin: 0;">Includes diagrams and images from Confluence documentation.</p>
+                            </div>
+                            <div style="background: #f8f9fa; padding: 10px; border-radius: 4px; border: 1px solid #e0e0e0;">
+                                <h4 style="color: var(--autodesk-blue); font-size: 0.8em; margin-bottom: 4px; font-weight: 600;">Multiple Output Formats</h4>
+                                <p style="font-size: 0.72em; color: #666; line-height: 1.3; margin: 0;">Generates release notes in Markdown, HTML, and other formats.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Section -->
+                    <div style="text-align: center; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); padding: 18px; border-radius: 6px;">
+                        <h3 style="color: var(--autodesk-dark); font-size: 1.05em; margin-bottom: 6px; font-weight: 600;">Ready to Get Started</h3>
+                        <p style="color: #555; font-size: 0.8em; line-height: 1.3; margin-bottom: 10px;">Configure your data sources on the left and click "Generate Release Notes" to see the automated documentation in action.</p>
+                        <div style="display: inline-block; background: white; padding: 8px 20px; border-radius: 5px; border: 2px solid var(--autodesk-blue); color: var(--autodesk-blue); font-weight: 600; font-size: 0.75em;">
+                            ← Configure options and generate
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('markdownContent').textContent = '';
+            document.getElementById('htmlContent').textContent = '';
+            document.getElementById('stats').style.display = 'none';
+            hideAllActions();
+        });
+
+        async function generateReleaseNotes() {
+            const startTime = Date.now();
+            
+            // Get form values
+            const format = document.getElementById('format').value;
+            const grouping = document.getElementById('grouping').value;
+            const style = document.getElementById('style').value;
+            const includeJira = document.getElementById('includeJira').checked;
+            const includeConfluence = document.getElementById('includeConfluence').checked;
+            const includeGithub = document.getElementById('includeGithub').checked;
+
+            // Show loading with dynamic message
+            const loadingEl = document.getElementById('loading');
+            loadingEl.classList.add('active');
+            document.querySelectorAll('.tab-content > div:not(.loading)').forEach(el => {
+                if (el.classList.contains('output-box') || el.classList.contains('preview-box')) {
+                    el.style.display = 'none';
+                }
+            });
+            hideAllActions();
+
+            // Simulate progressive loading
+            const sources = [];
+            if (includeJira) sources.push('JIRA');
+            if (includeConfluence) sources.push('Confluence');
+            if (includeGithub) sources.push('GitHub');
+            
+            loadingEl.querySelector('p').textContent = `Fetching JIRA tickets...`;
+            await new Promise(resolve => setTimeout(resolve, 600));
+            
+            if (includeConfluence || includeGithub) {
+                loadingEl.querySelector('p').textContent = 'Analyzing JIRA links to Confluence and GitHub...';
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+            
+            if (includeConfluence) {
+                loadingEl.querySelector('p').textContent = 'Fetching related Confluence pages...';
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+            
+            if (includeGithub) {
+                loadingEl.querySelector('p').textContent = 'Fetching GitHub PRs and commits...';
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+            
+            loadingEl.querySelector('p').textContent = 'Processing with AI and generating notes...';
+            await new Promise(resolve => setTimeout(resolve, 600));
+
+            // Generate release notes with selected sources
+            const releaseNotes = generateNotesFromMultipleSources(
+                includeJira ? sampleData.jira : [],
+                includeConfluence ? sampleData.confluence : [],
+                includeGithub ? sampleData.github : [],
+                grouping,
+                style
+            );
+            
+            const endTime = Date.now();
+            const processingTime = ((endTime - startTime) / 1000).toFixed(1);
+
+            // Hide loading
+            loadingEl.classList.remove('active');
+            document.querySelectorAll('.tab-content > div').forEach(el => {
+                if (el.classList.contains('output-box') || el.classList.contains('preview-box')) {
+                    el.style.display = 'block';
+                }
+            });
+
+            // Update outputs
+            updateOutputs(releaseNotes, format);
+
+            // Calculate total items
+            const totalItems = (includeJira ? sampleData.jira.length : 0) +
+                              (includeConfluence ? sampleData.confluence.length : 0) +
+                              (includeGithub ? sampleData.github.length : 0);
+
+            // Show stats
+            document.getElementById('stats').style.display = 'grid';
+            document.getElementById('ticketCount').textContent = totalItems;
+            document.getElementById('processingTime').textContent = processingTime + 's';
+            document.getElementById('wordCount').textContent = countWords(releaseNotes.markdown);
+
+            // Show action buttons
+            showAllActions();
+        }
+
+        function generateNotesFromMultipleSources(jiraTickets, confluenceDocs, githubActivity, groupBy, style) {
+            // Filter Confluence and GitHub based on JIRA links
+            const linkedConfluence = [];
+            const linkedGithub = [];
+            
+            jiraTickets.forEach(ticket => {
+                // Find linked Confluence pages
+                if (ticket.confluenceLinks) {
+                    ticket.confluenceLinks.forEach(linkId => {
+                        const doc = confluenceDocs.find(d => d.id === linkId);
+                        if (doc && !linkedConfluence.find(d => d.id === doc.id)) {
+                            linkedConfluence.push(doc);
+                        }
+                    });
+                }
+                
+                // Find linked GitHub items
+                if (ticket.githubLinks) {
+                    ticket.githubLinks.forEach(linkId => {
+                        const item = githubActivity.find(g => g.id === linkId);
+                        if (item && !linkedGithub.find(g => g.id === item.id)) {
+                            linkedGithub.push(item);
+                        }
+                    });
+                }
+            });
+            
+            const showInternalLinks = style === 'technical';
+            
+            // Generate markdown
+            let markdown = `# Release Notes - Version 2.0.0\n\n`;
+            markdown += `**Release Date:** ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}\n\n`;
+            
+            const totalItems = jiraTickets.length + linkedConfluence.length + linkedGithub.filter(item => item.type === 'pull_request' && item.merged).length;
+            markdown += `## Overview\n\nThis release includes ${totalItems} updates with significant improvements to functionality, stability, and performance.`;
+            
+            if (style === 'professional' || style === 'user-friendly') {
+                markdown += ` This update brings enhanced multi-source integration, improved performance, and better documentation capabilities.\n\n`;
+            } else {
+                markdown += ` Data was automatically aggregated from JIRA (${jiraTickets.length} tickets), Confluence (${linkedConfluence.length} pages), and GitHub (${linkedGithub.length} items).\n\n`;
+            }
+
+            // JIRA Section
+            if (jiraTickets.length > 0) {
+                markdown += `## What's New\n\n`;
+                
+                // Group JIRA tickets
+                const groups = {};
+                jiraTickets.forEach(ticket => {
+                    let key = groupBy === 'type' ? ticket.type : (groupBy === 'priority' ? ticket.priority + ' Priority' : 'Core System');
+                    if (!groups[key]) groups[key] = [];
+                    groups[key].push(ticket);
+                });
+
+                for (const [groupName, groupTickets] of Object.entries(groups)) {
+                    markdown += `### ${groupName}\n\n`;
+                    groupTickets.forEach(ticket => {
+                        markdown += `- **${ticket.summary}**`;
+                        if (showInternalLinks) {
+                            markdown += ` ([${ticket.key}](${ticket.internalUrl}))`;
+                        }
+                        markdown += `\n`;
+                        
+                        if (style !== 'user-friendly') {
+                            markdown += `  - ${ticket.description}\n`;
+                        }
+                        
+                        if (showInternalLinks) {
+                            markdown += `  - Assignee: ${ticket.assignee}\n`;
+                            if (ticket.confluenceLinks && ticket.confluenceLinks.length > 0) {
+                                markdown += `  - Related docs: ${ticket.confluenceLinks.length} Confluence page(s)\n`;
+                            }
+                            if (ticket.githubLinks && ticket.githubLinks.length > 0) {
+                                markdown += `  - Code changes: ${ticket.githubLinks.length} GitHub item(s)\n`;
+                            }
+                        }
+                    });
+                    markdown += '\n';
+                }
+            }
+
+            // Confluence Section
+            if (linkedConfluence.length > 0) {
+                markdown += `## Documentation & Architecture\n\n`;
+                
+                linkedConfluence.forEach(doc => {
+                    markdown += `### ${doc.title}\n\n`;
+                    markdown += `${doc.content}\n\n`;
+                    
+                    // Store image info separately to be handled by HTML conversion
+                    if (doc.hasImage && doc.imageUrl) {
+                        // Use a special marker that won't be broken by markdown processing
+                        markdown += `{{IMAGE:${doc.imageCaption}::${doc.imageUrl}}}\n\n`;
+                        markdown += `*Figure: ${doc.imageCaption}*\n\n`;
+                    }
+                    
+                    // Only show author info in Technical style
+                    if (showInternalLinks) {
+                        markdown += `_Author: ${doc.author} | [View in Confluence](${doc.internalUrl})_\n\n`;
+                    }
+                    // Professional and User-Friendly: no author attribution
+                });
+            }
+
+            // GitHub Section  
+            if (linkedGithub.length > 0) {
+                const prs = linkedGithub.filter(item => item.type === 'pull_request' && item.merged);
+                const commits = linkedGithub.filter(item => item.type === 'commit');
+                
+                if (prs.length > 0) {
+                    if (style === 'user-friendly') {
+                        markdown += `## Technical Improvements\n\n`;
+                        markdown += `Our development team has made significant improvements:\n\n`;
+                        prs.forEach(pr => {
+                            // User-friendly: simplified without attribution
+                            markdown += `- ${pr.title.replace('Implement', 'Enhanced').replace('Add', 'Added')}: ${pr.description.split('.')[0]}.\n`;
+                        });
+                    } else if (style === 'professional') {
+                        markdown += `## Development Highlights\n\n`;
+                        prs.forEach(pr => {
+                            // Professional: clean without internal details
+                            markdown += `- **${pr.title}**\n`;
+                            markdown += `  - ${pr.description}\n`;
+                        });
+                    } else {
+                        // Technical: full details
+                        markdown += `## Development Activity\n\n`;
+                        prs.forEach(pr => {
+                            markdown += `- **PR #${pr.number}**: ${pr.title}\n`;
+                            markdown += `  - ${pr.description}\n`;
+                            markdown += `  - Merged by: @${pr.author}\n`;
+                            markdown += `  - Changes: +${pr.linesAdded}/-${pr.linesRemoved} lines across ${pr.filesChanged} files\n`;
+                            markdown += `  - [View PR](${pr.url})\n`;
+                        });
+                    }
+                    markdown += '\n';
+                }
+
+                if (commits.length > 0 && showInternalLinks) {
+                    markdown += `### Related Commits\n\n`;
+                    commits.forEach(commit => {
+                        markdown += `- [\`${commit.sha}\`](${commit.url}): ${commit.message} (@${commit.author})\n`;
+                    });
+                    markdown += '\n';
+                }
+            }
+
+            markdown += `## Getting Started\n\n`;
+            
+            if (style === 'user-friendly') {
+                markdown += `Ready to upgrade? It's easy:\n\n`;
+                markdown += `1. Back up your current configuration\n`;
+                markdown += `2. Download version 2.0.0 from the downloads page\n`;
+                markdown += `3. Follow the step-by-step upgrade guide\n`;
+                markdown += `4. Test your setup with the included examples\n\n`;
+                markdown += `Need help? Our support team is here for you:\n`;
+                markdown += `- Browse our comprehensive documentation\n`;
+                markdown += `- Join our community forum\n`;
+                markdown += `- Contact support: support@example.com\n\n`;
+            } else {
+                markdown += `To upgrade to version 2.0.0:\n\n`;
+                markdown += `**For Node.js/npm:**\n\n`;
+                markdown += `\`\`\`bash\n`;
+                markdown += `npm install @autodesk/mcp-server@2.0.0\n`;
+                markdown += `\`\`\`\n\n`;
+                markdown += `**For Python/pip:**\n\n`;
+                markdown += `\`\`\`bash\n`;
+                markdown += `pip install autodesk-mcp-server==2.0.0\n`;
+                markdown += `\`\`\`\n\n`;
+                
+                if (showInternalLinks) {
+                    markdown += `### Resources\n\n`;
+                    markdown += `- [Migration Guide](https://docs.example.com/migrate-v2)\n`;
+                    markdown += `- [Full Documentation](https://docs.example.com)\n`;
+                    markdown += `- [Community Forum](https://forum.example.com)\n`;
+                    markdown += `- [Report Issues](https://github.com/autodesk/mcp-server/issues)\n`;
+                    markdown += `- [Email Support](mailto:support@example.com)\n`;
+                    markdown += `- [JIRA Project](https://jira.autodesk.com/projects/MCP)\n\n`;
+                } else {
+                    markdown += `For migration guidance and full documentation, visit our documentation portal.\n\n`;
+                }
+            }
+            
+            markdown += `---\n\n`;
+            if (showInternalLinks) {
+                // Technical: show exact counts and sources
+                markdown += `_This release note was automatically generated using MCP Server by aggregating ${jiraTickets.length} JIRA tickets, ${linkedConfluence.length} Confluence pages, and ${linkedGithub.length} GitHub items._\n`;
+            } else if (style === 'professional') {
+                // Professional: mention automation but keep it clean
+                markdown += `_This release note was automatically generated from project tracking systems and documentation repositories._\n`;
+            } else {
+                // User-friendly: minimal technical mention
+                markdown += `_Release notes compiled automatically from multiple sources._\n`;
+            }
+
+            return {
+                markdown: markdown,
+                html: markdownToHtml(markdown)
+            };
+        }
+
+        function markdownToHtml(markdown) {
+            let html = markdown;
+            
+            // Handle code blocks first
+            html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
+            
+            // Handle custom image markers first (for complex data URLs)
+            html = html.replace(/\{\{IMAGE:(.*?)::(.*?)\}\}/g, function(match, caption, dataUrl) {
+                return `<div class="confluence-image"><img src="${dataUrl}" alt="${caption}" style="max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0;"/></div>`;
+            });
+            
+            // Handle standard markdown images (for simpler cases)
+            html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, function(match, alt, src) {
+                src = src.trim();
+                
+                if (src.startsWith('data:image') || src.startsWith('http')) {
+                    return `<div class="confluence-image"><img src="${src}" alt="${alt}" style="max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0;"/></div>`;
+                } else {
+                    return `<div class="confluence-image"><div class="image-placeholder">🖼️ ${alt}</div><em style="font-size: 0.9em; color: #666;">Source: ${src}</em></div>`;
+                }
+            });
+            
+            // Handle regular links (after images)
+            html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+            
+            // Handle headers
+            html = html.replace(/^# (.*$)/gm, '<h1>$1</h1>');
+            html = html.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+            html = html.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+            
+            // Handle bold and inline code
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+            
+            // Handle lists
+            html = html.replace(/^- (.*$)/gm, '<li>$1</li>');
+            html = html.replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>');
+            
+            // Handle numbered lists
+            html = html.replace(/^\d+\.\s+(.*$)/gm, '<li>$1</li>');
+            
+            // Handle italic and horizontal rules
+            html = html.replace(/_(.*?)_/g, '<em>$1</em>');
+            html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+            html = html.replace(/^---$/gm, '<hr>');
+            
+            // Handle paragraphs
+            html = html.replace(/\n\n/g, '</p><p>');
+            html = html.replace(/^(?!<[hul<])/gm, '<p>');
+            html = html.replace(/(?<!>)$/gm, '</p>');
+            
+            // Clean up extra paragraph tags
+            html = html.replace(/<p><\/p>/g, '');
+            html = html.replace(/<p>(<h[123]>)/g, '$1');
+            html = html.replace(/(<\/h[123]>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<ul>)/g, '$1');
+            html = html.replace(/(<\/ul>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<pre>)/g, '$1');
+            html = html.replace(/(<\/pre>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<hr>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<div)/g, '$1');
+            html = html.replace(/(<\/div>)<\/p>/g, '$1');
+            
+            return html;
+        }
+
+        function updateOutputs(releaseNotes, format) {
+            // Update preview
+            document.getElementById('previewContent').innerHTML = releaseNotes.html;
+
+            // Update markdown
+            document.getElementById('markdownContent').textContent = releaseNotes.markdown;
+
+            // Update HTML
+            const fullHtml = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Release Notes</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; }
+        h1 { color: #FFFF00; border-bottom: 3px solid #FFFF00; padding-bottom: 10px; }
+        h2 { color: #FFFF00; margin-top: 30px; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 10px; margin: 8px 0; background: #f8f9fa; border-left: 4px solid #FFFF00; }
+    </style>
+</head>
+<body>
+${releaseNotes.html}
+</body>
+</html>`;
+            document.getElementById('htmlContent').textContent = fullHtml;
+        }
+
+        function countWords(text) {
+            return text.split(/\s+/).filter(word => word.length > 0).length;
+        }
+
+        function copyToClipboard(tab) {
+            let content;
+            if (tab === 'preview' || tab === 'markdown') {
+                const el = document.getElementById('markdownContent');
+                content = el.textContent;
+            } else if (tab === 'html') {
+                content = document.getElementById('htmlContent').textContent;
+            }
+
+            navigator.clipboard.writeText(content).then(() => {
+                alert('✅ Copied to clipboard!');
+            });
+        }
+
+        function downloadFile(tab) {
+            let content, filename, mimeType;
+            
+            if (tab === 'preview' || tab === 'markdown') {
+                content = document.getElementById('markdownContent').textContent;
+                filename = 'release-notes-v2.0.0.md';
+                mimeType = 'text/markdown';
+            } else if (tab === 'html') {
+                content = document.getElementById('htmlContent').textContent;
+                filename = 'release-notes-v2.0.0.html';
+                mimeType = 'text/html';
+            }
+
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function shareOutput() {
+            const content = document.getElementById('markdownContent').textContent;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Release Notes',
+                    text: content
+                });
+            } else {
+                alert('💡 Tip: Copy the content and share via your preferred method!');
+            }
+        }
+
+        function showAllActions() {
+            document.getElementById('previewActions').style.display = 'flex';
+            document.getElementById('markdownActions').style.display = 'flex';
+            document.getElementById('htmlActions').style.display = 'flex';
+        }
+
+        function hideAllActions() {
+            document.getElementById('previewActions').style.display = 'none';
+            document.getElementById('markdownActions').style.display = 'none';
+            document.getElementById('htmlActions').style.display = 'none';
+        }
+
+        // Workflow Animation Functions
+        let workflowAnimationRunning = false;
+        
+        function startWorkflowAnimation() {
+            if (workflowAnimationRunning) return;
+            workflowAnimationRunning = true;
+            resetWorkflowAnimation();
+            
+            const steps = [
+                { node: 'node-jql', status: 'status-1', delay: 0 },
+                { arrow: 'arrow-1', delay: 1000 },
+                { node: 'node-jira', status: 'status-2', delay: 1500 },
+                { status: 'status-3', delay: 2500 },
+                { arrow: 'arrow-2', delay: 3000 },
+                { node: 'node-client-analyze', status: 'status-4', delay: 3500 },
+                { arrow: 'arrow-3', delay: 4500 },
+                { node: 'node-confluence', status: 'status-5', delay: 5000 },
+                { node: 'node-github', status: 'status-6', delay: 5500 },
+                { arrow: 'arrow-4', delay: 6500 },
+                { node: 'node-client-aggregate', status: 'status-7', delay: 7000 },
+                { arrow: 'arrow-5', delay: 8000 },
+                { node: 'node-ai', status: 'status-8', delay: 8500 },
+                { arrow: 'arrow-6', delay: 9500 },
+                { node: 'node-output', status: 'status-9', delay: 10000 }
+            ];
+
+            steps.forEach(step => {
+                setTimeout(() => {
+                    if (step.node) {
+                        const element = document.getElementById(step.node);
+                        if (element) element.classList.add('active');
+                    }
+                    if (step.arrow) {
+                        const element = document.getElementById(step.arrow);
+                        if (element) element.classList.add('active');
+                    }
+                    if (step.status) {
+                        const element = document.getElementById(step.status);
+                        if (element) element.classList.add('visible');
+                    }
+                }, step.delay);
+            });
+
+            // Reset animation state after completion
+            setTimeout(() => {
+                workflowAnimationRunning = false;
+            }, 11000);
+        }
+
+        function resetWorkflowAnimation() {
+            workflowAnimationRunning = false;
+            
+            // Remove active classes from nodes
+            const nodes = ['node-jql', 'node-jira', 'node-client-analyze', 'node-confluence', 
+                          'node-github', 'node-client-aggregate', 'node-ai', 'node-output'];
+            nodes.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.classList.remove('active');
+            });
+
+            // Remove active classes from arrows
+            const arrows = ['arrow-1', 'arrow-2', 'arrow-3', 'arrow-4', 'arrow-5', 'arrow-6'];
+            arrows.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.classList.remove('active');
+            });
+
+            // Reset all status messages to default state
+            for (let i = 1; i <= 9; i++) {
+                const element = document.getElementById(`status-${i}`);
+                if (element) element.classList.remove('visible');
+            }
+        }
+
+        // Auto-start animation when switching to workflow tab
+        document.addEventListener('DOMContentLoaded', () => {
+            const workflowTab = document.querySelector('[data-tab="workflow"]');
+            if (workflowTab) {
+                workflowTab.addEventListener('click', () => {
+                    setTimeout(() => {
+                        resetWorkflowAnimation();
+                    }, 100);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
