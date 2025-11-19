@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP for Technical Communicators - Quick Reference</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: white;
+            padding: 0;
+            margin: 0;
+        }
+
+        .page {
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.5in;
+            background: white;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1D91D0 0%, #0066a1 100%);
+            color: white;
+            padding: 30px;
+            margin: -0.5in -0.5in 30px -0.5in;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section h2 {
+            color: #1D91D0;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #1D91D0;
+        }
+
+        .section h3 {
+            color: #333;
+            font-size: 1.1em;
+            margin: 15px 0 10px 0;
+        }
+
+        .box {
+            background: #f8f9fa;
+            border-left: 4px solid #1D91D0;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .highlight-box {
+            background: #e3f2fd;
+            border: 2px solid #1D91D0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .highlight-box .big-number {
+            font-size: 3em;
+            color: #1D91D0;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .highlight-box p {
+            margin-top: 10px;
+            font-size: 0.95em;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+        li {
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+
+        .use-case {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 5px;
+        }
+
+        .use-case strong {
+            color: #1D91D0;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .use-case p {
+            font-size: 0.9em;
+            color: #666;
+            margin: 0;
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+
+        .resource-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .resource-list li {
+            padding: 10px;
+            background: #f8f9fa;
+            margin: 8px 0;
+            border-radius: 5px;
+            border-left: 3px solid #1D91D0;
+        }
+
+        .resource-list li strong {
+            color: #1D91D0;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+        }
+
+        .speaker-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 25px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .speaker-info h4 {
+            color: #1D91D0;
+            margin: 0 0 8px 0;
+            font-size: 1.2em;
+        }
+
+        .speaker-info p {
+            margin: 5px 0;
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .event-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 20px 0;
+        }
+
+        .event-info-item {
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #1D91D0;
+        }
+
+        .event-info-item strong {
+            color: #1D91D0;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .event-info-item p {
+            margin: 0;
+            color: #333;
+            font-size: 0.9em;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid #dee2e6;
+            margin-top: 15px;
+        }
+
+        .footer-bottom p {
+            margin: 0;
+            color: #666;
+            font-size: 0.85em;
+        }
+
+        .qr-placeholder {
+            width: 120px;
+            height: 120px;
+            background: #f0f0f0;
+            border: 2px dashed #1D91D0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px auto;
+            border-radius: 8px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .stat-card .number {
+            font-size: 2em;
+            color: #1D91D0;
+            font-weight: bold;
+        }
+
+        .stat-card .label {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li::before {
+            content: "☐ ";
+            color: #1D91D0;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        @media print {
+            .page {
+                margin: 0;
+                padding: 0.5in;
+            }
+            .header {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            background: #1D91D0;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="header">
+            <p style="font-size: 0.9em; opacity: 0.9; margin-bottom: 10px;">STC India Annual Technical Writers Summit 2025</p>
+            <h1>MCP for Technical Communicators</h1>
+            <p>Quick Reference Guide - From Routine Tasks to AI-Powered Automation</p>
+        </div>
+
+        <div class="highlight-box">
+            <div class="big-number">90%</div>
+            <p><strong>Time Saved on Repetitive Documentation Tasks</strong></p>
+            <p>Transform hours of manual work into minutes of automation</p>
+        </div>
+
+        <div class="two-column">
+            <div class="section">
+                <h2>What is MCP?</h2>
+                <p><strong>Model Context Protocol</strong> is an open standard that connects AI assistants to your data and tools.</p>
+                <p style="margin-top: 10px; font-style: italic;">Also known as: <strong>"The API Gateway for AI Agents"</strong></p>
+                
+                <div class="box">
+                    <strong>🔌 Think of it as:</strong><br>
+                    A universal adapter - like USB-C for AI<br>
+                    <span style="font-size: 0.9em;">Connects AI (ChatGPT, Claude, Copilot) to your systems (JIRA, Confluence, APIs)</span>
+                </div>
+
+                <div class="box" style="margin-top: 15px; border-left-color: #ff6464; background: #fff8f8;">
+                    <strong>The Problem MCP Solves:</strong><br>
+                    <span style="font-size: 0.9em;">
+                    Before: M×N chaotic integrations (every model needs custom code for every tool)<br>
+                    After: M+N simple connections (one standard protocol for all)
+                    </span>
+                </div>
+
+                <h3>Key Benefits:</h3>
+                <ul>
+                    <li><strong>No coding required</strong> - Use existing servers or simple templates</li>
+                    <li><strong>AI-powered</strong> - Let AI handle formatting and transformation</li>
+                    <li><strong>Single source of truth</strong> - Pull live data from sources</li>
+                    <li><strong>Time savings</strong> - Minutes instead of hours</li>
+                </ul>
+                
+                <p style="margin-top: 15px; font-size: 0.9em; padding: 10px; background: #f0f0f0; border-radius: 5px;">
+                    📖 <strong>Deep Dive:</strong> <a href="https://amantalwar04.github.io/AItheDocs/APIGatewayforAIAgents.html" target="_blank" style="color: #1D91D0;">MCP - The API Gateway for AI Agents</a>
+                </p>
+            </div>
+
+            <div class="section">
+                <h2>Top Use Cases</h2>
+                
+                <div class="use-case">
+                    <strong>🔍 Content Search & Retrieval</strong>
+                    <p>Search across wikis, Confluence, SharePoint from one interface</p>
+                </div>
+
+                <div class="use-case">
+                    <strong>📝 Document Generation</strong>
+                    <p>Automatically generate documentation from multiple data sources</p>
+                </div>
+
+                <div class="use-case">
+                    <strong>✅ Quality Checks</strong>
+                    <p>Validate links, check spelling, ensure consistency</p>
+                </div>
+
+                <div class="use-case">
+                    <strong>🔄 Content Reuse & Single Sourcing</strong>
+                    <p>Manage and reuse content snippets across multiple documents</p>
+                </div>
+
+                <div class="use-case">
+                    <strong>🌐 Localization Support</strong>
+                    <p>Extract strings, check translations, manage workflows</p>
+                </div>
+
+                <div class="use-case">
+                    <strong>📊 Style Guide Enforcement</strong>
+                    <p>Automatically check content against company style guidelines</p>
+                </div>
+
+                <div class="use-case">
+                    <strong>🔗 Cross-Reference Management</strong>
+                    <p>Validate and update cross-references and internal links</p>
+                </div>
+
+                <div class="use-case">
+                    <strong>♿ Accessibility Compliance</strong>
+                    <p>Check documentation for accessibility standards and best practices</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Real-World Impact</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="number">2min</div>
+                    <div class="label">vs 2 hours<br>Release Notes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">60%</div>
+                    <div class="label">Less time on<br>routine tasks</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">100%</div>
+                    <div class="label">Consistent<br>formatting</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="two-column">
+            <div class="section">
+                <h2>Getting Started (3 Ways)</h2>
+                
+                <h3>1. Use Existing MCPs</h3>
+                <ul>
+                    <li>Browse <code>modelcontextprotocol.io</code></li>
+                    <li>Install via Claude Desktop or your AI tool</li>
+                    <li>Start using immediately</li>
+                </ul>
+
+                <h3>2. Identify Repetitive Tasks</h3>
+                <ul>
+                    <li>Look for tasks you do multiple times a week</li>
+                    <li>Focus on data aggregation and formatting tasks</li>
+                    <li>Consider multi-source documentation workflows</li>
+                </ul>
+
+                <h3>3. Build Your Own</h3>
+                <ul>
+                    <li>Use MCP SDK (TypeScript, Python)</li>
+                    <li>Follow templates and guides</li>
+                    <li>Publish to registry</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Essential Resources</h2>
+                
+                <ul class="resource-list">
+                    <li>
+                        <strong>Official Docs:</strong><br>
+                        <code>modelcontextprotocol.io</code>
+                    </li>
+                    <li>
+                        <strong>GitHub Repo:</strong><br>
+                        <code>github.com/anthropics/mcp</code>
+                    </li>
+                    <li>
+                        <strong>MCP Registry:</strong><br>
+                        Browse hundreds of ready-to-use servers
+                    </li>
+                    <li>
+                        <strong>In-Depth Guide:</strong><br>
+                        <a href="https://amantalwar04.github.io/AItheDocs/APIGatewayforAIAgents.html" target="_blank">The API Gateway for AI Agents</a><br>
+                        <span style="font-size: 0.85em; color: #666;">Architecture, standards, and implementation guide</span>
+                    </li>
+                    <li>
+                        <strong>Community Discord:</strong><br>
+                        Join discussions and get help from the community
+                    </li>
+                </ul>
+
+                <div class="box" style="margin-top: 20px;">
+                    <strong>🎯 Quick Win:</strong><br>
+                    Start with ONE repetitive task. Automate it with MCP. Build from there.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Your Action Plan (Next 7 Days)</h2>
+            <ul class="checklist">
+                <li>Day 1: Identify your most time-consuming repetitive task</li>
+                <li>Day 2: Search MCP registry for existing solutions</li>
+                <li>Day 3: Install and test an existing MCP server</li>
+                <li>Day 4: Adapt the server for your specific needs</li>
+                <li>Day 5: Test with real data from your systems</li>
+                <li>Day 6: Share with one colleague and get feedback</li>
+                <li>Day 7: Document your time savings and plan next automation</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h3 style="color: #1D91D0; margin-bottom: 15px;">💡 Remember</h3>
+            <p><strong>Every hour spent on repetitive tasks is an hour NOT spent on strategic documentation work.</strong></p>
+            <p style="margin-top: 10px;">Start small. Automate one task. Build momentum. Transform your workflow.</p>
+        </div>
+
+        <div class="section">
+            <h2>Common MCP Servers for Tech Writers</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <h3>Documentation Tools</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li>Confluence MCP</li>
+                        <li>SharePoint MCP</li>
+                        <li>Wiki Search MCP</li>
+                        <li>Git Documentation MCP</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Project Management</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li>JIRA MCP</li>
+                        <li>GitHub Issues MCP</li>
+                        <li>Azure DevOps MCP</li>
+                        <li>Linear MCP</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Content Tools</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li>Markdown Processor MCP</li>
+                        <li>Link Checker MCP</li>
+                        <li>Style Guide Validator</li>
+                        <li>Screenshot Manager</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>AI Enhancement</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li>Translation MCP</li>
+                        <li>Summarization MCP</li>
+                        <li>Code Documentation MCP</li>
+                        <li>Content Analyzer</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="speaker-card">
+                <img src="https://media.licdn.com/dms/image/v2/D5603AQGOqVyPAwjM3Q/profile-displayphoto-scale_200_200/B56ZfoS6P_HEAk-/0/1751948961468?e=1765411200&v=beta&t=CzGkQHfI2ZrHe5CEO3OFiXlD1lxntbXcHIOYuAFhSo4" 
+                     alt="Amandeep Singh Talwar" 
+                     style="width: 90px; height: 90px; border-radius: 50%; border: 4px solid #1D91D0; flex-shrink: 0; box-shadow: 0 2px 8px rgba(29, 145, 208, 0.2);">
+                <div class="speaker-info">
+                    <h4>Amandeep Singh Talwar</h4>
+                    <p><strong>Content Design Manager</strong> at Autodesk</p>
+                    <p>
+                        <a href="https://www.linkedin.com/in/amantalwar04/" target="_blank" style="color: #1D91D0; text-decoration: none; font-weight: 500;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#1D91D0" style="vertical-align: middle; margin-right: 4px;">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                            linkedin.com/in/amantalwar04
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="event-info">
+                <div class="event-info-item">
+                    <strong>Session</strong>
+                    <p>Empowering Technical Communicators with MCP Servers</p>
+                </div>
+                <div class="event-info-item">
+                    <strong>Event</strong>
+                    <p><a href="https://stcindia.org/annual-summit" target="_blank" style="color: #1D91D0; text-decoration: none; font-weight: 500;">STC India Annual Technical Writers Summit 2025</a></p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2025 <a href="https://www.linkedin.com/in/amantalwar04/" target="_blank" style="color: #1D91D0; text-decoration: none; font-weight: 500;">Amandeep Singh Talwar</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add print functionality
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                window.print();
+            }
+        });
+    </script>
+</body>
+</html>
+
