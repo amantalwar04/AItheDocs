@@ -289,6 +289,133 @@
             }
         }
 
+        @media screen and (max-width: 768px) {
+            .page {
+                padding: 20px;
+            }
+
+            .header {
+                margin: -20px -20px 20px -20px;
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .header p {
+                font-size: 0.9em;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .section h2 {
+                font-size: 1.1em;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .footer {
+                padding: 20px;
+                margin-top: 30px;
+            }
+
+            .speaker-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .speaker-card img {
+                width: 70px !important;
+                height: 70px !important;
+                margin: 0 auto;
+            }
+
+            .speaker-info h4 {
+                font-size: 1.1em;
+                text-align: center;
+            }
+
+            .speaker-info p {
+                font-size: 0.9em;
+                text-align: center;
+            }
+
+            .event-info {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 15px 0;
+            }
+
+            .event-info-item {
+                padding: 12px;
+            }
+
+            .event-info-item strong {
+                font-size: 0.8em;
+            }
+
+            .event-info-item p {
+                font-size: 0.85em;
+            }
+
+            .highlight-box .big-number {
+                font-size: 2.5em;
+            }
+
+            .use-case {
+                padding: 10px;
+            }
+
+            .resource-list li {
+                padding: 8px;
+                font-size: 0.9em;
+            }
+
+            code {
+                font-size: 0.85em;
+                word-break: break-all;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .header h1 {
+                font-size: 1.3em;
+            }
+
+            .section h2 {
+                font-size: 1em;
+            }
+
+            .speaker-card img {
+                width: 60px !important;
+                height: 60px !important;
+            }
+
+            .speaker-info h4 {
+                font-size: 1em;
+            }
+
+            .speaker-info p {
+                font-size: 0.85em;
+            }
+
+            .highlight-box .big-number {
+                font-size: 2em;
+            }
+
+            .stat-card .number {
+                font-size: 1.5em;
+            }
+        }
+
         .badge {
             display: inline-block;
             background: #1D91D0;
