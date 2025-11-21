@@ -377,9 +377,9 @@
     <circle id="particle" r="3" fill="#ffffff"/>
   </defs>
 
-  <!-- Background Layer -->
-  <rect width="1200" height="675" fill="url(#cyberBg)" />
-  <rect width="1200" height="675" fill="url(#grid)" />
+  <!-- Background Layer - Made Transparent -->
+  <rect width="1200" height="675" fill="none" />
+  <rect width="1200" height="675" fill="none" />
 
   <!-- =========================================
        RIGHT SIDE: MCP ARCHITECTURE ANIMATION 
@@ -454,29 +454,28 @@
     <!-- Category Tag -->
     <g>
       <rect x="0" y="0" width="4" height="32" fill="#f97316"/>
-      <text x="16" y="22" font-family="monospace" font-weight="bold" font-size="14" fill="#94a3b8" letter-spacing="2">STC INDIA ANNUAL TECHNICAL WRITERS SUMMIT 2025</text>
+      <text x="16" y="22" font-family="monospace" font-weight="bold" font-size="14" fill="#94a3b8" letter-spacing="2">STC INDIA SUMMIT 2025</text>
     </g>
 
-    <!-- Main Headline (Reduced size to fit longer text) -->
-    <text x="0" y="120" font-family="sans-serif" font-weight="900" font-size="52" fill="#ffffff" letter-spacing="-1">EMPOWERING</text>
-    <text x="0" y="180" font-family="sans-serif" font-weight="900" font-size="52" fill="#ffffff" letter-spacing="-1">TECHNICAL COMMUNICATORS</text>
+    <!-- Main Headline -->
+    <text x="0" y="120" font-family="sans-serif" font-weight="900" font-size="84" fill="#ffffff" letter-spacing="-3">STOP</text>
+    <text x="0" y="205" font-family="sans-serif" font-weight="900" font-size="84" fill="#ffffff" letter-spacing="-3">COPY-PASTING.</text>
     
     <!-- Sub-headline -->
-    <text x="0" y="250" font-family="sans-serif" font-weight="bold" font-size="24" fill="url(#neonBlue)" letter-spacing="0">
-      <tspan x="0" dy="0">FROM ROUTINE TASKS TO</tspan>
-      <tspan x="0" dy="32">AI-POWERED AUTOMATION WITH MCP SERVERS</tspan>
+    <text x="0" y="270" font-family="sans-serif" font-weight="bold" font-size="28" fill="url(#neonBlue)" letter-spacing="-0.5">
+      START AUTOMATING WITH MCP.
     </text>
     
-    <!-- Explainer Text -->
+    <!-- Explainer Text - Left Aligned and Smaller -->
     <foreignObject x="0" y="300" width="550" height="120">
-      <div xmlns="http://www.w3.org/1999/xhtml" style="font-family: sans-serif; color: #cbd5e1; font-size: 18px; line-height: 1.6; font-weight: 400;">
-        Discover how <span style="color: #22d3ee; font-weight: 600;">MCP Servers</span> bridge your content directly with AI models, transforming manual workflows into intelligent, automated processes.
+      <div xmlns="http://www.w3.org/1999/xhtml" style="font-family: sans-serif; color: #cbd5e1; font-size: 16px; line-height: 1.5; font-weight: 400; text-align: left;">
+        Learn how <span style="color: #22d3ee; font-weight: 600;">MCP Servers</span> allow your docs to talk directly to your code, JIRA tasks, and APIs—eliminating manual context switching forever.
       </div>
     </foreignObject>
   </g>
 
   <!-- =========================================
-       BOTTOM SECTION: NAME & TITLE
+       BOTTOM SECTION: DATE, TIME, LOCATION
        Aligned precisely with Left Margin (X=80)
        ========================================= -->
   <g transform="translate(80, 500)">
@@ -485,13 +484,26 @@
     <!-- Accent Line -->
     <rect x="0" y="0" width="4" height="100" fill="url(#neonBlue)" rx="2" />
 
-    <!-- Name & Title -->
+    <!-- Data Grid -->
     <g transform="translate(30, 30)">
-       <!-- Name -->
-       <text x="0" y="15" font-family="sans-serif" font-size="24" font-weight="bold" fill="#ffffff" letter-spacing="1">Amandeep Singh Talwar</text>
+       <!-- Date -->
+       <g>
+         <text x="0" y="0" font-family="sans-serif" font-size="12" font-weight="bold" fill="#94a3b8" letter-spacing="1">DATE</text>
+         <text x="0" y="25" font-family="sans-serif" font-size="20" font-weight="bold" fill="#ffffff">Dec 6, 2025</text>
+       </g>
 
-       <!-- Title -->
-       <text x="0" y="45" font-family="sans-serif" font-size="16" font-weight="500" fill="#22d3ee">Content Design Manager, Autodesk</text>
+       <!-- Time -->
+       <g transform="translate(180, 0)">
+         <text x="0" y="0" font-family="sans-serif" font-size="12" font-weight="bold" fill="#94a3b8" letter-spacing="1">TIME</text>
+         <text x="0" y="25" font-family="sans-serif" font-size="20" font-weight="bold" fill="#ffffff">4:00 PM IST</text>
+       </g>
+
+       <!-- Location -->
+       <g transform="translate(360, 0)">
+         <text x="0" y="0" font-family="sans-serif" font-size="12" font-weight="bold" fill="#94a3b8" letter-spacing="1">EVENT</text>
+         <text x="0" y="25" font-family="sans-serif" font-size="16" font-weight="bold" fill="#ffffff">STC India Summit</text>
+         <text x="0" y="45" font-family="sans-serif" font-size="14" fill="#64748b">Pune, India</text>
+       </g>
     </g>
   </g>
 
