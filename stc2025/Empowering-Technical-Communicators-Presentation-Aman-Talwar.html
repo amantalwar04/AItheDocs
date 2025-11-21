@@ -595,36 +595,207 @@
                     <p style="margin-top: 10px; opacity: 0.9;">A universal standard that connects AI assistants to your data and tools</p>
                 </div>
                 
-                <div class="two-column" style="gap: 40px; align-items: center; margin-top: 2em;">
-                    <div style="text-align: center;">
-                        <h3 style="font-size: 0.85em; margin-bottom: 15px; color: rgba(255, 255, 255, 0.6);">The Problem</h3>
-                        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 25px;">
-                            <p style="font-size: 2.5em; font-weight: bold; color: rgba(255, 100, 100, 0.8); margin-bottom: 10px;">M × N</p>
-                            <p style="font-size: 0.8em; opacity: 0.8;">Chaotic custom integrations</p>
-                            <p style="font-size: 0.75em; opacity: 0.6; margin-top: 8px;">Every model needs code for every tool</p>
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center;">
-                        <h3 style="font-size: 0.85em; margin-bottom: 15px; color: var(--hello-yellow);">The Solution</h3>
-                        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--hello-yellow); border-radius: 8px; padding: 25px;">
-                            <p style="font-size: 2.5em; font-weight: bold; color: var(--hello-yellow); margin-bottom: 10px;">M + N</p>
-                            <p style="font-size: 0.8em; opacity: 0.8;">One standard protocol</p>
-                            <p style="font-size: 0.75em; opacity: 0.6; margin-top: 8px;">Simple, scalable connections</p>
-                        </div>
-                    </div>
-                </div>
+<svg width="1200" height="675" viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients for Lines -->
+    <linearGradient id="chaosLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f87171;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="orderLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2dd4bf;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#34d399;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Glow Filters -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="redGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="50" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.3 0" result="redBlur"/>
+      <feMerge>
+        <feMergeNode in="redBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="greenGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="50" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 0.3 0" result="greenBlur"/>
+      <feMerge>
+        <feMergeNode in="greenBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Node Icon Definitions (Updated for white stroke and transparent fill) -->
+    <symbol id="icon-client" viewBox="0 0 40 40">
+       <circle cx="20" cy="20" r="18" fill="transparent" stroke="white" stroke-width="2"/>
+    </symbol>
+    
+    <symbol id="icon-data" viewBox="0 0 40 40">
+       <rect x="2" y="8" width="36" height="24" rx="4" fill="transparent" stroke="white" stroke-width="2"/>
+    </symbol>
+
+    <symbol id="icon-jira" viewBox="0 0 40 40">
+       <rect x="2" y="8" width="36" height="24" rx="4" fill="transparent" stroke="white" stroke-width="2"/>
+       <path d="M12,20 L20,12 L28,20 L20,28 Z" fill="none" stroke="white" stroke-width="2" />
+       <path d="M20,12 L20,28" fill="none" stroke="white" stroke-width="2" />
+    </symbol>
+
+    <symbol id="icon-vscode" viewBox="0 0 40 40">
+       <circle cx="20" cy="20" r="18" fill="transparent" stroke="white" stroke-width="2"/>
+       <path d="M28,10 L12,20 L28,30" fill="none" stroke="white" stroke-width="2" />
+       <path d="M12,20 L28,20" fill="none" stroke="white" stroke-width="2" />
+    </symbol>
+
+  </defs>
+
+  <!-- =========================================
+       LEFT SIDE: BEFORE MCP (THE MESS)
+       ========================================= -->
+  <g filter="url(#redGlow)">
+    <!-- Background set to none for transparency -->
+    <rect width="550" height="675" fill="none" />
+    
+    <!-- Header -->
+    <text x="275" y="60" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="32" fill="#FFFF00">BEFORE MCP</text>
+    <text x="275" y="90" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#ffffff">SILOED &amp; FRAGILE INTEGRATIONS</text>
+
+    <!-- Clients (Left Column) - Removed fill/stroke overrides -->
+    <use href="#icon-client" x="25" y="150" width="40" height="40" />
+    <text x="45" y="210" text-anchor="middle" fill="#ffffff" font-size="12" font-family="sans-serif" font-weight="bold">Claude</text>
+
+    <use href="#icon-client" x="25" y="300" width="40" height="40" />
+    <text x="45" y="360" text-anchor="middle" fill="#ffffff" font-size="12" font-family="sans-serif" font-weight="bold">Cursor</text>
+
+    <use href="#icon-vscode" x="25" y="450" width="40" height="40" />
+    <text x="45" y="510" text-anchor="middle" fill="#ffffff" font-size="12" font-family="sans-serif" font-weight="bold">VS Code</text>
+
+    <!-- Sources (Right Column of Left Panel) - Removed fill/stroke overrides -->
+    <use href="#icon-jira" x="485" y="150" width="40" height="40" />
+    <text x="505" y="210" text-anchor="middle" fill="#ffffff" font-size="12" font-family="sans-serif" font-weight="bold">JIRA</text>
+
+    <use href="#icon-data" x="485" y="300" width="40" height="40" />
+    <text x="505" y="360" text-anchor="middle" fill="#ffffff" font-size="12" font-family="sans-serif" font-weight="bold">Git</text>
+
+    <use href="#icon-data" x="485" y="450" width="40" height="40" />
+    <text x="505" y="510" text-anchor="middle" fill="#ffffff" font-size="12" font-family="sans-serif" font-weight="bold">Slack</text>
+
+    <!-- Improved Chaotic Connections (Coordinates adjusted for new width) -->
+    <g opacity="0.8">
+      <path d="M65,170 C125,170 125,320 225,320 C325,320 325,170 485,170" stroke="url(#chaosLine)" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+      <circle r="3" fill="#ef4444"><animateMotion dur="4s" repeatCount="indefinite" path="M65,170 C125,170 125,320 225,320 C325,320 325,170 485,170"/></circle>
+      
+      <path d="M65,320 C125,350 425,290 485,320" stroke="url(#chaosLine)" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+
+      <path d="M65,320 C125,320 125,170 225,170 C325,170 325,470 485,470" stroke="url(#chaosLine)" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+      <circle r="3" fill="#ef4444"><animateMotion dur="5s" repeatCount="indefinite" path="M65,320 C125,320 125,170 225,170 C325,170 325,470 485,470"/></circle>
+
+      <path d="M65,470 C125,470 125,320 225,320 C325,320 425,320 485,320" stroke="url(#chaosLine)" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+      
+      <path d="M65,170 L485,470" stroke="url(#chaosLine)" stroke-width="2" fill="none" opacity="0.5" stroke-dasharray="5,5"/>
+      <path d="M65,470 L485,170" stroke="url(#chaosLine)" stroke-width="2" fill="none" opacity="0.5" stroke-dasharray="5,5"/>
+    </g>
+    
+    <!-- Error Icon -->
+    <text x="275" y="320" font-size="60" text-anchor="middle" fill="#dc2626" opacity="0.9">⚠️
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+    </text>
+
+  </g>
+
+  <!-- SPACER -->
+  <rect x="550" y="0" width="100" height="675" fill="none" />
+
+  <!-- =========================================
+       RIGHT SIDE: WITH MCP (THE SOLUTION)
+       ========================================= -->
+  <g transform="translate(650, 0)" filter="url(#greenGlow)">
+    <!-- Background set to none for transparency -->
+    <rect width="550" height="675" fill="none" />
+
+    <!-- Header -->
+    <text x="275" y="60" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="32" fill="#FFFF00">WITH MCP</text>
+    <text x="275" y="90" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#ffffff">ONE UNIVERSAL PROTOCOL</text>
+
+    <!-- Clients - Removed fill/stroke overrides -->
+    <use href="#icon-client" x="25" y="150" width="40" height="40" />
+    <text x="45" y="210" text-anchor="middle" fill="#ffffff" font-size="12" font-family="sans-serif" font-weight="bold">Claude</text>
+
+    <use href="#icon-client" x="25" y="300" width="40" height="40" />
+    <text x="45" y="360" text-anchor="middle" fill="#ffffff" font-size="12" font-family="sans-serif" font-weight="bold">Cursor</text>
+
+    <use href="#icon-vscode" x="25" y="450" width="40" height="40" />
+    <text x="45" y="510" text-anchor="middle" fill="#ffffff" font-size="12" font-family="sans-serif" font-weight="bold">VS Code</text>
+
+    <!-- Sources - Removed fill/stroke overrides -->
+    <use href="#icon-jira" x="485" y="150" width="40" height="40" />
+    <text x="505" y="210" text-anchor="middle" fill="#ffffff" font-size="12" font-family="sans-serif" font-weight="bold">JIRA</text>
+
+    <use href="#icon-data" x="485" y="300" width="40" height="40" />
+    <text x="505" y="360" text-anchor="middle" fill="#ffffff" font-size="12" font-family="sans-serif" font-weight="bold">Git</text>
+
+    <use href="#icon-data" x="485" y="450" width="40" height="40" />
+    <text x="505" y="510" text-anchor="middle" fill="#ffffff" font-size="12" font-family="sans-serif" font-weight="bold">Slack</text>
+
+    <!-- THE MCP HOST (Central Hub) -->
+    <g transform="translate(235, 280)" filter="url(#glow)">
+      <rect x="0" y="0" width="80" height="80" rx="10" fill="#065f46" stroke="#34d399" stroke-width="3"/>
+      <text x="40" y="45" text-anchor="middle" fill="#ffffff" font-family="monospace" font-weight="bold" font-size="14">MCP</text>
+      <text x="40" y="60" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="10">HOST</text>
+      
+      <!-- Pulse Effect -->
+      <circle cx="40" cy="40" r="50" fill="none" stroke="#34d399" opacity="0.5">
+        <animate attributeName="r" values="40;55" dur="1.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.5;0" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+
+    <!-- Improved Ordered Connections (Coordinates adjusted) -->
+    <g opacity="1">
+      <!-- Client Lines to Hub -->
+      <path d="M65,170 L235,320" stroke="url(#orderLine)" stroke-width="3"/>
+      <path d="M65,320 L235,320" stroke="url(#orderLine)" stroke-width="3"/>
+      <path d="M65,470 L235,320" stroke="url(#orderLine)" stroke-width="3"/>
+
+      <!-- Hub Lines to Data -->
+      <path d="M315,320 L485,170" stroke="url(#orderLine)" stroke-width="3"/>
+      <path d="M315,320 L485,320" stroke="url(#orderLine)" stroke-width="3"/>
+      <path d="M315,320 L485,470" stroke="url(#orderLine)" stroke-width="3"/>
+
+      <!-- Direct connection: Cursor to Git -->
+      <path d="M65,320 C125,350 425,290 485,320" stroke="url(#orderLine)" stroke-width="2" fill="none" stroke-dasharray="5,5" opacity="0.7"/>
+
+      <!-- Data Packet Animation -->
+      <circle r="5" fill="#34d399" filter="url(#glow)">
+         <animateMotion dur="2s" repeatCount="indefinite" path="M485,170 L315,320 L65,170" keyPoints="0;0.5;1" keyTimes="0;0.5;1"/>
+      </circle>
+      <circle r="5" fill="#34d399" filter="url(#glow)">
+         <animateMotion dur="2.5s" begin="0.3s" repeatCount="indefinite" path="M485,300 L315,320 L65,320" keyPoints="0;0.5;1" keyTimes="0;0.5;1"/>
+      </circle>
+      <circle r="5" fill="#34d399" filter="url(#glow)">
+         <animateMotion dur="2.2s" begin="0.7s" repeatCount="indefinite" path="M485,450 L315,320 L65,450" keyPoints="0;0.5;1" keyTimes="0;0.5;1"/>
+      </circle>
+      
+      <circle r="4" fill="#ffffff" filter="url(#glow)" opacity="0.7">
+         <animateMotion dur="3s" begin="1s" repeatCount="indefinite" path="M65,170 L235,320 L485,170" keyPoints="0;0.5;1" keyTimes="0;0.5;1"/>
+      </circle>
+    </g>
+  </g>
+  
+  <!-- Divider Line (Shifted) -->
+  <line x1="600" y1="0" x2="600" y2="675" stroke="#374151" stroke-width="2" stroke-dasharray="10,5"/>
+
+</svg>
                 
-                <div style="margin-top: 2.5em; text-align: center;">
-                    <p style="font-size: 0.8em; opacity: 0.8; margin-bottom: 0.5em;">
-                        <span style="color: var(--hello-yellow);">Created by Anthropic</span> • Adopted by Microsoft, Google & more
-                    </p>
-                    <a href="https://amantalwar04.github.io/AItheDocs/APIGatewayforAIAgents.html" 
-                       target="_blank" 
-                       style="color: rgba(255, 255, 255, 0.7); text-decoration: none; font-size: 0.75em; border-bottom: 1px solid rgba(255, 255, 255, 0.3);">
-                       Deep dive: The API Gateway for AI Agents →
-                    </a>
-                </div>
             </section>
 
             <!-- Why Should Tech Writers Care -->
