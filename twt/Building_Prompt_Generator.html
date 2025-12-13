@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webinar: Universal AI Prompt Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .vscode-bg {
+            background-color: #1e1e1e;
+        }
+        
+        .vscode-accent {
+            color: #007acc;
+        }
+
+        .vscode-border {
+            border-left: 4px solid #007acc;
+        }
+
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        @media print {
+            body { background-color: white; }
+            .no-print { display: none; }
+            .page-break { page-break-before: always; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header / Hero Section -->
+    <header class="vscode-bg text-white py-12 px-4 sm:px-6 lg:px-8 border-b-4 border-blue-500">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                <span class="bg-blue-600 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4 md:mb-0">TWT Webinar</span>
+                <span class="text-gray-400 text-sm"><i class="far fa-calendar-alt mr-2"></i>December 2024</span>
+            </div>
+            
+            <h1 class="text-3xl md:text-5xl font-bold leading-tight mb-4">
+                Mastering AI Interactions: Building a Universal Prompt Generator Extension for VS Code
+            </h1>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+        <!-- Session Breakdown Section (Detailed Agenda) -->
+        <section class="mb-12">
+             <div class="flex items-center mb-6">
+                <div class="h-8 w-8 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-600 mr-3">
+                    <i class="fas fa-list-alt"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900">Session Agenda & Breakdown</h2>
+            </div>
+
+            <div class="bg-white rounded-xl card-shadow p-8 space-y-8">
+                <!-- Part 1 -->
+                <div class="relative pl-8 border-l-2 border-blue-200">
+                    <div class="absolute -left-2 top-0 h-4 w-4 rounded-full bg-blue-500"></div>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
+                        <h3 class="text-xl font-bold text-gray-800">Part 1: The Problem & Solution</h3>
+                        <span class="inline-block mt-2 sm:mt-0 bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">5-8 minutes</span>
+                    </div>
+                    <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
+                        <li>The challenge of creating effective AI prompts consistently.</li>
+                        <li>Why manual prompt crafting is time-consuming and error-prone.</li>
+                        <li>The vision for automated, exemplary prompt generation.</li>
+                    </ul>
+                </div>
+
+                <!-- Part 2 -->
+                <div class="relative pl-8 border-l-2 border-indigo-200">
+                    <div class="absolute -left-2 top-0 h-4 w-4 rounded-full bg-indigo-500"></div>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
+                        <h3 class="text-xl font-bold text-gray-800">Part 2: Architecture & Key Features</h3>
+                        <span class="inline-block mt-2 sm:mt-0 bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">10-15 minutes</span>
+                    </div>
+                    <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
+                        <li>VS Code Extension API architecture and design patterns.</li>
+                        <li>Implementation of 18+ prompting techniques with exemplary templates.</li>
+                        <li>Professional persona system with 10+ expert roles.</li>
+                        <li>MCP Server integration for real-time tool access.</li>
+                        <li>IDE environment detection and adaptive behavior.</li>
+                    </ul>
+                </div>
+
+                <!-- Part 3: Core Features Demo (Updated) -->
+                <div class="relative pl-8 border-l-2 border-purple-200">
+                    <div class="absolute -left-2 top-0 h-4 w-4 rounded-full bg-purple-500"></div>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-gray-800">Part 3: Core Features Demo — Live demonstration</h3>
+                        <span class="inline-block mt-2 sm:mt-0 bg-purple-100 text-purple-800 text-xs font-semibold px-3 py-1 rounded-full">10-15 minutes</span>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <!-- Scenario 1 -->
+                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <span class="text-lg mr-2">📚</span>
+                                <h4 class="font-bold text-gray-800 text-sm">Scenario 1: Creating API Documentation</h4>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-3"><strong>The Challenge:</strong> Document a new REST API endpoint with complete reference documentation including parameters and examples.</p>
+                            <div class="bg-white p-3 rounded text-xs text-gray-700 space-y-2 border border-purple-100">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                                    <div><span class="font-semibold text-purple-700">Technique:</span> Step-by-Step</div>
+                                    <div><span class="font-semibold text-purple-700">Persona:</span> Technical Writer</div>
+                                    <div><span class="font-semibold text-purple-700">Complexity:</span> Intermediate</div>
+                                </div>
+                                <div class="pt-2 border-t border-purple-50">
+                                    <span class="font-semibold text-purple-700">Context:</span> "Documenting POST /api/v2/users endpoint that creates new user accounts..."
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scenario 2 -->
+                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <span class="text-lg mr-2">📖</span>
+                                <h4 class="font-bold text-gray-800 text-sm">Scenario 2: Explaining Complex Technical Concept</h4>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-3"><strong>The Challenge:</strong> Explain how OAuth 2.0 authentication flow works to developers with varying experience levels.</p>
+                            <div class="bg-white p-3 rounded text-xs text-gray-700 space-y-2 border border-purple-100">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                                    <div><span class="font-semibold text-purple-700">Technique:</span> Socratic Method</div>
+                                    <div><span class="font-semibold text-purple-700">Persona:</span> Professor</div>
+                                    <div><span class="font-semibold text-purple-700">Complexity:</span> Beginner/Inter</div>
+                                </div>
+                                <div class="pt-2 border-t border-purple-50">
+                                    <span class="font-semibold text-purple-700">Context:</span> "Creating educational content about OAuth 2.0 for developer documentation..."
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scenario 3 -->
+                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <span class="text-lg mr-2">🔧</span>
+                                <h4 class="font-bold text-gray-800 text-sm">Scenario 3: Troubleshooting Guide Creation</h4>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-3"><strong>The Challenge:</strong> Create a comprehensive troubleshooting guide for intermittent cloud service connection errors.</p>
+                            <div class="bg-white p-3 rounded text-xs text-gray-700 space-y-2 border border-purple-100">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                                    <div><span class="font-semibold text-purple-700">Technique:</span> Problem Solving</div>
+                                    <div><span class="font-semibold text-purple-700">Persona:</span> Tech Writer + Dev</div>
+                                    <div><span class="font-semibold text-purple-700">Complexity:</span> Intermediate</div>
+                                </div>
+                                <div class="pt-2 border-t border-purple-50">
+                                    <span class="font-semibold text-purple-700">Context:</span> "Creating troubleshooting guide for intermittent connection errors in cloud service..."
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 4 -->
+                <div class="relative pl-8 border-l-2 border-pink-200">
+                    <div class="absolute -left-2 top-0 h-4 w-4 rounded-full bg-pink-500"></div>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
+                        <h3 class="text-xl font-bold text-gray-800">Part 4: Advanced Capabilities Demo</h3>
+                        <span class="inline-block mt-2 sm:mt-0 bg-pink-100 text-pink-800 text-xs font-semibold px-3 py-1 rounded-full">5-10 minutes</span>
+                    </div>
+                    <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
+                        <li>MCP protocol integration and capability detection.</li>
+                        <li>Recent prompts management and reuse patterns.</li>
+                        <li>HTML panel generation with professional formatting.</li>
+                    </ul>
+                </div>
+
+                <!-- Part 5 -->
+                <div class="relative pl-8 border-l-2 border-green-200">
+                    <div class="absolute -left-2 top-0 h-4 w-4 rounded-full bg-green-500"></div>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
+                        <h3 class="text-xl font-bold text-gray-800">Part 5: Lessons Learned & Best Practices</h3>
+                        <span class="inline-block mt-2 sm:mt-0 bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">5-8 minutes</span>
+                    </div>
+                    <ul class="list-disc list-inside text-gray-600 text-sm space-y-1">
+                        <li>Prompt engineering principles that emerged from research.</li>
+                        <li>User experience patterns that work in developer tools.</li>
+                    </ul>
+                </div>
+
+                <!-- Q&A -->
+                 <div class="relative pl-8 border-l-2 border-gray-200">
+                    <div class="absolute -left-2 top-0 h-4 w-4 rounded-full bg-gray-500"></div>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
+                        <h3 class="text-xl font-bold text-gray-800">Q&A</h3>
+                        <span class="inline-block mt-2 sm:mt-0 bg-gray-100 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full">Remaining Time</span>
+                    </div>
+                    <p class="text-sm text-gray-600">Open floor for audience questions, technical clarifications, and discussion.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Introduction: What is Universal AI Prompt Generator? -->
+        <section class="mb-12">
+            <div class="bg-white rounded-xl card-shadow p-8 border-t-4 border-indigo-500">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">What is the Universal AI Prompt Generator?</h2>
+                <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+                    The Universal AI Prompt Generator is a powerful VS Code/Cursor IDE extension that revolutionizes how you interact with AI assistants. This professional-grade tool transforms basic queries into expertly-crafted, structured prompts using proven methodologies from AI research and prompt engineering best practices.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Purpose & Audience -->
+                    <div>
+                        <div class="mb-8">
+                            <div class="flex items-center mb-3">
+                                <span class="text-2xl mr-3">🎯</span>
+                                <h3 class="text-xl font-bold text-gray-800">Purpose</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                Transform your basic AI queries into exemplary, professional-grade prompts that leverage 18+ advanced prompting techniques, AI personas, MCP (Model Context Protocol) integration, and enterprise-level quality standards. Generate prompts that consistently produce superior AI responses across Cursor, VS Code, and all VS Code-based IDEs.
+                            </p>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center mb-4">
+                                <span class="text-2xl mr-3">🚀</span>
+                                <h3 class="text-xl font-bold text-gray-800">Who Is This For?</h3>
+                            </div>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                <li class="flex items-start"><i class="fas fa-check-circle text-indigo-500 mt-1 mr-2 flex-shrink-0"></i> <span><strong>Software Developers & Engineers:</strong> Generate technical documentation, code reviews, and architecture discussions.</span></li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-indigo-500 mt-1 mr-2 flex-shrink-0"></i> <span><strong>Technical Writers & Content Creators:</strong> Create structured documentation and educational content.</span></li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-indigo-500 mt-1 mr-2 flex-shrink-0"></i> <span><strong>UX/UI Designers & Researchers:</strong> Develop user research insights and design critiques.</span></li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-indigo-500 mt-1 mr-2 flex-shrink-0"></i> <span><strong>Product Managers & Business Professionals:</strong> Build strategic documents and feature specifications.</span></li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-indigo-500 mt-1 mr-2 flex-shrink-0"></i> <span><strong>Data Scientists & Analysts:</strong> Structure complex analytical queries and research requests.</span></li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-indigo-500 mt-1 mr-2 flex-shrink-0"></i> <span><strong>Students & Educators:</strong> Learn and teach prompt engineering best practices.</span></li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-indigo-500 mt-1 mr-2 flex-shrink-0"></i> <span><strong>AI Enthusiasts:</strong> Master the art of professional prompt engineering.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Key Highlights -->
+                    <div class="bg-gray-50 rounded-lg p-6 border border-gray-100">
+                        <div class="flex items-center mb-4">
+                            <span class="text-2xl mr-3">✨</span>
+                            <h3 class="text-xl font-bold text-gray-800">Key Highlights</h3>
+                        </div>
+                        <ul class="space-y-3 text-sm text-gray-700">
+                            <li class="flex items-start">
+                                <i class="fas fa-bolt text-yellow-500 mt-1 mr-3 w-4 flex-shrink-0"></i>
+                                <span><strong>VS Code Extension:</strong> Seamlessly integrated into your development environment.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-globe text-blue-500 mt-1 mr-3 w-4 flex-shrink-0"></i>
+                                <span><strong>Universal Compatibility:</strong> Works with Cursor, VS Code, Codium, Theia, and all VS Code-based IDEs.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-brain text-purple-500 mt-1 mr-3 w-4 flex-shrink-0"></i>
+                                <span><strong>18+ Prompting Techniques:</strong> Advanced methodologies including Chain-of-Thought, Few-Shot, ReAct, Meta-Prompting, and more.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-network-wired text-green-500 mt-1 mr-3 w-4 flex-shrink-0"></i>
+                                <span><strong>MCP Server Integration:</strong> Intelligent detection and integration of external tools (filesystem, database, web, git).</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-users text-indigo-500 mt-1 mr-3 w-4 flex-shrink-0"></i>
+                                <span><strong>10+ Professional Personas:</strong> Expert Developer, Professor, Consultant, Researcher, and more.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-layer-group text-red-500 mt-1 mr-3 w-4 flex-shrink-0"></i>
+                                <span><strong>4 Complexity Levels:</strong> From beginner-friendly to expert-level technical depth.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-history text-gray-500 mt-1 mr-3 w-4 flex-shrink-0"></i>
+                                <span><strong>Recent Prompts History:</strong> Track and reuse your last 10 generated prompts.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-laptop-code text-gray-600 mt-1 mr-3 w-4 flex-shrink-0"></i>
+                                <span><strong>IDE Environment Detection:</strong> Automatically adapts to your specific IDE.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Section: How It Works / 5-Step Workflow -->
+        <section class="mb-12">
+            <div class="flex items-center mb-6">
+                <div class="h-8 w-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mr-3">
+                    <i class="fas fa-mouse-pointer"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900">How It Works: 5-Step Workflow</h2>
+            </div>
+            
+            <div class="bg-white rounded-xl card-shadow overflow-hidden p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Step 1 -->
+                    <div class="border border-gray-200 rounded-lg p-5 hover:border-blue-500 transition-colors bg-gray-50">
+                        <div class="flex items-center mb-3 text-blue-700">
+                            <span class="font-bold text-lg mr-2">Step 1</span>
+                            <span class="text-xs bg-blue-100 px-2 py-0.5 rounded text-blue-800 uppercase font-semibold">Technique</span>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">Select Prompting Technique</h4>
+                        <p class="text-xs text-gray-500 mb-3 italic">18+ Options available</p>
+                        <ul class="text-sm text-gray-600 space-y-1.5">
+                            <li>🎯 Chain of Thought</li>
+                            <li>🔄 Few-Shot Learning</li>
+                            <li>🎭 Role Playing</li>
+                            <li>📝 Step-by-Step</li>
+                            <li>🧠 Meta Prompting</li>
+                            <li>🔍 Socratic Method</li>
+                            <li>📊 Data Analysis</li>
+                            <li class="text-gray-400 text-xs mt-2 italic">+ 11 more techniques...</li>
+                        </ul>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="border border-gray-200 rounded-lg p-5 hover:border-purple-500 transition-colors bg-gray-50">
+                        <div class="flex items-center mb-3 text-purple-700">
+                            <span class="font-bold text-lg mr-2">Step 2</span>
+                            <span class="text-xs bg-purple-100 px-2 py-0.5 rounded text-purple-800 uppercase font-semibold">Persona</span>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">Choose AI Persona</h4>
+                        <p class="text-xs text-gray-500 mb-3 italic">10+ Expert Roles</p>
+                        <ul class="text-sm text-gray-600 space-y-1.5">
+                            <li>👨‍💻 Expert Developer</li>
+                            <li>🎓 University Professor</li>
+                            <li>💼 Business Consultant</li>
+                            <li>🎨 Creative Director</li>
+                            <li>🔬 Research Scientist</li>
+                            <li>📊 Data Analyst</li>
+                            <li>🎯 Product Manager</li>
+                            <li class="text-gray-400 text-xs mt-2 italic">+ 3 more roles...</li>
+                        </ul>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="border border-gray-200 rounded-lg p-5 hover:border-green-500 transition-colors bg-gray-50">
+                        <div class="flex items-center mb-3 text-green-700">
+                            <span class="font-bold text-lg mr-2">Step 3</span>
+                            <span class="text-xs bg-green-100 px-2 py-0.5 rounded text-green-800 uppercase font-semibold">Complexity</span>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">Select Complexity Level</h4>
+                        <ul class="text-sm text-gray-600 space-y-2 mt-4">
+                            <li class="flex items-center"><span class="h-3 w-3 rounded-full bg-green-500 mr-2"></span> <strong>Beginner</strong> <span class="text-xs text-gray-500 ml-1">- No jargon</span></li>
+                            <li class="flex items-center"><span class="h-3 w-3 rounded-full bg-yellow-400 mr-2"></span> <strong>Intermediate</strong> <span class="text-xs text-gray-500 ml-1">- Explained</span></li>
+                            <li class="flex items-center"><span class="h-3 w-3 rounded-full bg-orange-500 mr-2"></span> <strong>Advanced</strong> <span class="text-xs text-gray-500 ml-1">- Technical</span></li>
+                            <li class="flex items-center"><span class="h-3 w-3 rounded-full bg-red-600 mr-2"></span> <strong>Expert</strong> <span class="text-xs text-gray-500 ml-1">- Comprehensive</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- Steps 4 & 5 Combined -->
+                    <div class="md:col-span-2 lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Step 4 -->
+                        <div class="border border-gray-200 rounded-lg p-5 hover:border-gray-400 transition-colors">
+                            <div class="flex items-center mb-2 text-gray-700">
+                                <span class="font-bold text-lg mr-2">Step 4</span>
+                                <span class="font-semibold">Add Context (Optional)</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Provide project background, requirements, or constraints.</p>
+                            <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-800">
+                                <i class="fas fa-magic mr-1"></i> Auto-detects from active file
+                            </span>
+                        </div>
+
+                        <!-- Step 5 -->
+                        <div class="border border-gray-200 rounded-lg p-5 hover:border-gray-400 transition-colors">
+                            <div class="flex items-center mb-2 text-gray-700">
+                                <span class="font-bold text-lg mr-2">Step 5</span>
+                                <span class="font-semibold">Custom Instructions (Optional)</span>
+                            </div>
+                            <p class="text-sm text-gray-600">Add specific formatting requirements, constraints, or special output requests.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary Section -->
+        <section class="mb-12">
+            <div class="flex items-center mb-6">
+                <div class="h-8 w-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 mr-3">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900">Automation & Impact</h2>
+            </div>
+
+            <div class="bg-white rounded-xl card-shadow overflow-hidden">
+                <div class="p-8">
+                    <div class="prose max-w-none text-gray-600">
+                        <p class="mb-4 text-lg">
+                            I automated the entire process of creating professional, AI-ready prompts. This tool reduces creation time from <strong>5-10 minutes</strong> of manual crafting to under <strong>60 seconds</strong>.
+                        </p>
+                        <p class="mb-6">The automation handles structure, technique selection (18+ methods), persona definition, context integration, and formatting.</p>
+                    </div>
+
+                    <!-- Key Highlights Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+                        <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="text-2xl mb-2">✨</div>
+                            <h4 class="font-bold text-gray-800">Exemplary Templates</h4>
+                            <p class="text-xs text-gray-500 mt-1">Gold-standard prompts for every technique.</p>
+                        </div>
+                        <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="text-2xl mb-2">🔌</div>
+                            <h4 class="font-bold text-gray-800">MCP Integration</h4>
+                            <p class="text-xs text-gray-500 mt-1">Automatic detection & real-time capabilities.</p>
+                        </div>
+                        <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="text-2xl mb-2">🧠</div>
+                            <h4 class="font-bold text-gray-800">18+ Techniques</h4>
+                            <p class="text-xs text-gray-500 mt-1">Chain-of-Thought, Reflexion, and more.</p>
+                        </div>
+                        <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="text-2xl mb-2">👥</div>
+                            <h4 class="font-bold text-gray-800">Pro Personas</h4>
+                            <p class="text-xs text-gray-500 mt-1">10+ expert roles with distinct styles.</p>
+                        </div>
+                        <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="text-2xl mb-2">🎯</div>
+                            <h4 class="font-bold text-gray-800">Context Intelligence</h4>
+                            <p class="text-xs text-gray-500 mt-1">Auto-detection from files & workspace.</p>
+                        </div>
+                        <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="text-2xl mb-2">🔄</div>
+                            <h4 class="font-bold text-gray-800">Universal Compat</h4>
+                            <p class="text-xs text-gray-500 mt-1">VS Code, Cursor, Codium, Theia.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="page-break"></div>
+
+        <!-- Architecture Section (Replaces Audience/Materials) -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            
+            <!-- Type Info -->
+            <div class="bg-gray-800 text-white rounded-xl p-8 shadow-lg">
+                <h3 class="text-xl font-bold mb-4 border-b border-gray-600 pb-2">Webinar Details</h3>
+                <div class="flex items-center mb-4">
+                    <i class="far fa-clock text-2xl mr-3 text-blue-400"></i>
+                    <span class="text-2xl font-bold">55 Minutes</span>
+                </div>
+                <p class="text-gray-300 text-sm mb-4">
+                    Detailed presentation with implemented scenarios.
+                </p>
+                <h4 class="font-semibold text-blue-400 text-sm mb-2">Why this format?</h4>
+                <p class="text-gray-400 text-xs leading-relaxed">
+                    This project involves complex API usage, external protocols (MCP), and advanced UX. A webinar allows time to explain the architecture, demo the tool in real-time, and discuss technical challenges in depth.
+                </p>
+            </div>
+
+            <!-- Architecture Tree -->
+            <div class="bg-white rounded-xl card-shadow p-8">
+                <h3 class="text-xl font-bold mb-4 text-gray-900 border-b pb-2">Project Architecture</h3>
+                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 overflow-x-auto">
+                    <pre class="font-mono text-xs sm:text-sm text-gray-800 leading-relaxed whitespace-pre" style="font-family: 'JetBrains Mono', monospace;">cursor-custom-chat/
+├── src/
+│   ├── extension.ts                   <span class="text-gray-500 italic"># Main entry point</span>
+│   ├── quickPickProvider.ts           <span class="text-gray-500 italic"># QuickPick UI</span>
+│   ├── promptGeneratorTreeProvider.ts <span class="text-gray-500 italic"># Sidebar tree view</span>
+│   ├── chatWebviewProvider.ts         <span class="text-gray-500 italic"># Webview interface</span>
+│   └── cursorChatAPI.ts               <span class="text-gray-500 italic"># Chat integration</span>
+├── media/
+│   ├── styles.css                     <span class="text-gray-500 italic"># Webview styles</span>
+│   └── script.js                      <span class="text-gray-500 italic"># Webview JS</span>
+├── package.json                       <span class="text-gray-500 italic"># Extension manifest</span>
+├── tsconfig.json                      <span class="text-gray-500 italic"># TypeScript config</span>
+└── README.md                          <span class="text-gray-500 italic"># Documentation</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Outcomes -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Learning Outcomes</h2>
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8 border border-blue-100">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
+                    <div class="flex items-start">
+                        <span class="bg-white p-1 rounded shadow text-green-600 mr-3"><i class="fas fa-check"></i></span>
+                        <span>Understand the principles of professional prompt engineering.</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="bg-white p-1 rounded shadow text-green-600 mr-3"><i class="fas fa-check"></i></span>
+                        <span>Know how to build VS Code extensions with complex features.</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="bg-white p-1 rounded shadow text-green-600 mr-3"><i class="fas fa-check"></i></span>
+                        <span>Learn architectural patterns for developer productivity tools.</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="bg-white p-1 rounded shadow text-green-600 mr-3"><i class="fas fa-check"></i></span>
+                        <span>Discover how to integrate external protocols (MCP) into extensions.</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="bg-white p-1 rounded shadow text-green-600 mr-3"><i class="fas fa-check"></i></span>
+                        <span>Gain insights into UX design for developer-facing tools.</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="bg-white p-1 rounded shadow text-green-600 mr-3"><i class="fas fa-check"></i></span>
+                        <span>See real-world examples of automation improving daily workflows.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-gray-200 pt-8 mt-12 pb-12">
+            <div class="flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+                <div class="mb-4 md:mb-0">
+                    <p class="font-semibold text-gray-800">Prepared by: Aman Talwar</p>
+                    <p>Extension Version: 3.0.0</p>
+                </div>
+                <div class="text-right">
+                    <button onclick="window.print()" class="no-print bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-print mr-2"></i> Print / Save PDF
+                    </button>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+</body>
+</html>
