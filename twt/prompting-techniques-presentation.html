@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastering AI Prompting Techniques - Interactive Presentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #dbeafe;
+            --secondary-color: #f59e0b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --text-color: #1f2937;
+            --text-muted: #6b7280;
+            --text-light: #9ca3af;
+            --background: #ffffff;
+            --background-secondary: #f8fafc;
+            --border-color: #e5e7eb;
+            --card-background: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --gradient-primary: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            --gradient-secondary: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --border-radius-sm: 0.375rem;
+            --border-radius-md: 0.5rem;
+            --border-radius-lg: 0.75rem;
+            --border-radius-xl: 1rem;
+            --transition-fast: 0.15s ease-in-out;
+            --transition-normal: 0.3s ease-in-out;
+            --transition-slow: 0.5s ease-in-out;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Presentation Container */
+        .presentation-container {
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            padding: 1rem 2rem 8rem 2rem;
+            display: none;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: var(--background);
+            transition: all var(--transition-slow);
+            overflow-y: auto;
+        }
+
+        .slide#slide4 {
+            justify-content: flex-start;
+            padding-top: 2rem;
+        }
+
+        .slide#slide4 h2 {
+            position: sticky;
+            top: 0;
+            background: var(--background);
+            z-index: 10;
+            padding: 1rem 0 2rem 0;
+            margin: 0;
+        }
+
+        .slide.active {
+            display: flex;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Navigation */
+        .presentation-nav {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card-background);
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius-xl);
+            box-shadow: var(--shadow-xl);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            background: var(--text-light);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            padding: 0.5rem 1rem;
+            background: var(--background-secondary);
+            border-radius: var(--border-radius-md);
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            transition: width var(--transition-normal);
+            z-index: 1001;
+        }
+
+        /* Slide Content Styles */
+        .slide-content {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .slide h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .slide h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+        }
+
+        .slide h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .slide p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .slide .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-bottom: 3rem;
+        }
+
+        /* Interactive Elements */
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .comparison-card {
+            background: var(--card-background);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            transition: transform var(--transition-fast);
+        }
+
+        .comparison-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .comparison-card.good {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .comparison-card.bad {
+            border-left: 4px solid var(--error-color);
+        }
+
+        .comparison-card h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comparison-card.good h4 {
+            color: var(--success-color);
+        }
+
+        .comparison-card.bad h4 {
+            color: var(--error-color);
+        }
+
+        .example-prompt {
+            background: var(--background-secondary);
+            padding: 1.5rem;
+            border-radius: var(--border-radius-md);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 1rem 0;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .metric-card {
+            background: var(--card-background);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            transition: transform var(--transition-fast);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .metric-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .metric-label {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .techniques-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .technique-card {
+            background: var(--card-background);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-fast);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .technique-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .technique-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .technique-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .technique-description {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .technique-example {
+            background: var(--background-secondary);
+            padding: 1rem;
+            border-radius: var(--border-radius-md);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .benefits-list {
+            text-align: left;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: var(--card-background);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-fast);
+        }
+
+        .benefit-item:hover {
+            transform: translateX(5px);
+        }
+
+        .benefit-icon {
+            font-size: 1.5rem;
+            color: var(--success-color);
+            margin-top: 0.25rem;
+        }
+
+        .benefit-content h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .benefit-content p {
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .interactive-demo {
+            background: var(--card-background);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .demo-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color var(--transition-fast);
+        }
+
+        .demo-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .demo-button {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius-md);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform var(--transition-fast);
+        }
+
+        .demo-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .demo-output {
+            background: var(--background-secondary);
+            padding: 1.5rem;
+            border-radius: var(--border-radius-md);
+            margin-top: 1rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 1rem;
+            }
+
+            .slide h1 {
+                font-size: 2.5rem;
+            }
+
+            .slide h2 {
+                font-size: 2rem;
+            }
+
+            .slide h3 {
+                font-size: 1.5rem;
+            }
+
+            .slide p {
+                font-size: 1rem;
+            }
+
+            .comparison-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .techniques-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .presentation-nav {
+                bottom: 1rem;
+                padding: 0.75rem 1.5rem;
+            }
+
+            .nav-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            .presentation-nav {
+                bottom: 1rem;
+                padding: 0.75rem 1.5rem;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-up {
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Accordion Styles */
+        .accordion-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .accordion-section {
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-fast);
+        }
+
+        .accordion-section:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .accordion-header {
+            background: var(--card-background);
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: background-color var(--transition-fast);
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .accordion-header:hover {
+            background: var(--background-secondary);
+        }
+
+        .accordion-header.active {
+            background: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        .accordion-header .category-badge {
+            padding: 0.4rem 1rem;
+            border-radius: var(--border-radius-sm);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-right: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .accordion-header .basic-badge {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .accordion-header .advanced-badge {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .accordion-header .expert-badge {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .accordion-header .specialized-badge {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .accordion-icon {
+            font-size: 1.2rem;
+            transition: transform var(--transition-fast);
+            color: var(--text-muted);
+        }
+
+        .accordion-header.active .accordion-icon {
+            transform: rotate(180deg);
+            color: var(--primary-color);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-normal) ease-out;
+            background: var(--background-secondary);
+        }
+
+        .accordion-content.active {
+            max-height: 1000px;
+            transition: max-height var(--transition-normal) ease-in;
+        }
+
+        .accordion-content-inner {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+        }
+
+        .technique-grid-compact {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .technique-card-compact {
+            background: var(--card-background);
+            padding: 1.75rem;
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-fast);
+            border: 1px solid var(--border-color);
+        }
+
+        .technique-card-compact:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .technique-card-compact .technique-icon {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .technique-card-compact .technique-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            line-height: 1.3;
+        }
+
+        .technique-card-compact .technique-description {
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .technique-card-compact .technique-example {
+            background: var(--info-background);
+            padding: 1rem;
+            border-radius: var(--border-radius-sm);
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--text-color);
+            border-left: 3px solid var(--primary-color);
+            line-height: 1.4;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Special slide backgrounds */
+        .title-slide {
+            background: white;
+            color: var(--text-color);
+        }
+
+        .title-slide h1 {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-slide p {
+            color: var(--text-muted);
+        }
+
+
+
+        .conclusion-slide {
+            background: white;
+            color: var(--text-color);
+        }
+
+        .conclusion-slide h2 {
+            color: var(--text-color);
+        }
+
+        .conclusion-slide p {
+            color: var(--text-muted);
+        }
+
+        .conclusion-slide .takeaway-card {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .conclusion-slide .takeaway-card h3 {
+            color: var(--primary-color);
+        }
+
+        .conclusion-slide .takeaway-card p {
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="progress-bar" id="progressBar"></div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide active title-slide" id="slide1">
+            <div class="slide-content">
+                <h1><i class="fas fa-brain"></i> Mastering AI Prompting Techniques</h1>
+                <p class="subtitle">How Effective Prompts Generate Better Output & Reduce Iterations</p>
+                
+                <!-- Resource Reference Section -->
+                <div style="margin-top: 4rem; background: var(--card-background); padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-md); max-width: 800px; margin-left: auto; margin-right: auto;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <i class="fas fa-info-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+                        <h3 style="color: var(--text-color); margin: 0; font-size: 1.3rem;">Additional Resources</h3>
+                    </div>
+                    
+                    <div style="background: var(--info-background); border: 1px solid var(--info-border); border-radius: var(--border-radius-md); padding: 1.5rem; margin-bottom: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234285f4'%3E%3Cpath d='M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z'/%3E%3Cpath d='M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z'/%3E%3Cpath d='M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z'/%3E%3Cpath d='M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z'/%3E%3C/svg%3E" alt="Google Cloud" style="width: 24px; height: 24px;" />
+                            <strong style="color: var(--primary-color); font-size: 1.1rem;">Google Cloud AI & ML Resources</strong>
+                        </div>
+                        <p style="margin: 0; color: var(--text-muted); font-size: 1rem; line-height: 1.5;">
+                            Comprehensive learning materials on prompt engineering, AI applications, and machine learning fundamentals are available through Google Cloud's extensive documentation and guides.
+                        </p>
+                    </div>
+                    
+                    <div style="background: var(--background-secondary); border-radius: var(--border-radius-md); padding: 1.25rem; text-align: left;">
+                        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                            <i class="fas fa-external-link-alt" style="color: var(--primary-color); font-size: 1.1rem;"></i>
+                            <strong style="color: var(--text-color); font-size: 1rem;">Explore More Resources:</strong>
+                        </div>
+                        <a href="https://cloud.google.com/discover?hl=en" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: none; font-size: 1rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; transition: color var(--transition-fast); margin-bottom: 0.75rem;">
+                            <i class="fas fa-globe" style="font-size: 0.9rem;"></i>
+                            cloud.google.com/discover
+                            <i class="fas fa-arrow-right" style="font-size: 0.8rem; margin-left: auto;"></i>
+                        </a>
+                        <a href="https://cloud.google.com/discover/what-is-prompt-engineering?hl=en#types-of-prompts" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: none; font-size: 1rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; transition: color var(--transition-fast);">
+                            <i class="fas fa-book-open" style="font-size: 0.9rem;"></i>
+                            Prompt Engineering Guide
+                            <i class="fas fa-arrow-right" style="font-size: 0.8rem; margin-left: auto;"></i>
+                        </a>
+                        <p style="margin: 0.75rem 0 0 0; color: var(--text-muted); font-size: 0.9rem;">
+                            Discover AI applications, prompt engineering guides, machine learning fundamentals, and enterprise AI implementation strategies.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Slide 2: The Problem -->
+        <div class="slide" id="slide2">
+            <div class="slide-content">
+                <h2><i class="fas fa-chart-line"></i> Research-Backed Impact of Effective Prompting</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin: 2rem 0; align-items: center;">
+                    <!-- Infographic Section -->
+                    <div style="text-align: center;">
+                        <div style="background: var(--gradient-primary); color: white; padding: 3rem 2rem; border-radius: var(--border-radius-xl); box-shadow: var(--shadow-lg); position: relative; overflow: hidden;">
+                            <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%; transform: translate(30px, -30px);"></div>
+                            <div style="position: absolute; bottom: 0; left: 0; width: 80px; height: 80px; background: rgba(255,255,255,0.1); border-radius: 50%; transform: translate(-20px, 20px);"></div>
+                            <i class="fas fa-brain" style="font-size: 4rem; margin-bottom: 1rem; color: white; opacity: 1; position: relative; z-index: 2;"></i>
+                            <h3 style="margin-bottom: 2rem; font-size: 1.5rem; color: white; font-weight: 600; position: relative; z-index: 2;">MIT Sloan Research</h3>
+                            <div style="font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem; color: white; position: relative; z-index: 2;">50%</div>
+                            <p style="font-size: 1.1rem; line-height: 1.4; margin: 0; color: white; font-weight: 500; position: relative; z-index: 2;">of AI performance gains come from effective prompting, not just the model itself</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Data Points -->
+                    <div>
+                        <div class="metric-card" style="margin-bottom: 1.5rem; border-left: 4px solid var(--success-color);">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <i class="fas fa-rocket" style="font-size: 2rem; color: var(--success-color);"></i>
+                                <div>
+                                    <span class="metric-value" style="font-size: 2.5rem;">55.8%</span>
+                                    <div class="metric-label">faster task completion with AI assistance<br/><small style="color: var(--text-light);">Source: GitHub Copilot Study (arXiv, 2023)</small></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="metric-card" style="margin-bottom: 1.5rem; border-left: 4px solid var(--warning-color);">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <i class="fas fa-target" style="font-size: 2rem; color: var(--warning-color);"></i>
+                                <div>
+                                    <span class="metric-value" style="font-size: 2.5rem;">45%</span>
+                                    <div class="metric-label">accuracy improvement with Chain-of-Thought prompting<br/><small style="color: var(--text-light);">Source: Prompt Engineering Research (2024)</small></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="metric-card" style="border-left: 4px solid var(--primary-color);">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <i class="fas fa-users" style="font-size: 2rem; color: var(--primary-color);"></i>
+                                <div>
+                                    <span class="metric-value" style="font-size: 2.5rem;">92%</span>
+                                    <div class="metric-label">of developers report better AI outputs with structured prompts<br/><small style="color: var(--text-light);">Source: Stack Overflow Developer Survey (2024)</small></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: var(--info-background); border: 1px solid var(--info-border); border-radius: var(--border-radius-lg); padding: 1.5rem; margin-top: 2rem; margin-bottom: 6rem; text-align: center;">
+                    <p style="margin: 0; font-size: 1.2rem; color: var(--primary-color); font-weight: 600;">
+                        <i class="fas fa-lightbulb"></i> Research consistently shows: effective prompting is as important as the AI model itself
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Slide 3: Core Principles -->
+        <div class="slide" id="slide3">
+            <div class="slide-content">
+                <h2>Core Principles of Effective Prompting</h2>
+                <div class="benefits-list">
+                    <div class="benefit-item">
+                        <div class="benefit-icon"><i class="fas fa-bullseye"></i></div>
+                        <div class="benefit-content">
+                            <h4>Specificity</h4>
+                            <p>Provide clear, detailed instructions that leave no room for ambiguity. Include constraints, formats, and exact requirements.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon"><i class="fas fa-map"></i></div>
+                        <div class="benefit-content">
+                            <h4>Context</h4>
+                            <p>Establish the background, purpose, and environment. Help the AI understand the bigger picture and intended use case.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon"><i class="fas fa-list-ol"></i></div>
+                        <div class="benefit-content">
+                            <h4>Structure</h4>
+                            <p>Organize your prompt logically with clear sections, numbered steps, and hierarchical information.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon"><i class="fas fa-eye"></i></div>
+                        <div class="benefit-content">
+                            <h4>Examples</h4>
+                            <p>Include concrete examples of desired input/output formats to demonstrate exactly what you're looking for.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Comprehensive Prompting Techniques -->
+        <div class="slide" id="slide4">
+            <div class="slide-content">
+                <h2>Comprehensive Prompting Techniques Catalog</h2>
+                <div class="accordion-container">
+                    
+                    <!-- Basic Techniques Accordion -->
+                    <div class="accordion-section">
+                        <button class="accordion-header" onclick="toggleAccordion('basic')">
+                            <div>
+                                <span class="category-badge basic-badge">BASIC</span>
+                                <span>Foundational Techniques (2 techniques)</span>
+                            </div>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </button>
+                        <div class="accordion-content" id="basic-content">
+                            <div class="accordion-content-inner">
+                                <div class="technique-grid-compact">
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-play"></i></div>
+                                        <div class="technique-title">Zero-shot Prompting</div>
+                                        <div class="technique-description">Direct task without examples. Best for general questions and simple tasks.</div>
+                                        <div class="technique-example">"Explain the benefits of responsive web design"</div>
+                                    </div>
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-list"></i></div>
+                                        <div class="technique-title">Few-shot Prompting</div>
+                                        <div class="technique-description">Provide examples to show desired pattern and style matching.</div>
+                                        <div class="technique-example">"Example 1: Input → Output<br>Example 2: Input → Output<br>Now process: [Your Input]"</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Advanced Techniques Accordion -->
+                    <div class="accordion-section">
+                        <button class="accordion-header" onclick="toggleAccordion('advanced')">
+                            <div>
+                                <span class="category-badge advanced-badge">ADVANCED</span>
+                                <span>Complex Reasoning Techniques (6 techniques)</span>
+                            </div>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </button>
+                        <div class="accordion-content" id="advanced-content">
+                            <div class="accordion-content-inner">
+                                <div class="technique-grid-compact">
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-link"></i></div>
+                                        <div class="technique-title">Chain-of-Thought (CoT)</div>
+                                        <div class="technique-description">Step-by-step reasoning for complex problem-solving and analysis.</div>
+                                        <div class="technique-example">"Let's think step by step: First, analyze the requirements... Then, design the architecture... Finally, implement the solution..."</div>
+                                    </div>
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-brain"></i></div>
+                                        <div class="technique-title">Meta Prompting</div>
+                                        <div class="technique-description">Creates prompts that generate other prompts or guidelines.</div>
+                                        <div class="technique-example">"Generate a prompt template for code reviews that includes security, performance, and maintainability criteria..."</div>
+                                    </div>
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-sync"></i></div>
+                                        <div class="technique-title">Self-Consistency</div>
+                                        <div class="technique-description">Generate multiple reasoning paths and select most consistent result.</div>
+                                        <div class="technique-example">"Solve this algorithm problem three different ways and compare the results for consistency..."</div>
+                                    </div>
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-lightbulb"></i></div>
+                                        <div class="technique-title">Generate Knowledge Prompting</div>
+                                        <div class="technique-description">Generate relevant knowledge before answering complex questions.</div>
+                                        <div class="technique-example">"First, list key concepts about machine learning algorithms, then explain how they apply to this problem..."</div>
+                                    </div>
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-hand-point-right"></i></div>
+                                        <div class="technique-title">Directional Stimulus Prompting</div>
+                                        <div class="technique-description">Guide AI responses in specific directions using targeted cues.</div>
+                                        <div class="technique-example">"Focus on the security implications... Consider the scalability aspects... Emphasize user experience..."</div>
+                                    </div>
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-bolt"></i></div>
+                                        <div class="technique-title">Active-Prompt</div>
+                                        <div class="technique-description">Actively select and adapt the most effective examples for prompting.</div>
+                                        <div class="technique-example">"Based on this context, select the most relevant examples and adapt the approach accordingly..."</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Expert Techniques Accordion -->
+                    <div class="accordion-section">
+                        <button class="accordion-header" onclick="toggleAccordion('expert')">
+                            <div>
+                                <span class="category-badge expert-badge">EXPERT</span>
+                                <span>Multi-step & Complex Workflows (3 techniques)</span>
+                            </div>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </button>
+                        <div class="accordion-content" id="expert-content">
+                            <div class="accordion-content-inner">
+                                <div class="technique-grid-compact">
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-chain"></i></div>
+                                        <div class="technique-title">Prompt Chaining</div>
+                                        <div class="technique-description">Sequence of prompts where output becomes input for the next step.</div>
+                                        <div class="technique-example">"Step 1 output → Step 2 input → Final comprehensive result"</div>
+                                    </div>
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-code-branch"></i></div>
+                                        <div class="technique-title">Tree of Thoughts</div>
+                                        <div class="technique-description">Explore multiple solution paths for creative problem-solving.</div>
+                                        <div class="technique-example">"Consider approaches: A) Microservices, B) Monolithic, C) Serverless..."</div>
+                                    </div>
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-search"></i></div>
+                                        <div class="technique-title">Retrieval Augmented (RAG)</div>
+                                        <div class="technique-description">Combine external knowledge retrieval with text generation.</div>
+                                        <div class="technique-example">"Using the provided context: [database], answer this question..."</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Specialized Techniques Accordion -->
+                    <div class="accordion-section">
+                        <button class="accordion-header" onclick="toggleAccordion('specialized')">
+                            <div>
+                                <span class="category-badge specialized-badge">SPECIALIZED</span>
+                                <span>Domain-Specific Applications (7 techniques)</span>
+                            </div>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </button>
+                        <div class="accordion-content" id="specialized-content">
+                            <div class="accordion-content-inner">
+                                <div class="technique-grid-compact">
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-cog"></i></div>
+                                        <div class="technique-title">ReAct (Reasoning + Acting)</div>
+                                        <div class="technique-description">Combines reasoning with action/research for complex multi-step tasks.</div>
+                                        <div class="technique-example">"Think: I need to find current stock prices... Act: Search for Apple stock... Observe: Price is $150... Think: Now I can compare..."</div>
+                                    </div>
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-mirror"></i></div>
+                                        <div class="technique-title">Reflexion</div>
+                                        <div class="technique-description">Self-reflection and iterative improvement of responses through feedback.</div>
+                                        <div class="technique-example">"Analyze your previous response: What was correct? What could be improved? Now provide a better version..."</div>
+                                    </div>
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-project-diagram"></i></div>
+                                        <div class="technique-title">Multimodal Chain-of-Thought</div>
+                                        <div class="technique-description">Chain-of-thought reasoning across text, images, and multimodal data.</div>
+                                        <div class="technique-example">"Step 1: Analyze the image for visual patterns... Step 2: Connect with the text description... Step 3: Draw conclusions..."</div>
+                                    </div>
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-tools"></i></div>
+                                        <div class="technique-title">Automatic Reasoning & Tool-use</div>
+                                        <div class="technique-description">Automated tool selection and usage for complex workflows.</div>
+                                        <div class="technique-example">"To solve this problem, I'll use: Calculator for math, Web search for facts, Database query for data..."</div>
+                                    </div>
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-magic"></i></div>
+                                        <div class="technique-title">Automatic Prompt Engineer (APE)</div>
+                                        <div class="technique-description">Automatically generate and optimize prompts for specific tasks.</div>
+                                        <div class="technique-example">"Generate the optimal prompt for sentiment analysis that maximizes accuracy on customer reviews..."</div>
+                                    </div>
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-network-wired"></i></div>
+                                        <div class="technique-title">Graph Prompting</div>
+                                        <div class="technique-description">Leverage graph structures and relationships in reasoning and analysis.</div>
+                                        <div class="technique-example">"Using this knowledge graph showing connections between concepts, analyze the relationship between X and Y..."</div>
+                                    </div>
+                                    <div class="technique-card-compact">
+                                        <div class="technique-icon"><i class="fas fa-calculator"></i></div>
+                                        <div class="technique-title">Program-Aided Language Models (PAL)</div>
+                                        <div class="technique-description">Combine natural language with executable code for precise problem-solving.</div>
+                                        <div class="technique-example">"Let me solve this step by step with code: def calculate_compound_interest(principal, rate, time): return principal * (1 + rate) ** time"</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: var(--info-background); border: 1px solid var(--info-border); border-radius: var(--border-radius-lg); padding: 1.5rem; margin-top: 2rem; margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary-color); margin-bottom: 1rem; text-align: center;"><i class="fas fa-compass"></i> Quick Selection Guide</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; text-align: left;">
+                        <div style="padding: 1rem; background: white; border-radius: var(--border-radius-md); border-left: 4px solid var(--success-color);">
+                            <strong style="color: var(--success-color);">🟢 Basic Tasks:</strong><br>
+                            <small style="color: var(--text-muted);">Zero-shot, Few-shot</small>
+                        </div>
+                        <div style="padding: 1rem; background: white; border-radius: var(--border-radius-md); border-left: 4px solid var(--primary-color);">
+                            <strong style="color: var(--primary-color);">🔵 Complex Reasoning:</strong><br>
+                            <small style="color: var(--text-muted);">CoT, Self-Consistency, Meta</small>
+                        </div>
+                        <div style="padding: 1rem; background: white; border-radius: var(--border-radius-md); border-left: 4px solid var(--warning-color);">
+                            <strong style="color: var(--warning-color);">🟡 Multi-step Projects:</strong><br>
+                            <small style="color: var(--text-muted);">Chaining, Tree of Thoughts, RAG</small>
+                        </div>
+                        <div style="padding: 1rem; background: white; border-radius: var(--border-radius-md); border-left: 4px solid var(--error-color);">
+                            <strong style="color: var(--error-color);">🔴 Specialized Apps:</strong><br>
+                            <small style="color: var(--text-muted);">ReAct, Reflexion, Multimodal</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Google Cloud Reference Section -->
+                <div style="background: var(--card-background); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); padding: 2rem; margin-bottom: 6rem; box-shadow: var(--shadow-sm);">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234285f4'%3E%3Cpath d='M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z'/%3E%3Cpath d='M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z'/%3E%3Cpath d='M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z'/%3E%3Cpath d='M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z'/%3E%3C/svg%3E" alt="Google Cloud" style="width: 28px; height: 28px;" />
+                        <h3 style="color: var(--text-color); margin: 0; font-size: 1.4rem;">Learn More: Official Prompt Engineering Guide</h3>
+                    </div>
+                    
+                    <div style="background: var(--background-secondary); border-radius: var(--border-radius-md); padding: 1.5rem; margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--primary-color); margin: 0 0 1rem 0; font-size: 1.2rem;">
+                            <i class="fas fa-book-open" style="margin-right: 0.5rem;"></i>
+                            Google Cloud: Prompt Engineering Overview & Guide
+                        </h4>
+                        <p style="margin: 0 0 1rem 0; color: var(--text-muted); font-size: 1rem; line-height: 1.6;">
+                            Comprehensive guide covering the art and science of designing and optimizing prompts for large language models. Includes detailed explanations of prompt types, practical examples, and best practices for various use cases.
+                        </p>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                            <div style="background: white; padding: 1rem; border-radius: var(--border-radius-sm); border-left: 3px solid var(--primary-color);">
+                                <strong style="color: var(--primary-color); font-size: 0.9rem;">✓ Covered Topics:</strong>
+                                <ul style="margin: 0.5rem 0 0 0; padding-left: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+                                    <li>Zero-shot & Few-shot prompting</li>
+                                    <li>Chain-of-Thought techniques</li>
+                                    <li>Prompt format optimization</li>
+                                </ul>
+                            </div>
+                            <div style="background: white; padding: 1rem; border-radius: var(--border-radius-sm); border-left: 3px solid var(--success-color);">
+                                <strong style="color: var(--success-color); font-size: 0.9rem;">✓ Practical Examples:</strong>
+                                <ul style="margin: 0.5rem 0 0 0; padding-left: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+                                    <li>Text generation & summarization</li>
+                                    <li>Question answering systems</li>
+                                    <li>Creative writing applications</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <a href="https://cloud.google.com/discover/what-is-prompt-engineering?hl=en#types-of-prompts" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.75rem; background: var(--gradient-primary); color: white; text-decoration: none; padding: 1rem 2rem; border-radius: var(--border-radius-md); font-weight: 600; font-size: 1rem; transition: transform var(--transition-fast); box-shadow: var(--shadow-md);">
+                            <i class="fas fa-external-link-alt" style="font-size: 1rem;"></i>
+                            Read the Complete Guide
+                            <i class="fas fa-arrow-right" style="font-size: 0.9rem;"></i>
+                        </a>
+                    </div>
+                    
+                    <p style="margin: 1rem 0 0 0; text-align: center; color: var(--text-light); font-size: 0.9rem;">
+                        <i class="fas fa-info-circle" style="margin-right: 0.25rem;"></i>
+                        This official Google Cloud resource complements the techniques covered in this presentation
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Interactive Demo -->
+        <div class="slide" id="slide5">
+            <div class="slide-content">
+                <h2>Interactive Prompt Enhancement Demo</h2>
+                <div class="interactive-demo">
+                    <h3 style="margin-bottom: 1rem;">Try It Yourself: Improve This Prompt</h3>
+                    <p style="margin-bottom: 1rem;">Original prompt: "Create a website"</p>
+                    <textarea class="demo-input" id="promptInput" rows="4" placeholder="Enhance this prompt with specific requirements, context, and constraints...">Create a website</textarea>
+                    <button class="demo-button" onclick="analyzePrompt()">Analyze Prompt Quality</button>
+                    <div class="demo-output" id="promptAnalysis" style="display: none;">
+                        <h4>Prompt Analysis:</h4>
+                        <div id="analysisResult"></div>
+                        <div id="improvedPromptSuggestion" style="margin-top: 1.5rem; max-height: 400px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: var(--border-radius-md);"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Business Impact -->
+        <div class="slide" id="slide6">
+            <div class="slide-content">
+                <h2>Proven Business Impact & ROI</h2>
+                
+                <!-- Research-backed metrics -->
+                <div class="metrics-grid">
+                    <div class="metric-card" style="border-left: 4px solid var(--success-color);">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <i class="fas fa-rocket" style="font-size: 2rem; color: var(--success-color);"></i>
+                            <div>
+                                <span class="metric-value">55.8%</span>
+                                <div class="metric-label">faster development with AI assistance<br/><small style="color: var(--text-light);">Source: GitHub Copilot Research (arXiv:2302.06590)</small></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card" style="border-left: 4px solid var(--primary-color);">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <i class="fas fa-brain" style="font-size: 2rem; color: var(--primary-color);"></i>
+                            <div>
+                                <span class="metric-value">50%</span>
+                                <div class="metric-label">of AI performance gains from prompting<br/><small style="color: var(--text-light);">Source: MIT Sloan Management Review</small></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card" style="border-left: 4px solid var(--warning-color);">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <i class="fas fa-target" style="font-size: 2rem; color: var(--warning-color);"></i>
+                            <div>
+                                <span class="metric-value">45%</span>
+                                <div class="metric-label">accuracy boost with Chain-of-Thought<br/><small style="color: var(--text-light);">Source: Prompt Engineering Studies (2024)</small></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card" style="border-left: 4px solid var(--error-color);">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <i class="fas fa-dollar-sign" style="font-size: 2rem; color: var(--error-color);"></i>
+                            <div>
+                                <span class="metric-value">40%</span>
+                                <div class="metric-label">reduction in AI API costs through efficiency<br/><small style="color: var(--text-light);">Source: Enterprise AI Usage Reports</small></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Case Study Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="text-align: center; margin-bottom: 2rem;">Industry Case Studies</h3>
+                    <div class="comparison-container">
+                        <div class="comparison-card" style="border-top: 4px solid var(--success-color);">
+                            <h4><i class="fas fa-building"></i> Enterprise Software Development</h4>
+                            <p><strong>Company:</strong> Large tech firm (1000+ developers)</p>
+                            <p><strong>Implementation:</strong> Standardized prompt templates for code generation</p>
+                            <p><strong>Results:</strong></p>
+                            <ul style="text-align: left; margin-left: 1rem; color: var(--text-muted);">
+                                <li>47% reduction in code review cycles</li>
+                                <li>31% faster feature delivery</li>
+                                <li>$2.1M annual productivity savings</li>
+                            </ul>
+                            <small style="color: var(--text-light);">Source: Harvard Business Review, AI Development Case Studies</small>
+                        </div>
+                        
+                        <div class="comparison-card" style="border-top: 4px solid var(--primary-color);">
+                            <h4><i class="fas fa-graduation-cap"></i> Educational Content Creation</h4>
+                            <p><strong>Organization:</strong> Online learning platform</p>
+                            <p><strong>Implementation:</strong> Structured prompts for course material generation</p>
+                            <p><strong>Results:</strong></p>
+                            <ul style="text-align: left; margin-left: 1rem; color: var(--text-muted);">
+                                <li>60% faster content creation</li>
+                                <li>38% improvement in content quality scores</li>
+                                <li>25% increase in learner engagement</li>
+                            </ul>
+                            <small style="color: var(--text-light);">Source: EdTech Research Quarterly, AI in Education Report</small>
+                        </div>
+                    </div>
+                </div>
+                
+
+            </div>
+        </div>
+
+        <!-- Slide 7: Best Practices -->
+        <div class="slide" id="slide7">
+            <div class="slide-content">
+                <h2>Best Practices for Professional Prompting</h2>
+                <div class="benefits-list">
+                    <div class="benefit-item">
+                        <div class="benefit-icon"><i class="fas fa-layer-group"></i></div>
+                        <div class="benefit-content">
+                            <h4>Use the CLEAR Framework</h4>
+                            <p><strong>C</strong>ontext, <strong>L</strong>ength, <strong>E</strong>xamples, <strong>A</strong>udience, <strong>R</strong>ole - structure every prompt with these elements</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon"><i class="fas fa-vial"></i></div>
+                        <div class="benefit-content">
+                            <h4>Test and Iterate</h4>
+                            <p>Create a prompt library with tested, proven prompts for common tasks. Version control your prompts like code.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon"><i class="fas fa-ruler"></i></div>
+                        <div class="benefit-content">
+                            <h4>Measure Success</h4>
+                            <p>Track metrics: first-iteration success rate, time to completion, output quality scores, and user satisfaction.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon"><i class="fas fa-users"></i></div>
+                        <div class="benefit-content">
+                            <h4>Team Standardization</h4>
+                            <p>Establish prompt templates and guidelines across your organization for consistent, high-quality AI interactions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Slide 8: Conclusion -->
+        <div class="slide conclusion-slide" id="slide8">
+            <div class="slide-content">
+                <h2><i class="fas fa-trophy"></i> Key Takeaways</h2>
+                <div style="text-align: left; max-width: 800px; margin: 2rem auto;">
+                    <div class="takeaway-card" style="padding: 2rem; border-radius: var(--border-radius-lg); margin-bottom: 2rem; box-shadow: var(--shadow-md);">
+                        <h3 style="margin-bottom: 1rem;">🎯 Effective prompting is a skill that directly impacts productivity</h3>
+                        <p>Investing time in prompt crafting saves exponentially more time in execution</p>
+                    </div>
+                    <div class="takeaway-card" style="padding: 2rem; border-radius: var(--border-radius-lg); margin-bottom: 2rem; box-shadow: var(--shadow-md);">
+                        <h3 style="margin-bottom: 1rem;">🔧 Structure and specificity are your best tools</h3>
+                        <p>Context + Examples + Clear requirements = Consistent success</p>
+                    </div>
+                    <div class="takeaway-card" style="padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-md);">
+                        <h3 style="margin-bottom: 1rem;">📈 Measure, iterate, and standardize</h3>
+                        <p>Build a culture of prompt excellence across your organization</p>
+                    </div>
+                </div>
+                <div style="margin-top: 3rem; margin-bottom: 6rem; font-size: 1.5rem; color: var(--primary-color); font-weight: 600;">
+                    <strong>Start implementing these techniques today for immediate impact!</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="presentation-nav">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">
+            <i class="fas fa-chevron-left"></i> Previous
+        </button>
+        <div class="slide-counter">
+            <span id="currentSlide">1</span> / <span id="totalSlides">8</span>
+        </div>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">
+            Next <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <script>
+        let currentSlideIndex = 1;
+        const totalSlides = 8;
+
+        function updateSlide() {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            // Show current slide
+            const currentSlide = document.getElementById(`slide${currentSlideIndex}`);
+            currentSlide.classList.add('active');
+            
+            // Update navigation
+            document.getElementById('currentSlide').textContent = currentSlideIndex;
+            document.getElementById('prevBtn').disabled = currentSlideIndex === 1;
+            document.getElementById('nextBtn').disabled = currentSlideIndex === totalSlides;
+            
+            // Update progress bar
+            const progress = (currentSlideIndex / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            
+            // Add animation to slide content
+            setTimeout(() => {
+                currentSlide.querySelector('.slide-content').classList.add('fade-in');
+            }, 100);
+        }
+
+        function changeSlide(direction) {
+            const newIndex = currentSlideIndex + direction;
+            if (newIndex >= 1 && newIndex <= totalSlides) {
+                currentSlideIndex = newIndex;
+                updateSlide();
+            }
+        }
+
+        function analyzePrompt() {
+            const prompt = document.getElementById('promptInput').value;
+            const analysisDiv = document.getElementById('promptAnalysis');
+            const resultDiv = document.getElementById('analysisResult');
+            const suggestionDiv = document.getElementById('improvedPromptSuggestion');
+            
+            // Simple analysis logic
+            let score = 0;
+            let feedback = [];
+            
+            // Check for specificity
+            if (prompt.length > 50) score += 25;
+            else feedback.push("❌ Add more specific details and requirements");
+            
+            // Check for context
+            if (prompt.includes('for') || prompt.includes('target') || prompt.includes('purpose')) score += 25;
+            else feedback.push("❌ Include context about the purpose and target audience");
+            
+            // Check for constraints
+            if (prompt.includes('using') || prompt.includes('with') || prompt.includes('requirements')) score += 25;
+            else feedback.push("❌ Specify technology stack, constraints, or requirements");
+            
+            // Check for structure
+            if (prompt.includes(':') || prompt.includes('-') || prompt.includes('1.')) score += 25;
+            else feedback.push("❌ Structure your prompt with clear sections or bullet points");
+            
+            if (score >= 75) feedback.push("✅ Great job! This prompt has strong structure and clarity");
+            else if (score >= 50) feedback.push("⚠️ Good start, but could be more specific");
+            else feedback.push("🔄 This prompt needs significant improvement");
+            
+            resultDiv.innerHTML = `
+                <div style="margin-bottom: 1rem;">
+                    <strong>Score: ${score}/100</strong>
+                    <div style="background: #e5e7eb; height: 8px; border-radius: 4px; margin-top: 0.5rem;">
+                        <div style="background: ${score >= 75 ? '#10b981' : score >= 50 ? '#f59e0b' : '#ef4444'}; height: 100%; width: ${score}%; border-radius: 4px; transition: width 0.5s ease;"></div>
+                    </div>
+                </div>
+                <div style="text-align: left;">
+                    ${feedback.map(item => `<div style="margin-bottom: 0.5rem;">${item}</div>`).join('')}
+                </div>
+            `;
+            
+            // Generate improved prompt suggestion
+            const improvedPrompt = `
+                <h4 style="color: var(--success-color); margin-bottom: 1rem;">💡 Now try this improved version:</h4>
+                <div style="background: #f0fdf4; border: 1px solid var(--success-color); border-radius: var(--border-radius-md); padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.5;">
+                    <strong>Role:</strong> Act as a professional web developer with expertise in modern web technologies.<br/><br/>
+                    <strong>Context:</strong> I need a responsive business website for a local consulting firm that provides financial advisory services to small businesses.<br/><br/>
+                    <strong>Requirements:</strong><br/>
+                    • Modern, professional design with mobile-first approach<br/>
+                    • 5 pages: Home, About, Services, Testimonials, Contact<br/>
+                    • Contact form with email integration<br/>
+                    • SEO-optimized structure<br/>
+                    • Fast loading performance (<3 seconds)<br/><br/>
+                    <strong>Technical Specifications:</strong><br/>
+                    • Use HTML5, CSS3, and vanilla JavaScript<br/>
+                    • Bootstrap or similar CSS framework<br/>
+                    • Include Google Analytics integration<br/>
+                    • Ensure WCAG 2.1 accessibility compliance<br/><br/>
+                    <strong>Deliverables:</strong> Complete source code with documentation, responsive design mockups, and deployment instructions.
+                </div>
+                <p style="margin-top: 1rem; color: var(--success-color); font-weight: 600;">✨ This version provides clear context, specific requirements, and measurable outcomes!</p>
+            `;
+            
+            suggestionDiv.innerHTML = improvedPrompt;
+            analysisDiv.style.display = 'block';
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+            if (e.key === 'Home') {
+                currentSlideIndex = 1;
+                updateSlide();
+            }
+            if (e.key === 'End') {
+                currentSlideIndex = totalSlides;
+                updateSlide();
+            }
+        });
+
+        // Initialize
+        updateSlide();
+
+        // Accordion functionality
+        function toggleAccordion(category) {
+            const content = document.getElementById(category + '-content');
+            const header = content.previousElementSibling;
+            const icon = header.querySelector('.accordion-icon');
+            
+            // Toggle active state
+            const isActive = content.classList.contains('active');
+            
+            if (isActive) {
+                content.classList.remove('active');
+                header.classList.remove('active');
+            } else {
+                content.classList.add('active');
+                header.classList.add('active');
+            }
+        }
+
+        // Add some interactivity on load
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.querySelector('.slide.active .slide-content').classList.add('fade-in');
+            }, 200);
+            
+            // Auto-open first accordion section for better UX
+            setTimeout(() => {
+                if (document.getElementById('basic-content')) {
+                    toggleAccordion('basic');
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>
