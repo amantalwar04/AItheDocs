@@ -1,0 +1,3139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Generator - Enhance Your Prompts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #dbeafe;
+            --secondary-color: #f59e0b;
+            --text-color: #1f2937;
+            --text-muted: #6b7280;
+            --light-gray: #f8fafc;
+            --border-color: #e5e7eb;
+            --card-background: #ffffff;
+            --info-background: #eff6ff;
+            --info-border: #3b82f6;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --success-color: #10b981;
+            --success-dark: #059669;
+            --warning-color: #f59e0b;
+            --warning-dark: #d97706;
+            --error-color: #ef4444;
+            --error-dark: #dc2626;
+            --gradient-primary: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            --gradient-secondary: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            --border-radius-sm: 0.375rem;
+            --border-radius-md: 0.5rem;
+            --border-radius-lg: 0.75rem;
+            --border-radius-xl: 1rem;
+            --transition-fast: 0.15s ease-in-out;
+            --transition-normal: 0.3s ease-in-out;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-light: #1e3a8a;
+            --text-color: #f9fafb;
+            --text-muted: #9ca3af;
+            --light-gray: #111827;
+            --border-color: #374151;
+            --card-background: #1f2937;
+            --info-background: #1e3a8a;
+            --info-border: #3b82f6;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.6;
+            font-size: 16px;
+            transition: background-color var(--transition-normal), color var(--transition-normal);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Header Section */
+        .header-section {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1.5rem 2rem; /* Reduced from 3rem 1.5rem */
+            text-align: left; /* Changed from center to left */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            pointer-events: none;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1800px; /* Match main content width */
+            width: 95%;
+            margin: 0 auto;
+            text-align: left; /* Ensure left alignment */
+        }
+
+        .header-section h1 {
+            margin: 0 0 0.5rem 0; /* Reduced bottom margin */
+            font-size: clamp(1.5rem, 4vw, 2.25rem); /* Reduced font size */
+            font-weight: 600; /* Reduced from 700 */
+            letter-spacing: -0.025em;
+        }
+
+        .header-section .tagline {
+            font-size: clamp(0.875rem, 2.5vw, 1rem); /* Reduced font size */
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 0; /* Removed bottom margin */
+        }
+
+                 .header-controls {
+             position: absolute;
+             top: 1rem; /* Reduced from 1.5rem */
+             right: 2rem; /* Match header padding */
+             display: flex;
+             gap: 0.5rem;
+         }
+
+         .theme-toggle {
+             background: rgba(255, 255, 255, 0.2);
+             border: 1px solid rgba(255, 255, 255, 0.3);
+             color: white;
+             padding: 0.5rem;
+             border-radius: var(--border-radius-md);
+             cursor: pointer;
+             font-size: 1.25rem;
+             transition: all var(--transition-fast);
+             backdrop-filter: blur(10px);
+             min-height: auto;
+         }
+
+         .theme-toggle:hover {
+             background: rgba(255, 255, 255, 0.3);
+             transform: scale(1.05);
+             box-shadow: none;
+         }
+
+                 /* Stats Section */
+         .stats-section {
+             background: var(--card-background);
+             padding: 1rem 2rem; /* Reduced from 2rem 1.5rem */
+             border-bottom: 1px solid var(--border-color);
+         }
+
+         .stats-container {
+             max-width: 1800px; /* Match header and main content */
+             width: 95%;
+             margin: 0 auto;
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Reduced min-width */
+             gap: 1.5rem; /* Reduced from 2rem */
+         }
+
+         .stat-item {
+             text-align: center;
+             padding: 0.5rem; /* Reduced from 1rem */
+         }
+
+         .stat-number {
+             font-size: 1.5rem; /* Reduced from 2rem */
+             font-weight: 600; /* Reduced from 700 */
+             color: var(--primary-color);
+             display: block;
+         }
+
+         .stat-label {
+             color: var(--text-muted);
+             font-size: 0.8rem; /* Reduced from 0.875rem */
+             text-transform: uppercase;
+             letter-spacing: 0.05em;
+         }
+
+        /* Main Content */
+        .main-content-container {
+            max-width: 1800px;
+            width: 95%;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Form Section - Aligned with progress indicator */
+        .form-section {
+            max-width: 1200px;
+            margin: 0 auto 3rem auto;
+            width: 100%;
+        }
+
+        .form-section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Output Section - Centered and full width */
+        .output-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .left-section, .right-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            min-height: 0;
+        }
+
+        /* Legacy grid for help panel compatibility */
+        .main-content-grid {
+            display: none;
+        }
+
+        .main-content-grid.help-open {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            max-width: 1800px;
+            width: 95%;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .main-content-grid.help-open .form-section {
+            max-width: none;
+            margin: 0;
+        }
+
+        .main-content-grid.help-open .output-section {
+            max-width: none;
+            margin: 0;
+        }
+
+        .main-content-grid.help-open .form-section-grid {
+            grid-template-columns: 1fr;
+        }
+
+        /* Card Styling */
+        .card {
+            background: var(--card-background);
+            padding: 2.5rem; /* Increased padding for more space */
+            border-radius: var(--border-radius-xl);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform var(--transition-normal);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card h2 {
+            color: var(--text-color);
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-icon {
+            width: 2rem;
+            height: 2rem;
+            background: var(--gradient-primary);
+            border-radius: var(--border-radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .card-description {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 2rem; /* Increased spacing */
+        }
+
+        label {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem; /* Increased spacing */
+            color: var(--text-color);
+            font-size: 0.9rem; /* Slightly larger font */
+        }
+
+        .field-description {
+            font-size: 0.85rem; /* Slightly larger */
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+            line-height: 1.6;
+            padding-left: 2rem; /* Indent to align with icon */
+        }
+
+        textarea, select {
+            width: 100%;
+            padding: 1.25rem; /* Increased padding */
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            font-size: 0.9rem; /* Slightly larger font */
+            font-family: inherit;
+            background: var(--card-background);
+            color: var(--text-color);
+            transition: all var(--transition-fast);
+            resize: vertical;
+            min-height: 3rem; /* Ensure minimum height */
+        }
+
+        textarea {
+            min-height: 6rem; /* Taller textareas for better UX */
+            line-height: 1.6;
+        }
+
+        textarea:focus, select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            outline: none;
+        }
+
+        textarea:hover, select:hover {
+            border-color: var(--primary-color);
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 3rem;
+        }
+
+        /* Button Styling */
+        .button-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 0.875rem 1.5rem;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            font-family: inherit;
+            transition: all var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            min-height: 44px;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.1) 50%, transparent 51%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        button:hover::before {
+            transform: translateX(100%);
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .copy-button {
+            background: var(--gradient-secondary);
+        }
+
+        .test-button {
+            background: linear-gradient(135deg, var(--success-color) 0%, var(--success-dark) 100%);
+        }
+
+        /* Info and Output Boxes */
+        .info-box {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--info-background);
+            border: 1px solid var(--info-border);
+            border-radius: var(--border-radius-md);
+            font-size: 0.875rem;
+            color: var(--text-color);
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .info-box::before {
+            content: '\f05a';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            color: var(--info-border);
+        }
+
+        .info-box-content {
+            margin-left: 1.5rem;
+        }
+
+        .generated-prompt {
+            margin-top: 1rem;
+            padding: 1.5rem;
+            background: var(--light-gray);
+            border: 2px dashed var(--primary-color);
+            border-radius: var(--border-radius-md);
+            min-height: 120px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-color);
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .generated-prompt::before {
+            content: 'Generated Prompt';
+            position: absolute;
+            top: -0.5rem;
+            left: 1rem;
+            background: var(--card-background);
+            padding: 0 0.5rem;
+            font-size: 0.75rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        /* Loading States */
+        .loading-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-top: 2px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 0.75rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .ai-response {
+            margin-top: 1rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 1px solid #10b981;
+            border-radius: var(--border-radius-md);
+            min-height: 120px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: inherit;
+            color: #065f46;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .ai-response::before {
+            content: 'AI Response';
+            position: absolute;
+            top: -0.5rem;
+            left: 1rem;
+            background: var(--card-background);
+            padding: 0 0.5rem;
+            font-size: 0.75rem;
+            color: var(--success-color);
+            font-weight: 500;
+        }
+
+        /* Required Indicator */
+        .required {
+            color: var(--error-color);
+            font-weight: 600;
+        }
+
+        .required-note {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background: rgba(239, 68, 68, 0.05);
+            border-radius: var(--border-radius-sm);
+            border-left: 3px solid var(--error-color);
+        }
+
+        /* Footer */
+        .footer-section {
+            text-align: center;
+            padding: 3rem 1.5rem 2rem;
+            margin-top: 4rem;
+            background: var(--card-background);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-section h3 {
+            color: var(--text-color);
+            margin: 0 0 1rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .footer-section p {
+            margin: 0.5rem 0;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Message Box */
+        .message-box {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-xl);
+            z-index: 1000;
+            max-width: 400px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .message-box.success {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .message-box.error {
+            border-left: 4px solid var(--error-color);
+        }
+
+        .message-box.warning {
+            border-left: 4px solid var(--warning-color);
+        }
+
+                          /* Responsive Design */
+         @media (max-width: 1440px) {
+             .main-content-container {
+                 max-width: 1400px;
+                 width: 92%;
+             }
+
+             .form-section, .output-section {
+                 max-width: 1000px;
+             }
+         }
+
+         @media (max-width: 1200px) {
+             .main-content-container {
+                 max-width: 1100px;
+             }
+             
+             .form-section, .output-section {
+                 max-width: 900px;
+             }
+             
+             .progress-indicator {
+                 max-width: 900px;
+                 gap: 1.5rem;
+             }
+
+             .form-section-grid {
+                 gap: 1.5rem;
+             }
+         }
+
+         @media (max-width: 1024px) {
+             .main-content-container {
+                 padding: 0 1.5rem;
+             }
+
+             .form-section, .output-section {
+                 max-width: 800px;
+             }
+             
+             .form-section-grid {
+                 grid-template-columns: 1fr;
+                 gap: 1.5rem;
+             }
+             
+             .header-controls {
+                 top: 1rem;
+                 right: 1rem;
+             }
+
+             .help-panel {
+                 width: 100vw;
+                 right: -100vw;
+             }
+
+             .progress-indicator {
+                 gap: 1rem;
+                 padding: 1.5rem;
+             }
+
+             /* Help panel responsive adjustments */
+             .main-content-grid.help-open {
+                 grid-template-columns: 1fr;
+                 max-width: 800px;
+             }
+
+             .main-content-grid.help-open .form-section-grid {
+                 grid-template-columns: 1fr;
+             }
+         }
+
+         @media (max-width: 768px) {
+             .header-section {
+                 padding: 1rem; /* Reduced mobile padding */
+             }
+
+             .header-controls {
+                 top: 0.75rem;
+                 right: 1rem;
+             }
+             
+             .card {
+                 padding: 2rem;
+             }
+             
+             .stats-section {
+                 padding: 0.75rem 1rem; /* Reduced mobile padding */
+             }
+             
+             .stats-container {
+                 grid-template-columns: repeat(2, 1fr);
+                 gap: 1rem;
+             }
+             
+             .button-group {
+                 flex-direction: column;
+             }
+             
+             .button-group button {
+                 width: 100%;
+             }
+
+             .progress-indicator {
+                 flex-wrap: wrap;
+                 justify-content: center;
+                 gap: 1.5rem;
+             }
+
+             .progress-step {
+                 min-width: 100px;
+             }
+
+             .form-section-grid {
+                 grid-template-columns: 1fr;
+                 gap: 1.5rem;
+             }
+         }
+
+         @media (max-width: 480px) {
+             .header-section {
+                 padding: 0.75rem; /* Further reduced for mobile */
+             }
+
+             .header-controls {
+                 top: 0.5rem;
+                 right: 0.75rem;
+             }
+
+             .stats-section {
+                 padding: 0.5rem; /* Further reduced for mobile */
+             }
+
+             .main-content-container {
+                 padding: 0 1rem;
+             }
+
+             .form-section, .output-section {
+                 margin-bottom: 1.5rem;
+             }
+             
+             .card {
+                 padding: 1.5rem;
+             }
+             
+             .stats-container {
+                 grid-template-columns: 1fr;
+                 gap: 0.75rem; /* Reduced gap for mobile */
+             }
+
+             .stat-item {
+                 padding: 0.25rem; /* Further reduced for mobile */
+             }
+
+             .stat-number {
+                 font-size: 1.25rem; /* Further reduced for mobile */
+             }
+
+             .stat-label {
+                 font-size: 0.75rem; /* Further reduced for mobile */
+             }
+             
+             .message-box {
+                 top: 1rem;
+                 right: 1rem;
+                 left: 1rem;
+                 max-width: none;
+             }
+
+             .progress-indicator {
+                 padding: 1rem;
+                 margin-bottom: 2rem;
+             }
+
+             .progress-step-number {
+                 width: 2.5rem;
+                 height: 2.5rem;
+                 font-size: 0.9rem;
+             }
+
+             .progress-step-label {
+                 font-size: 0.8rem;
+             }
+         }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .card:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+                /* Progress Indicator */
+        .progress-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--card-background);
+            border-radius: var(--border-radius-xl);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 3rem;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .progress-step.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .progress-step-number {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background: var(--border-color);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all var(--transition-normal);
+            border: 2px solid transparent;
+        }
+
+        .progress-step.active .progress-step-number {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+            transform: scale(1.1);
+        }
+
+        .progress-step-label {
+            font-weight: 500;
+            letter-spacing: 0.025em;
+        }
+
+        .progress-step.active .progress-step-label {
+            font-weight: 600;
+        }
+
+         /* Help Panel */
+         .help-panel {
+             position: fixed;
+             top: 0;
+             right: -450px;
+             width: 420px;
+             height: 100vh;
+             background: var(--card-background);
+             border-left: 1px solid var(--border-color);
+             box-shadow: var(--shadow-xl);
+             transition: right var(--transition-normal);
+             z-index: 1000;
+             overflow-y: auto;
+             padding: 0;
+         }
+
+         .help-panel.open {
+             right: 0;
+         }
+
+         .help-panel-header {
+             position: sticky;
+             top: 0;
+             background: var(--gradient-primary);
+             color: white;
+             padding: 1.5rem;
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             z-index: 1001;
+         }
+
+         .help-panel-header h2 {
+             margin: 0;
+             font-size: 1.25rem;
+             font-weight: 600;
+         }
+
+         .help-close-btn {
+             background: rgba(255, 255, 255, 0.2);
+             border: none;
+             color: white;
+             padding: 0.5rem;
+             border-radius: var(--border-radius-md);
+             cursor: pointer;
+             font-size: 1.25rem;
+             transition: background var(--transition-fast);
+             min-height: auto;
+         }
+
+         .help-close-btn:hover {
+             background: rgba(255, 255, 255, 0.3);
+             transform: none;
+             box-shadow: none;
+         }
+
+         .help-panel-content {
+             padding: 1.5rem;
+             line-height: 1.6;
+         }
+
+         .help-section {
+             margin-bottom: 2rem;
+         }
+
+         .help-section h3 {
+             color: var(--primary-color);
+             font-size: 1.1rem;
+             font-weight: 600;
+             margin: 0 0 0.75rem 0;
+             display: flex;
+             align-items: center;
+             gap: 0.5rem;
+         }
+
+         .help-section h4 {
+             color: var(--text-color);
+             font-size: 1rem;
+             font-weight: 500;
+             margin: 1rem 0 0.5rem 0;
+         }
+
+         .help-section p {
+             color: var(--text-muted);
+             font-size: 0.9rem;
+             margin: 0.5rem 0;
+         }
+
+         .help-section ul {
+             margin: 0.5rem 0;
+             padding-left: 1.5rem;
+         }
+
+         .help-section li {
+             color: var(--text-muted);
+             font-size: 0.9rem;
+             margin: 0.25rem 0;
+         }
+
+         .help-navigation {
+             position: sticky;
+             top: 80px;
+             background: var(--light-gray);
+             padding: 1rem;
+             margin: 0 -1.5rem 1.5rem -1.5rem;
+             border-bottom: 1px solid var(--border-color);
+         }
+
+         .help-nav-list {
+             list-style: none;
+             padding: 0;
+             margin: 0;
+         }
+
+         .help-nav-item {
+             margin: 0.25rem 0;
+         }
+
+         .help-nav-link {
+             color: var(--primary-color);
+             text-decoration: none;
+             font-size: 0.85rem;
+             font-weight: 500;
+             padding: 0.25rem 0.5rem;
+             border-radius: var(--border-radius-sm);
+             display: block;
+             transition: background var(--transition-fast);
+         }
+
+         .help-nav-link:hover {
+             background: var(--primary-light);
+         }
+
+         .help-step {
+             background: var(--light-gray);
+             padding: 1rem;
+             border-radius: var(--border-radius-md);
+             margin: 0.75rem 0;
+             border-left: 3px solid var(--primary-color);
+         }
+
+         .help-step-title {
+             font-weight: 600;
+             color: var(--primary-color);
+             font-size: 0.9rem;
+             margin-bottom: 0.5rem;
+         }
+
+         .help-example {
+             background: var(--info-background);
+             padding: 0.75rem;
+             border-radius: var(--border-radius-sm);
+             margin: 0.5rem 0;
+             font-family: monospace;
+             font-size: 0.8rem;
+             color: var(--text-color);
+             border: 1px solid var(--info-border);
+         }
+
+         .help-overlay {
+             position: fixed;
+             top: 0;
+             left: 0;
+             right: 0;
+             bottom: 0;
+             background: rgba(0, 0, 0, 0.5);
+             opacity: 0;
+             visibility: hidden;
+             transition: all var(--transition-normal);
+             z-index: 999;
+         }
+
+         .help-overlay.open {
+             opacity: 1;
+             visibility: visible;
+         }
+
+         /* AI Status Indicator */
+         .ai-status {
+             position: relative;
+             display: inline-flex;
+             align-items: center;
+             gap: 0.5rem;
+         }
+
+         .status-indicator {
+             width: 12px;
+             height: 12px;
+             border-radius: 50%;
+             display: inline-block;
+             position: relative;
+             transition: all var(--transition-normal);
+         }
+
+         .status-indicator.connected {
+             background: #10b981;
+             box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+             animation: pulse-green 2s infinite;
+         }
+
+         .status-indicator.disconnected {
+             background: #ef4444;
+             box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+             animation: pulse-red 2s infinite;
+         }
+
+         @keyframes pulse-green {
+             0%, 100% { box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
+             50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.8); }
+         }
+
+         @keyframes pulse-red {
+             0%, 100% { box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+             50% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.8); }
+         }
+
+         /* Settings Modal */
+         .settings-modal {
+             position: fixed;
+             top: 0;
+             left: 0;
+             right: 0;
+             bottom: 0;
+             background: rgba(0, 0, 0, 0.5);
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             z-index: 2000;
+             opacity: 0;
+             visibility: hidden;
+             transition: all var(--transition-normal);
+         }
+
+         .settings-modal.open {
+             opacity: 1;
+             visibility: visible;
+         }
+
+         .settings-dialog {
+             background: var(--card-background);
+             border-radius: var(--border-radius-xl);
+             box-shadow: var(--shadow-xl);
+             width: 90%;
+             max-width: 600px;
+             max-height: 80vh;
+             overflow-y: auto;
+             transform: scale(0.9);
+             transition: transform var(--transition-normal);
+         }
+
+         .settings-modal.open .settings-dialog {
+             transform: scale(1);
+         }
+
+         .settings-header {
+             background: var(--gradient-primary);
+             color: white;
+             padding: 1.5rem;
+             border-radius: var(--border-radius-xl) var(--border-radius-xl) 0 0;
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+         }
+
+         .settings-header h2 {
+             margin: 0;
+             font-size: 1.25rem;
+             font-weight: 600;
+         }
+
+         .settings-close-btn {
+             background: rgba(255, 255, 255, 0.2);
+             border: none;
+             color: white;
+             padding: 0.5rem;
+             border-radius: var(--border-radius-md);
+             cursor: pointer;
+             font-size: 1.25rem;
+             transition: background var(--transition-fast);
+             min-height: auto;
+         }
+
+         .settings-close-btn:hover {
+             background: rgba(255, 255, 255, 0.3);
+             transform: none;
+             box-shadow: none;
+         }
+
+         .settings-content {
+             padding: 2rem;
+         }
+
+         .settings-section {
+             margin-bottom: 2rem;
+         }
+
+         .settings-section:last-child {
+             margin-bottom: 0;
+         }
+
+         .settings-section h3 {
+             color: var(--primary-color);
+             font-size: 1.1rem;
+             font-weight: 600;
+             margin: 0 0 1rem 0;
+             display: flex;
+             align-items: center;
+             gap: 0.5rem;
+         }
+
+         .ai-provider-card {
+             border: 2px solid var(--border-color);
+             border-radius: var(--border-radius-md);
+             padding: 1rem;
+             margin-bottom: 1rem;
+             transition: all var(--transition-fast);
+             cursor: pointer;
+         }
+
+         .ai-provider-card:hover {
+             border-color: var(--primary-color);
+             box-shadow: var(--shadow-sm);
+         }
+
+         .ai-provider-card.selected {
+             border-color: var(--primary-color);
+             background: var(--primary-light);
+         }
+
+         .ai-provider-header {
+             display: flex;
+             align-items: center;
+             gap: 0.75rem;
+             margin-bottom: 0.5rem;
+         }
+
+         .ai-provider-icon {
+             width: 2rem;
+             height: 2rem;
+             border-radius: var(--border-radius-md);
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             font-size: 1rem;
+             color: white;
+         }
+
+         .ai-provider-icon.gemini {
+             background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+         }
+
+         .ai-provider-icon.autodesk {
+             background: linear-gradient(135deg, #0696d7 0%, #005a70 100%);
+         }
+
+         .ai-provider-icon.openai {
+             background: linear-gradient(135deg, #10a37f 0%, #1a7f64 100%);
+         }
+
+         .ai-provider-icon.claude {
+             background: linear-gradient(135deg, #d97706 0%, #92400e 100%);
+         }
+
+         .ai-provider-name {
+             font-weight: 600;
+             color: var(--text-color);
+         }
+
+         .ai-provider-description {
+             font-size: 0.875rem;
+             color: var(--text-muted);
+             margin: 0;
+         }
+
+         .api-config {
+             display: none;
+             margin-top: 1rem;
+             padding: 1rem;
+             background: var(--light-gray);
+             border-radius: var(--border-radius-md);
+         }
+
+         .api-config.show {
+             display: block;
+         }
+
+         .config-field {
+             margin-bottom: 1rem;
+         }
+
+         .config-field:last-child {
+             margin-bottom: 0;
+         }
+
+         .config-label {
+             display: block;
+             font-weight: 500;
+             margin-bottom: 0.5rem;
+             color: var(--text-color);
+             font-size: 0.875rem;
+         }
+
+         .config-input {
+             width: 100%;
+             padding: 0.75rem;
+             border: 1px solid var(--border-color);
+             border-radius: var(--border-radius-sm);
+             font-size: 0.875rem;
+             font-family: inherit;
+             background: var(--card-background);
+             color: var(--text-color);
+             transition: border-color var(--transition-fast);
+         }
+
+         .config-input:focus {
+             border-color: var(--primary-color);
+             outline: none;
+         }
+
+         .config-input[type="password"] {
+             font-family: monospace;
+         }
+
+         .settings-actions {
+             display: flex;
+             gap: 1rem;
+             justify-content: flex-end;
+             padding: 1.5rem 2rem;
+             background: var(--light-gray);
+             border-radius: 0 0 var(--border-radius-xl) var(--border-radius-xl);
+         }
+
+         .settings-btn {
+             padding: 0.75rem 1.5rem;
+             border: none;
+             border-radius: var(--border-radius-md);
+             font-size: 0.875rem;
+             font-weight: 500;
+             cursor: pointer;
+             transition: all var(--transition-fast);
+             min-height: auto;
+         }
+
+         .settings-btn.primary {
+             background: var(--gradient-primary);
+             color: white;
+         }
+
+         .settings-btn.secondary {
+             background: var(--border-color);
+             color: var(--text-color);
+         }
+
+         .settings-btn:hover {
+             transform: translateY(-1px);
+             box-shadow: var(--shadow-md);
+         }
+
+         .connection-status {
+             display: flex;
+             align-items: center;
+             gap: 0.5rem;
+             margin-top: 1rem;
+             padding: 0.75rem;
+             border-radius: var(--border-radius-md);
+             font-size: 0.875rem;
+         }
+
+         .connection-status.success {
+             background: rgba(16, 185, 129, 0.1);
+             color: #059669;
+             border: 1px solid rgba(16, 185, 129, 0.3);
+         }
+
+         .connection-status.error {
+             background: rgba(239, 68, 68, 0.1);
+             color: #dc2626;
+             border: 1px solid rgba(239, 68, 68, 0.3);
+         }
+
+         .connection-status.info {
+             background: rgba(59, 130, 246, 0.1);
+             color: #2563eb;
+             border: 1px solid rgba(59, 130, 246, 0.3);
+         }
+    </style>
+</head>
+<body>
+    <header class="header-section">
+        <div class="header-controls">
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+                <i class="fas fa-moon" id="theme-icon"></i>
+            </button>
+            <button class="theme-toggle" onclick="showHelp()" aria-label="Open help guide">
+                <i class="fas fa-question-circle"></i>
+            </button>
+            <button class="theme-toggle" onclick="showSettings()" aria-label="Open settings">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+        <div class="header-content">
+            <h1>
+                <i class="fas fa-robot"></i> 
+                <span class="ai-status">
+                    AI
+                    <span class="status-indicator" id="aiStatusIndicator"></span>
+                </span>
+                Prompt Generator
+            </h1>
+            <p class="tagline">Craft effective prompts for AI models with professional techniques and best practices.</p>
+        </div>
+    </header>
+
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-number">18</span>
+                <span class="stat-label">Prompt Techniques</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">4</span>
+                <span class="stat-label">AI Personas</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">∞</span>
+                <span class="stat-label">Possibilities</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Professional</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Progress Indicator - Centered above main content -->
+    <div class="progress-indicator">
+        <div class="progress-step active" id="step1">
+            <div class="progress-step-number">1</div>
+            <div class="progress-step-label">Technique</div>
+        </div>
+        <div class="progress-step" id="step2">
+            <div class="progress-step-number">2</div>
+            <div class="progress-step-label">Persona</div>
+        </div>
+        <div class="progress-step" id="step3">
+            <div class="progress-step-number">3</div>
+            <div class="progress-step-label">Details</div>
+        </div>
+        <div class="progress-step" id="step4">
+            <div class="progress-step-number">4</div>
+            <div class="progress-step-label">Generate</div>
+        </div>
+    </div>
+
+    <div class="main-content-container">
+        <!-- Form Section - Aligned with progress indicator -->
+        <section class="form-section">
+            <div class="form-section-grid">
+                <div class="card">
+                    <h2>
+                        <div class="card-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        Select Your Prompting Technique
+                    </h2>
+                    <p class="card-description">Choose a technique to guide the AI's thought process and response style. This will pre-fill example content to get you started.</p>
+                    <div class="form-group">
+                        <label for="promptType">
+                            <i class="fas fa-cogs"></i>
+                            Prompting Technique <span class="required">*</span>
+                        </label>
+                        <select id="promptType" onchange="updateExamples()" required>
+                            <option value="">-- Select Prompting Technique --</option>
+                            <option value="zero-shot">Zero-shot Prompting</option>
+                            <option value="few-shot">Few-shot Prompting</option>
+                            <option value="cot">Chain-of-Thought Prompting</option>
+                            <option value="meta">Meta Prompting</option>
+                            <option value="self-consistency">Self-Consistency</option>
+                            <option value="generate-knowledge">Generate Knowledge Prompting</option>
+                            <option value="prompt-chaining">Prompt Chaining</option>
+                            <option value="tree-thoughts">Tree of Thoughts</option>
+                            <option value="rag">Retrieval Augmented Generation</option>
+                            <option value="reasoning-tool">Automatic Reasoning and Tool-use</option>
+                            <option value="ape">Automatic Prompt Engineer</option>
+                            <option value="active-prompt">Active-Prompt</option>
+                            <option value="directional">Directional Stimulus Prompting</option>
+                            <option value="palm">Program-Aided Language Models</option>
+                            <option value="react">ReAct</option>
+                            <option value="reflexion">Reflexion</option>
+                            <option value="multimodal-cot">Multimodal CoT</option>
+                            <option value="graph-prompting">Graph Prompting</option>
+                        </select>
+                    </div>
+                    <div id="description" class="info-box">
+                        <div class="info-box-content">
+                            Select a prompting technique to see its description and examples.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>
+                        <div class="card-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        Define the AI's Persona
+                    </h2>
+                    <p class="card-description">Assign a role to the AI to influence its tone, vocabulary, and perspective. This helps the AI understand the context of its response.</p>
+                    <div class="form-group">
+                        <label for="personaType">
+                            <i class="fas fa-mask"></i>
+                            AI Persona <span class="required">*</span>
+                        </label>
+                        <select id="personaType" onchange="updatePersona()" required>
+                            <option value="">-- Select Persona --</option>
+                            <option value="designer">Designer</option>
+                            <option value="developer">Developer</option>
+                            <option value="manager">Manager</option>
+                            <option value="researcher">Researcher</option>
+                        </select>
+                    </div>
+                    <div id="personaDescription" class="info-box">
+                        <div class="info-box-content">
+                            Select a persona to define the AI's role and perspective.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full-width form details card -->
+            <div class="card" style="margin-top: 2rem;">
+                <h2>
+                    <div class="card-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    Provide Your Prompt Details
+                </h2>
+                <p class="card-description">Fill in the following fields to create a comprehensive and effective AI prompt. The more detail, the better the AI's response.</p>
+
+                <div class="form-group">
+                    <label for="instruction">
+                        <i class="fas fa-bullhorn"></i>
+                        Instruction <span class="required">*</span>
+                    </label>
+                    <textarea id="instruction" rows="3" placeholder="e.g., 'Write a UX case study for a newly designed Autodesk product.'"></textarea>
+                    <p class="field-description">A specific task or instruction you want the model to perform. What should the AI *do*?</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="context">
+                        <i class="fas fa-info-circle"></i>
+                        Context
+                    </label>
+                    <textarea id="context" rows="3" placeholder="e.g., 'The product is a new 3D modeling tool for architects.'"></textarea>
+                    <p class="field-description">External information or additional background that can steer the model to better responses. What relevant information should the AI know?</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputData">
+                        <i class="fas fa-database"></i>
+                        Input Data
+                    </label>
+                    <textarea id="inputData" rows="3" placeholder="e.g., 'Describe how the new feature improves workflow efficiency.'"></textarea>
+                    <p class="field-description">The specific input or question for which you are seeking a response. What is the AI directly responding to?</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="outputIndicator">
+                        <i class="fas fa-arrow-right"></i>
+                        Output Indicator <span class="required">*</span>
+                    </label>
+                    <textarea id="outputIndicator" rows="3" placeholder="e.g., 'Generate a detailed technical document with step-by-step instructions and API documentation.'"></textarea>
+                    <p class="field-description">Specify the desired format, length, or style of the AI's response. How should the AI's output be presented?</p>
+                </div>
+
+                <button onclick="generatePrompt()" id="generatePromptBtn">
+                    <i class="fas fa-magic"></i>
+                    Generate AI Prompt
+                </button>
+                <div class="required-note">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span class="required">*</span> Instruction and Output Indicator are highly recommended for effective prompts.
+                </div>
+            </div>
+        </section>
+
+        <!-- Output Section - Centered and full width -->
+        <section class="output-section">
+            <div class="card" id="outputContainer" style="display: none;">
+                <h2>
+                    <div class="card-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    Your Generated AI Prompt
+                </h2>
+                <div id="output" class="generated-prompt"></div>
+                <div class="button-group">
+                    <button onclick="copyPrompt()" id="copyPromptBtn" class="copy-button">
+                        <i class="fas fa-copy"></i>
+                        Copy Prompt
+                    </button>
+                    <button onclick="testPrompt()" id="testPromptBtn" class="test-button">
+                        <i class="fas fa-play"></i>
+                        Test Prompt
+                    </button>
+                </div>
+            </div>
+
+            <div class="card" id="aiResponseCard" style="display: none;">
+                <h2>
+                    <div class="card-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    AI's Response
+                </h2>
+                <div id="loadingIndicator" class="loading-indicator" style="display: none;">
+                    <div class="spinner"></div>
+                    Generating response...
+                </div>
+                <div id="aiResponse" class="ai-response"></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Hidden main grid for help panel compatibility -->
+    <main class="main-content-grid" id="helpCompatGrid">
+        <div class="left-section">
+            <!-- Content will be moved here when help is open -->
+        </div>
+        <div class="right-section">
+            <!-- Content will be moved here when help is open -->
+        </div>
+    </main>
+
+    <footer class="footer-section">
+        <div class="footer-content">
+            <h3>AI Prompt Generator</h3>
+            <p>Developed by Aman Talwar & Jayanath Perera</p>
+            <p>Team: Content Design</p>
+            <div class="footer-links">
+                <a href="#" onclick="showAbout()">About</a>
+                <a href="#" onclick="showHelp()">Help</a>
+                <a href="#" onclick="showPrivacy()">Privacy</a>
+                <a href="#" onclick="showContact()">Contact</a>
+            </div>
+            <p>&copy; 2024 AI Prompt Generator. All rights reserved.</p>
+                 </div>
+     </footer>
+
+     <!-- Settings Modal -->
+     <div class="settings-modal" id="settingsModal" onclick="closeSettingsIfClickedOutside(event)">
+         <div class="settings-dialog">
+             <div class="settings-header">
+                 <h2><i class="fas fa-cog"></i> AI Configuration Settings</h2>
+                 <button class="settings-close-btn" onclick="closeSettings()">
+                     <i class="fas fa-times"></i>
+                 </button>
+             </div>
+             <div class="settings-content">
+                 <div class="settings-section">
+                     <h3><i class="fas fa-robot"></i> Select AI Provider</h3>
+                     <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">Choose your preferred AI service and configure the connection settings.</p>
+                     
+                     <div class="ai-provider-card" data-provider="gemini" onclick="selectAIProvider('gemini')">
+                         <div class="ai-provider-header">
+                             <div class="ai-provider-icon gemini">
+                                 <i class="fas fa-brain"></i>
+                             </div>
+                             <div>
+                                 <div class="ai-provider-name">Google Gemini</div>
+                                 <p class="ai-provider-description">Google's advanced AI model with multimodal capabilities</p>
+                             </div>
+                         </div>
+                         <div class="api-config" id="gemini-config">
+                             <div class="config-field">
+                                 <label class="config-label" for="gemini-api-key">
+                                     <i class="fas fa-key"></i> API Key
+                                 </label>
+                                 <input type="password" id="gemini-api-key" class="config-input" placeholder="Enter your Gemini API key">
+                             </div>
+                             <div class="config-field">
+                                 <label class="config-label" for="gemini-model">
+                                     <i class="fas fa-cogs"></i> Model
+                                 </label>
+                                 <select id="gemini-model" class="config-input">
+                                     <option value="gemini-1.5-flash">Gemini 1.5 Flash (Recommended)</option>
+                                     <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
+                                     <option value="gemini-pro">Gemini Pro</option>
+                                 </select>
+                             </div>
+                         </div>
+                     </div>
+
+                     <div class="ai-provider-card" data-provider="autodesk" onclick="selectAIProvider('autodesk')">
+                         <div class="ai-provider-header">
+                             <div class="ai-provider-icon autodesk">
+                                 <i class="fas fa-cube"></i>
+                             </div>
+                             <div>
+                                 <div class="ai-provider-name">AutodeskGPT</div>
+                                 <p class="ai-provider-description">Autodesk's specialized AI for design and engineering workflows</p>
+                             </div>
+                         </div>
+                         <div class="api-config" id="autodesk-config">
+                             <div class="config-field">
+                                 <label class="config-label" for="autodesk-api-key">
+                                     <i class="fas fa-key"></i> API Key
+                                 </label>
+                                 <input type="password" id="autodesk-api-key" class="config-input" placeholder="Enter your AutodeskGPT API key">
+                             </div>
+                             <div class="config-field">
+                                 <label class="config-label" for="autodesk-endpoint">
+                                     <i class="fas fa-link"></i> API Endpoint
+                                 </label>
+                                 <input type="url" id="autodesk-endpoint" class="config-input" placeholder="https://api.autodesk.com/ai/v1">
+                             </div>
+                             <div class="config-field">
+                                 <label class="config-label" for="autodesk-model">
+                                     <i class="fas fa-cogs"></i> Model
+                                 </label>
+                                 <select id="autodesk-model" class="config-input">
+                                     <option value="autodesk-gpt-4">AutodeskGPT-4</option>
+                                     <option value="autodesk-gpt-3.5">AutodeskGPT-3.5</option>
+                                 </select>
+                             </div>
+                         </div>
+                     </div>
+
+                     <div class="ai-provider-card" data-provider="openai" onclick="selectAIProvider('openai')">
+                         <div class="ai-provider-header">
+                             <div class="ai-provider-icon openai">
+                                 <i class="fas fa-bolt"></i>
+                             </div>
+                             <div>
+                                 <div class="ai-provider-name">OpenAI GPT</div>
+                                 <p class="ai-provider-description">OpenAI's powerful GPT models for various AI tasks</p>
+                             </div>
+                         </div>
+                         <div class="api-config" id="openai-config">
+                             <div class="config-field">
+                                 <label class="config-label" for="openai-api-key">
+                                     <i class="fas fa-key"></i> API Key
+                                 </label>
+                                 <input type="password" id="openai-api-key" class="config-input" placeholder="Enter your OpenAI API key">
+                             </div>
+                             <div class="config-field">
+                                 <label class="config-label" for="openai-model">
+                                     <i class="fas fa-cogs"></i> Model
+                                 </label>
+                                 <select id="openai-model" class="config-input">
+                                     <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                                     <option value="gpt-4">GPT-4</option>
+                                     <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                                 </select>
+                             </div>
+                         </div>
+                     </div>
+
+                     <div class="ai-provider-card" data-provider="claude" onclick="selectAIProvider('claude')">
+                         <div class="ai-provider-header">
+                             <div class="ai-provider-icon claude">
+                                 <i class="fas fa-graduation-cap"></i>
+                             </div>
+                             <div>
+                                 <div class="ai-provider-name">Anthropic Claude</div>
+                                 <p class="ai-provider-description">Anthropic's helpful, harmless, and honest AI assistant</p>
+                             </div>
+                         </div>
+                         <div class="api-config" id="claude-config">
+                             <div class="config-field">
+                                 <label class="config-label" for="claude-api-key">
+                                     <i class="fas fa-key"></i> API Key
+                                 </label>
+                                 <input type="password" id="claude-api-key" class="config-input" placeholder="Enter your Claude API key">
+                             </div>
+                             <div class="config-field">
+                                 <label class="config-label" for="claude-model">
+                                     <i class="fas fa-cogs"></i> Model
+                                 </label>
+                                 <select id="claude-model" class="config-input">
+                                     <option value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet</option>
+                                     <option value="claude-3-opus-20240229">Claude 3 Opus</option>
+                                     <option value="claude-3-haiku-20240307">Claude 3 Haiku</option>
+                                 </select>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+
+                 <div class="settings-section">
+                     <h3><i class="fas fa-flask"></i> Connection Test</h3>
+                     <button class="settings-btn primary" onclick="testConnection()" id="testConnectionBtn">
+                         <i class="fas fa-plug"></i> Test Connection
+                     </button>
+                     <div class="connection-status info" id="connectionStatus" style="display: none;">
+                         <i class="fas fa-info-circle"></i>
+                         <span>Click "Test Connection" to verify your AI configuration</span>
+                     </div>
+                 </div>
+             </div>
+             <div class="settings-actions">
+                 <button class="settings-btn secondary" onclick="closeSettings()">
+                     <i class="fas fa-times"></i> Cancel
+                 </button>
+                 <button class="settings-btn primary" onclick="saveSettings()">
+                     <i class="fas fa-save"></i> Save Settings
+                 </button>
+             </div>
+         </div>
+     </div>
+
+     <!-- Help Panel -->
+     <div class="help-overlay" id="helpOverlay" onclick="closeHelp()"></div>
+     <div class="help-panel" id="helpPanel">
+         <div class="help-panel-header">
+             <h2><i class="fas fa-question-circle"></i> User Guide</h2>
+             <button class="help-close-btn" onclick="closeHelp()">
+                 <i class="fas fa-times"></i>
+             </button>
+         </div>
+         <div class="help-panel-content">
+             <div class="help-navigation">
+                 <ul class="help-nav-list">
+                     <li class="help-nav-item"><a href="#what-is" class="help-nav-link">What is this?</a></li>
+                     <li class="help-nav-item"><a href="#how-to-use" class="help-nav-link">How to use</a></li>
+                     <li class="help-nav-item"><a href="#techniques" class="help-nav-link">Techniques</a></li>
+                     <li class="help-nav-item"><a href="#personas" class="help-nav-link">Personas</a></li>
+                     <li class="help-nav-item"><a href="#best-practices" class="help-nav-link">Best Practices</a></li>
+                     <li class="help-nav-item"><a href="#troubleshooting" class="help-nav-link">Troubleshooting</a></li>
+                 </ul>
+             </div>
+
+             <div class="help-section" id="what-is">
+                 <h3><i class="fas fa-info-circle"></i> What is the AI Prompt Generator?</h3>
+                 <p>The AI Prompt Generator is a sophisticated web-based tool designed to help users create effective, professional prompts for AI language models. Whether you're working with ChatGPT, Claude, Gemini, or other AI assistants, this tool guides you through the process of crafting prompts that yield better, more accurate, and more useful responses.</p>
+                 
+                 <h4>🎯 Purpose</h4>
+                 <p>Transform your basic AI queries into structured, professional prompts that leverage proven prompting techniques and methodologies used by AI researchers and professionals.</p>
+
+                 <h4>🚀 Who Is This For?</h4>
+                 <ul>
+                     <li>Content creators and writers</li>
+                     <li>UX/UI designers and researchers</li>
+                     <li>Developers and technical professionals</li>
+                     <li>Project managers and business professionals</li>
+                     <li>Students and educators</li>
+                     <li>Anyone who wants to get better results from AI tools</li>
+                 </ul>
+             </div>
+
+             <div class="help-section" id="how-to-use">
+                 <h3><i class="fas fa-play-circle"></i> How to Use This Application</h3>
+                 
+                 <div class="help-step">
+                     <div class="help-step-title">Step 1: Select Your Prompting Technique</div>
+                     <p>Click on the "Prompting Technique" dropdown and browse through 18+ available techniques. Select the technique that best fits your use case.</p>
+                     <ul>
+                         <li>Choose <strong>Zero-shot</strong> for simple, direct questions</li>
+                         <li>Choose <strong>Few-shot</strong> when you have examples to provide</li>
+                         <li>Choose <strong>Chain-of-Thought</strong> for complex reasoning tasks</li>
+                         <li>Choose <strong>ReAct</strong> for problem-solving scenarios</li>
+                     </ul>
+                 </div>
+
+                 <div class="help-step">
+                     <div class="help-step-title">Step 2: Define the AI's Persona</div>
+                     <p>Select from the "AI Persona" dropdown and choose the role that matches your project context.</p>
+                     <ul>
+                         <li><strong>Designer</strong>: For UX/UI, creative, and design-related tasks</li>
+                         <li><strong>Developer</strong>: For technical, programming, and system-related queries</li>
+                         <li><strong>Manager</strong>: For strategic, planning, and coordination tasks</li>
+                         <li><strong>Researcher</strong>: For analysis, data interpretation, and study-related work</li>
+                     </ul>
+                 </div>
+
+                 <div class="help-step">
+                     <div class="help-step-title">Step 3: Provide Your Prompt Details</div>
+                     <p>Fill out the form fields based on your specific needs:</p>
+                     <ul>
+                         <li><strong>Instruction</strong> ⭐ (Required): The main task you want the AI to perform</li>
+                         <li><strong>Context</strong>: Background information to guide the AI</li>
+                         <li><strong>Input Data</strong>: Specific data or examples for the AI to work with</li>
+                         <li><strong>Output Indicator</strong> ⭐ (Required): How you want the AI's response formatted</li>
+                     </ul>
+                 </div>
+
+                 <div class="help-step">
+                     <div class="help-step-title">Step 4: Generate and Use Your Prompt</div>
+                     <p>Click "Generate AI Prompt" to create your structured prompt. Then you can:</p>
+                     <ul>
+                         <li><strong>Copy</strong>: Click "Copy Prompt" to copy to clipboard</li>
+                         <li><strong>Test</strong>: Click "Test Prompt" to try it with Google Gemini AI</li>
+                         <li><strong>Refine</strong>: Modify inputs and regenerate as needed</li>
+                     </ul>
+                 </div>
+             </div>
+
+             <div class="help-section" id="techniques">
+                 <h3><i class="fas fa-brain"></i> Prompting Techniques Explained</h3>
+                 
+                 <h4>Basic Techniques</h4>
+                 <ul>
+                     <li><strong>Zero-shot Prompting</strong>: Straightforward task without examples. Best for general questions and simple tasks.</li>
+                     <li><strong>Few-shot Prompting</strong>: Provide examples to show the desired pattern. Best for specific formats and style matching.</li>
+                 </ul>
+
+                 <h4>Advanced Techniques</h4>
+                 <ul>
+                     <li><strong>Chain-of-Thought (CoT)</strong>: Step-by-step analysis for complex reasoning and problem-solving.</li>
+                     <li><strong>ReAct</strong>: Combines thinking with action/research for multi-step processes.</li>
+                     <li><strong>Tree of Thoughts</strong>: Explores multiple solution paths for creative brainstorming.</li>
+                     <li><strong>Meta Prompting</strong>: Creates prompts that generate other prompts or guidelines.</li>
+                 </ul>
+
+                 <div class="help-example">
+Example Zero-shot prompt:
+"Explain the benefits of responsive web design"
+
+Example Few-shot prompt:
+"Generate button text:
+Example 1: 'Sign up now!' → 'Start your journey!'
+Example 2: 'Download app' → 'Get the app now!'
+Now generate for: 'Learn More'"
+                 </div>
+             </div>
+
+             <div class="help-section" id="personas">
+                 <h3><i class="fas fa-user-tie"></i> AI Personas Explained</h3>
+                 
+                 <h4>🎨 Designer Persona</h4>
+                 <p>Focus: User experience, visual design, accessibility. Language: Creative, user-centered, aesthetic. Best for UX/UI projects, design systems, user research.</p>
+
+                 <h4>💻 Developer Persona</h4>
+                 <p>Focus: Technical implementation, code quality, performance. Language: Precise, logical, technical. Best for programming tasks, system architecture, debugging.</p>
+
+                 <h4>👔 Manager Persona</h4>
+                 <p>Focus: Strategy, coordination, business objectives. Language: Strategic, goal-oriented, practical. Best for project planning, team coordination, business analysis.</p>
+
+                 <h4>🔬 Researcher Persona</h4>
+                 <p>Focus: Data analysis, evidence-based conclusions, methodology. Language: Analytical, evidence-based, methodical. Best for research projects, data interpretation, academic work.</p>
+             </div>
+
+             <div class="help-section" id="best-practices">
+                 <h3><i class="fas fa-star"></i> Best Practices</h3>
+                 
+                 <h4>✅ Do's</h4>
+                 <ul>
+                     <li>Be specific - The more detailed your input, the better the output</li>
+                     <li>Use context - Provide relevant background information</li>
+                     <li>Choose appropriate techniques - Match the technique to your task complexity</li>
+                     <li>Test and iterate - Try different combinations to find what works best</li>
+                     <li>Save successful patterns - Note what works for future use</li>
+                 </ul>
+
+                 <h4>❌ Don'ts</h4>
+                 <ul>
+                     <li>Don't be vague - Avoid generic instructions like "help me with this"</li>
+                     <li>Don't skip context - Even obvious details can improve results</li>
+                     <li>Don't use wrong personas - Match the persona to your domain</li>
+                     <li>Don't ignore output indicators - Always specify your desired format</li>
+                     <li>Don't forget to test - Use the built-in testing feature</li>
+                 </ul>
+
+                 <h4>💡 Pro Tips</h4>
+                 <ul>
+                     <li>Layer your prompts - Start simple, then add complexity</li>
+                     <li>Use examples - Provide concrete examples in your input data</li>
+                     <li>Specify constraints - Mention any limitations or requirements</li>
+                     <li>Ask for alternatives - Request multiple approaches when appropriate</li>
+                     <li>Include quality criteria - Specify what makes a good response</li>
+                 </ul>
+             </div>
+
+             <div class="help-section" id="troubleshooting">
+                 <h3><i class="fas fa-wrench"></i> Troubleshooting</h3>
+                 
+                 <h4>Issue: Generated prompt seems generic</h4>
+                 <p><strong>Solution:</strong></p>
+                 <ul>
+                     <li>Add more specific context</li>
+                     <li>Use more detailed output indicators</li>
+                     <li>Try a different prompting technique</li>
+                 </ul>
+
+                 <h4>Issue: AI response doesn't match expectations</h4>
+                 <p><strong>Solution:</strong></p>
+                 <ul>
+                     <li>Review your output indicator - be more specific</li>
+                     <li>Add examples in the input data field</li>
+                     <li>Try a different persona that better matches your domain</li>
+                 </ul>
+
+                 <h4>Issue: Test function not working</h4>
+                 <p><strong>Solution:</strong></p>
+                 <ul>
+                     <li>Check your internet connection</li>
+                     <li>Ensure the API key is configured (if applicable)</li>
+                     <li>Try copying the prompt and testing in another AI platform</li>
+                 </ul>
+
+                 <h4>🆘 Need More Help?</h4>
+                 <ul>
+                     <li>Review the technique descriptions for guidance</li>
+                     <li>Try simpler techniques before advancing to complex ones</li>
+                     <li>Use the progress indicator to ensure all steps are complete</li>
+                     <li>Check that required fields (marked with *) are filled</li>
+                 </ul>
+             </div>
+
+             <div class="help-section">
+                 <h3><i class="fas fa-rocket"></i> Benefits of Using This Application</h3>
+                 
+                 <h4>🎯 Improved AI Responses</h4>
+                 <ul>
+                     <li>Higher Quality: Structured prompts yield more accurate, relevant responses</li>
+                     <li>Consistency: Standardized format ensures reliable results across different AI models</li>
+                     <li>Specificity: Detailed prompts reduce ambiguity and misinterpretation</li>
+                 </ul>
+
+                 <h4>⏱️ Time Efficiency</h4>
+                 <ul>
+                     <li>Quick Setup: Generate professional prompts in under 2 minutes</li>
+                     <li>Template-Based: Pre-filled examples speed up the process</li>
+                     <li>Reusable: Save and modify successful prompt structures</li>
+                 </ul>
+
+                 <h4>📚 Learning & Skill Development</h4>
+                 <ul>
+                     <li>Technique Education: Learn 18+ advanced prompting methodologies</li>
+                     <li>Best Practices: Built-in guidance follows AI research standards</li>
+                     <li>Progressive Learning: Start simple and advance to complex techniques</li>
+                 </ul>
+             </div>
+         </div>
+     </div>
+
+     <script>
+        // AI Configuration Management
+        let aiConfig = {
+            provider: null,
+            apiKey: null,
+            model: null,
+            endpoint: null,
+            isConfigured: false
+        };
+
+        // Load configuration from localStorage
+        function loadAIConfig() {
+            const saved = localStorage.getItem('aiPromptGenerator_config');
+            if (saved) {
+                try {
+                    aiConfig = JSON.parse(saved);
+                    updateAIStatusIndicator();
+                    
+                    // Restore settings form if config exists
+                    if (aiConfig.provider) {
+                        selectAIProvider(aiConfig.provider, false);
+                        populateSettingsForm();
+                    }
+                } catch (e) {
+                    console.error('Error loading AI config:', e);
+                }
+            }
+        }
+
+        // Save configuration to localStorage
+        function saveAIConfig() {
+            localStorage.setItem('aiPromptGenerator_config', JSON.stringify(aiConfig));
+        }
+
+        // Update AI status indicator
+        function updateAIStatusIndicator() {
+            const indicator = document.getElementById('aiStatusIndicator');
+            if (aiConfig.isConfigured && aiConfig.apiKey) {
+                indicator.className = 'status-indicator connected';
+                indicator.title = `Connected to ${aiConfig.provider}`;
+            } else {
+                indicator.className = 'status-indicator disconnected';
+                indicator.title = 'AI not configured';
+            }
+        }
+
+        // Settings Modal Functions
+        function showSettings() {
+            const modal = document.getElementById('settingsModal');
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            
+            // Load current settings
+            if (aiConfig.provider) {
+                selectAIProvider(aiConfig.provider, false);
+                populateSettingsForm();
+            }
+        }
+
+        function closeSettings() {
+            const modal = document.getElementById('settingsModal');
+            modal.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeSettingsIfClickedOutside(event) {
+            if (event.target === event.currentTarget) {
+                closeSettings();
+            }
+        }
+
+        // AI Provider Selection
+        function selectAIProvider(provider, showConfig = true) {
+            // Remove selection from all cards
+            const cards = document.querySelectorAll('.ai-provider-card');
+            cards.forEach(card => {
+                card.classList.remove('selected');
+                const config = card.querySelector('.api-config');
+                if (config) config.classList.remove('show');
+            });
+
+            // Select the chosen provider
+            const selectedCard = document.querySelector(`[data-provider="${provider}"]`);
+            if (selectedCard) {
+                selectedCard.classList.add('selected');
+                const config = selectedCard.querySelector('.api-config');
+                if (config && showConfig) {
+                    config.classList.add('show');
+                }
+            }
+        }
+
+        // Populate settings form with current config
+        function populateSettingsForm() {
+            if (!aiConfig.provider) return;
+
+            const provider = aiConfig.provider;
+            
+            // Set API key
+            const apiKeyInput = document.getElementById(`${provider}-api-key`);
+            if (apiKeyInput && aiConfig.apiKey) {
+                apiKeyInput.value = aiConfig.apiKey;
+            }
+
+            // Set model
+            const modelSelect = document.getElementById(`${provider}-model`);
+            if (modelSelect && aiConfig.model) {
+                modelSelect.value = aiConfig.model;
+            }
+
+            // Set endpoint (for providers that have it)
+            const endpointInput = document.getElementById(`${provider}-endpoint`);
+            if (endpointInput && aiConfig.endpoint) {
+                endpointInput.value = aiConfig.endpoint;
+            }
+
+            // Show the config section
+            const configDiv = document.getElementById(`${provider}-config`);
+            if (configDiv) {
+                configDiv.classList.add('show');
+            }
+        }
+
+        // Save settings
+        function saveSettings() {
+            const selectedCard = document.querySelector('.ai-provider-card.selected');
+            if (!selectedCard) {
+                showMessage('Please select an AI provider', 'warning');
+                return;
+            }
+
+            const provider = selectedCard.getAttribute('data-provider');
+            const apiKeyInput = document.getElementById(`${provider}-api-key`);
+            const modelSelect = document.getElementById(`${provider}-model`);
+            const endpointInput = document.getElementById(`${provider}-endpoint`);
+
+            if (!apiKeyInput.value.trim()) {
+                showMessage('Please enter an API key', 'warning');
+                return;
+            }
+
+            // Update configuration
+            aiConfig.provider = provider;
+            aiConfig.apiKey = apiKeyInput.value.trim();
+            aiConfig.model = modelSelect ? modelSelect.value : null;
+            aiConfig.endpoint = endpointInput ? endpointInput.value.trim() : null;
+            aiConfig.isConfigured = true;
+
+            // Save to localStorage
+            saveAIConfig();
+
+            // Update UI
+            updateAIStatusIndicator();
+            
+            showMessage(`AI configuration saved for ${provider}!`, 'success');
+            closeSettings();
+        }
+
+        // Test AI connection
+        async function testConnection() {
+            const selectedCard = document.querySelector('.ai-provider-card.selected');
+            if (!selectedCard) {
+                showMessage('Please select an AI provider first', 'warning');
+                return;
+            }
+
+            const provider = selectedCard.getAttribute('data-provider');
+            const apiKeyInput = document.getElementById(`${provider}-api-key`);
+            const modelSelect = document.getElementById(`${provider}-model`);
+            
+            if (!apiKeyInput.value.trim()) {
+                showMessage('Please enter an API key first', 'warning');
+                return;
+            }
+
+            const testBtn = document.getElementById('testConnectionBtn');
+            const statusDiv = document.getElementById('connectionStatus');
+            
+            // Show loading
+            testBtn.disabled = true;
+            testBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing...';
+            statusDiv.style.display = 'flex';
+            statusDiv.className = 'connection-status info';
+            statusDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Testing connection...</span>';
+
+            try {
+                const success = await testAIConnection(provider, apiKeyInput.value.trim(), modelSelect ? modelSelect.value : null);
+                
+                if (success) {
+                    statusDiv.className = 'connection-status success';
+                    statusDiv.innerHTML = '<i class="fas fa-check-circle"></i> <span>Connection successful! AI is ready to use.</span>';
+                    showMessage('AI connection test successful!', 'success');
+                } else {
+                    statusDiv.className = 'connection-status error';
+                    statusDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> <span>Connection failed. Please check your API key and try again.</span>';
+                    showMessage('AI connection test failed', 'error');
+                }
+            } catch (error) {
+                statusDiv.className = 'connection-status error';
+                statusDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> <span>Connection error: ${error.message}</span>`;
+                showMessage(`Connection error: ${error.message}`, 'error');
+            } finally {
+                testBtn.disabled = false;
+                testBtn.innerHTML = '<i class="fas fa-plug"></i> Test Connection';
+            }
+        }
+
+        // Test AI connection based on provider
+        async function testAIConnection(provider, apiKey, model) {
+            const testPrompt = "Hello! This is a test message to verify the AI connection is working properly.";
+            
+            try {
+                switch (provider) {
+                    case 'gemini':
+                        return await testGeminiConnection(apiKey, model, testPrompt);
+                    case 'openai':
+                        return await testOpenAIConnection(apiKey, model, testPrompt);
+                    case 'claude':
+                        return await testClaudeConnection(apiKey, model, testPrompt);
+                    case 'autodesk':
+                        return await testAutodeskConnection(apiKey, model, testPrompt);
+                    default:
+                        throw new Error('Unsupported AI provider');
+                }
+            } catch (error) {
+                console.error('AI connection test error:', error);
+                throw error;
+            }
+        }
+
+        // Gemini connection test
+        async function testGeminiConnection(apiKey, model, testPrompt) {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{
+                    role: "user",
+                    parts: [{ text: testPrompt }]
+                }]
+            };
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Gemini API error: ${response.status} ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            return result.candidates && result.candidates.length > 0;
+        }
+
+        // OpenAI connection test
+        async function testOpenAIConnection(apiKey, model, testPrompt) {
+            const apiUrl = 'https://api.openai.com/v1/chat/completions';
+            const payload = {
+                model: model,
+                messages: [{ role: "user", content: testPrompt }],
+                max_tokens: 50
+            };
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`OpenAI API error: ${response.status} ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            return result.choices && result.choices.length > 0;
+        }
+
+        // Claude connection test
+        async function testClaudeConnection(apiKey, model, testPrompt) {
+            const apiUrl = 'https://api.anthropic.com/v1/messages';
+            const payload = {
+                model: model,
+                max_tokens: 50,
+                messages: [{ role: "user", content: testPrompt }]
+            };
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': apiKey,
+                    'anthropic-version': '2023-06-01'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Claude API error: ${response.status} ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            return result.content && result.content.length > 0;
+        }
+
+        // AutodeskGPT connection test (placeholder - actual implementation would depend on Autodesk's API)
+        async function testAutodeskConnection(apiKey, model, testPrompt) {
+            // This is a placeholder implementation
+            // Replace with actual AutodeskGPT API call when available
+            const endpointInput = document.getElementById('autodesk-endpoint');
+            const endpoint = endpointInput ? endpointInput.value.trim() : 'https://api.autodesk.com/ai/v1';
+            
+            const apiUrl = `${endpoint}/chat/completions`;
+            const payload = {
+                model: model,
+                messages: [{ role: "user", content: testPrompt }],
+                max_tokens: 50
+            };
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`AutodeskGPT API error: ${response.status} ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            return result.choices && result.choices.length > 0;
+        }
+
+        // Theme management
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const icon = document.getElementById('theme-icon');
+            icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        // Initialize theme
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            const icon = document.getElementById('theme-icon');
+            icon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const promptType = document.getElementById('promptType').value;
+            const personaType = document.getElementById('personaType').value;
+            const instruction = document.getElementById('instruction').value.trim();
+            const outputIndicator = document.getElementById('outputIndicator').value.trim();
+
+            // Update progress steps
+            updateStepStatus('step1', !!promptType);
+            updateStepStatus('step2', !!personaType);
+            updateStepStatus('step3', !!(instruction && outputIndicator));
+            updateStepStatus('step4', document.getElementById('outputContainer').style.display !== 'none');
+        }
+
+        function updateStepStatus(stepId, isComplete) {
+            const step = document.getElementById(stepId);
+            if (isComplete) {
+                step.classList.add('active');
+            } else {
+                step.classList.remove('active');
+            }
+        }
+
+        // Enhanced message system
+        function showMessage(message, type = 'info', duration = 3000) {
+            const messageBox = document.createElement('div');
+            messageBox.className = `message-box ${type}`;
+            messageBox.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <i class="fas ${getMessageIcon(type)}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(messageBox);
+            
+            setTimeout(() => {
+                if (document.body.contains(messageBox)) {
+                    messageBox.style.animation = 'slideOut 0.3s ease-in forwards';
+                    setTimeout(() => {
+                        if (document.body.contains(messageBox)) {
+                            document.body.removeChild(messageBox);
+                        }
+                    }, 300);
+                }
+            }, duration);
+        }
+
+        function getMessageIcon(type) {
+            switch (type) {
+                case 'success': return 'fa-check-circle';
+                case 'error': return 'fa-exclamation-circle';
+                case 'warning': return 'fa-exclamation-triangle';
+                default: return 'fa-info-circle';
+            }
+        }
+
+        // Help Panel Functions
+        function showHelp() {
+            const helpPanel = document.getElementById('helpPanel');
+            const helpOverlay = document.getElementById('helpOverlay');
+            const mainContainer = document.querySelector('.main-content-container');
+            const helpGrid = document.getElementById('helpCompatGrid');
+            
+            // Move content to help-compatible grid layout
+            const formSection = document.querySelector('.form-section');
+            const outputSection = document.querySelector('.output-section');
+            const leftSection = helpGrid.querySelector('.left-section');
+            const rightSection = helpGrid.querySelector('.right-section');
+            
+            // Move content
+            if (formSection && leftSection) {
+                leftSection.appendChild(formSection);
+            }
+            if (outputSection && rightSection) {
+                rightSection.appendChild(outputSection);
+            }
+            
+            // Switch layouts
+            mainContainer.style.display = 'none';
+            helpGrid.classList.add('help-open');
+            helpGrid.style.display = 'grid';
+            
+            helpPanel.classList.add('open');
+            helpOverlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeHelp() {
+            const helpPanel = document.getElementById('helpPanel');
+            const helpOverlay = document.getElementById('helpOverlay');
+            const mainContainer = document.querySelector('.main-content-container');
+            const helpGrid = document.getElementById('helpCompatGrid');
+            
+            // Move content back to main layout
+            const formSection = document.querySelector('.form-section');
+            const outputSection = document.querySelector('.output-section');
+            
+            if (formSection) {
+                mainContainer.appendChild(formSection);
+            }
+            if (outputSection) {
+                mainContainer.appendChild(outputSection);
+            }
+            
+            // Switch layouts back
+            helpGrid.classList.remove('help-open');
+            helpGrid.style.display = 'none';
+            mainContainer.style.display = 'block';
+            
+            helpPanel.classList.remove('open');
+            helpOverlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Footer functions
+        function showAbout() {
+            showMessage('AI Prompt Generator v2.0 - A professional tool for crafting effective AI prompts using proven techniques.', 'info', 5000);
+        }
+
+        function showPrivacy() {
+            showMessage('Your data is processed locally. API calls are made directly to Google Gemini with your content.', 'info', 4000);
+        }
+
+        function showContact() {
+            showMessage('Contact: Aman Talwar & Jayanath Perera - Content Design Team', 'info', 4000);
+        }
+
+        // Examples for different prompting techniques in content & UX design
+        const promptExamples = {
+            "zero-shot": {
+                instruction: "Write a UX case study for a newly designed mobile app.",
+                context: "The app is a productivity tool for freelancers.",
+                inputData: "Explain how user research influenced the final UI design.",
+                outputIndicator: "Generate a structured case study with an introduction, problem statement, solution, and results.",
+                description: "Zero-shot prompting involves providing the model with a task without any prior examples. The AI generates a response based solely on its pre-trained knowledge."
+            },
+            "few-shot": {
+                instruction: "Generate microcopy for a website's call-to-action buttons.",
+                context: "Use an engaging and action-oriented tone.",
+                inputData: "Example 1: 'Sign up now!' -> 'Start your journey!'\\nExample 2: 'Download app' -> 'Get the app now!'\\n\\nNow, generate for: 'Learn More'",
+                outputIndicator: "Provide 3 alternative CTA texts based on the examples and tone.",
+                description: "Few-shot prompting involves providing the model with a few examples to guide its response. This helps the AI understand the desired style or format."
+            },
+            "cot": {
+                instruction: "Describe the UX design process step-by-step.",
+                context: "The process should cover research, wireframing, prototyping, and testing.",
+                inputData: "Explain how each step influences the next, detailing the rationale behind transitions.",
+                outputIndicator: "List the steps sequentially with detailed explanations, justifying the order.",
+                description: "Chain-of-Thought (CoT) prompting involves breaking down the reasoning process into a sequence of intermediate steps. This helps the AI think 'out loud' and arrive at a more accurate answer."
+            },
+            "meta": {
+                instruction: "Create a prompt that generates brand voice guidelines for an AI.",
+                context: "The guidelines should align with a modern SaaS company's branding. The final output of the generated prompt should be a comprehensive brand voice document.",
+                inputData: "The core brand values are innovation, user-centricity, and transparency. How do I establish a friendly yet professional tone for an AI assistant?",
+                outputIndicator: "Generate a structured AI prompt that, when executed, will create detailed brand voice guidelines for an AI assistant.",
+                description: "Meta prompting involves creating prompts that instruct the AI to generate *other* prompts, templates, or guidelines. It's about designing the 'instructions for instructions'."
+            },
+            "self-consistency": {
+                instruction: "Develop a consistent UX writing style guide for a product's notifications.",
+                context: "The guide should ensure uniformity across all digital platforms (web, mobile, email).",
+                inputData: "Generate several different examples for a 'password reset' notification, then choose the most consistent and clear one.",
+                outputIndicator: "A comprehensive style guide document for notifications, including the best 'password reset' example and a rationale for its selection.",
+                description: "Self-Consistency prompting involves generating multiple diverse outputs for a single prompt and then selecting the most consistent, coherent, or optimal one through a voting or filtering mechanism. It refines the output."
+            },
+            "generate-knowledge": {
+                instruction: "Create a knowledge base article for a new software feature: 'Smart Folders'.",
+                context: "The feature is a task automation tool within a project management application. Users need to understand its benefits and usage.",
+                inputData: "Based on common user questions for new features, explain how to set up 'Smart Folders' and use its automated rules.",
+                outputIndicator: "A step-by-step guide with clear headings, bullet points, and an FAQ section.",
+                description: "Generate Knowledge prompting focuses on instructing the AI to create new information or content (like articles, summaries, or explanations) by synthesizing existing knowledge or deriving new insights based on the prompt's context."
+            },
+            "prompt-chaining": {
+                instruction: "Design a series of prompts to guide a new user through setting up a project in a complex project management software.",
+                context: "The goal is to simplify the onboarding experience by breaking it into manageable, guided steps.",
+                inputData: "Step 1: Project Creation. Step 2: Team Member Assignment. Step 3: Task Definition. Step 4: Deadline Setting.",
+                outputIndicator: "A sequence of distinct, interconnected prompts, where the output of one prompt serves as input or context for the next, leading the user through the setup process.",
+                description: "Prompt Chaining involves linking multiple prompts together where the output of one prompt becomes the input or context for the next. This creates a multi-step conversation or process with the AI."
+            },
+            "tree-thoughts": {
+                instruction: "Outline the decision-making process for a major UX redesign project focused on improving user retention.",
+                context: "The project involves complex choices regarding feature prioritization, visual overhaul, and backend integration.",
+                inputData: "Consider different approaches: A/B testing a new homepage, simplifying the checkout flow, or adding a new 'gamification' feature. Evaluate each option's potential impact on retention and development effort.",
+                outputIndicator: "A detailed decision tree or a structured outline mapping out divergent thought paths, potential solutions, and evaluation criteria at each branching point of the redesign process.",
+                description: "Tree of Thoughts (ToT) involves exploring multiple reasoning paths or 'thoughts' concurrently, similar to a tree search. The AI generates different intermediate thoughts, evaluates them, and then selects the most promising path(s) to continue reasoning."
+            },
+            "rag": {
+                instruction: "Summarize the current best practices in accessible web design.",
+                context: "Refer to the latest WCAG guidelines (WCAG 2.1 or 2.2) and reputable sources like the Nielsen Norman Group and W3C.",
+                inputData: "Focus specifically on practices related to keyboard navigation, color contrast, and alternative text for images. Provide evidence-backed recommendations.",
+                outputIndicator: "A well-structured summary document with key takeaways, practical recommendations, and citations/references to the provided sources.",
+                description: "Retrieval Augmented Generation (RAG) involves retrieving relevant information from an external knowledge base or documents before generating a response. This allows the AI to provide more accurate, up-to-date, and fact-checked answers."
+            },
+            "reasoning-tool": {
+                instruction: "Analyze the usability of a new app feature designed for collaborative brainstorming.",
+                context: "The feature allows real-time drawing and text input. Assume you have access to user session data and error logs.",
+                inputData: "Based on hypothetical user data (e.g., '50% of users failed to save their first session; 30% struggled to find the drawing tools'), identify usability bottlenecks and suggest solutions.",
+                outputIndicator: "A detailed usability report including identified issues, their severity, root causes (reasoning), and specific, actionable recommendations (tool-use implies potential for AI to 'use' data or simulated tools to derive insights).",
+                description: "Automatic Reasoning and Tool-use involves the AI leveraging internal reasoning capabilities combined with the ability to 'use' external tools (simulated or actual, e.g., code interpreters, search APIs, data analysis scripts) to solve complex problems or generate more precise outputs. The AI can reason about when and how to use these tools."
+            },
+            "ape": {
+                instruction: "Generate a more effective prompt for creating detailed user personas.",
+                context: "The current prompt only asks for 'demographics' and 'goals', leading to generic outputs. We need richer, more empathetic personas.",
+                inputData: "Current prompt: 'Create a user persona for our new app, including demographics and goals.'\\n\\nSuggest improvements to this prompt to elicit better persona details, such as pain points, motivations, typical day, and tech proficiency.",
+                outputIndicator: "A significantly enhanced, structured prompt template for user persona generation that ensures comprehensive and empathetic profiles, including clear instructions for each required section.",
+                description: "Automatic Prompt Engineer (APE) is a technique where the AI itself is tasked with generating, evaluating, and refining prompts to achieve a desired outcome. The AI tries out different prompt variations to find the most effective one."
+            },
+            "active-prompt": {
+                instruction: "Create an interactive tutorial script for a new software tool's 'Dashboard Customization' feature.",
+                context: "The tutorial should actively engage the user, ask clarifying questions, and adapt based on their responses to guide them through the process.",
+                inputData: "Initial user query: 'How do I change what I see on my dashboard?'",
+                outputIndicator: "A dynamic, conversational script for an AI tutor that responds to user input, clarifies steps, and provides personalized guidance for dashboard customization, mimicking an interactive learning experience.",
+                description: "Active-Prompt involves designing prompts that actively engage the user in a dialogue, often by asking clarifying questions, seeking feedback, or presenting choices to refine the AI's understanding and provide a more personalized or iterative response."
+            },
+            "directional": {
+                instruction: "Write directional prompts for a user survey aimed at gathering feedback on a new website design.",
+                context: "The survey needs to gather specific feedback on usability, aesthetics, and functionality across different sections of the website.",
+                inputData: "Sections: Homepage, Product Pages, Checkout Flow. Questions should guide users to comment on specific elements within these sections.",
+                outputIndicator: "A set of clear, concise, and highly directional survey questions that lead users to provide targeted feedback on specified website elements and functionalities.",
+                description: "Directional Stimulus Prompting involves guiding the AI with very clear, specific, and often restrictive prompts to ensure the AI's output stays within a defined scope or adheres to particular constraints. It reduces ambiguity."
+            },
+            "palm": {
+                instruction: "Develop a high-level plan for implementing a 'Program-Aided Language Model' (PALM) system for generating complex UI component code snippets.",
+                context: "The system should take natural language descriptions (e.g., 'a responsive navigation bar with a dark theme and dropdowns') and output React/Vue code. It needs to leverage a library of pre-defined code blocks.",
+                inputData: "Outline the necessary modules: Natural Language Processor, Code Snippet Selector, Code Synthesizer, and an Error Checker. Explain how they would interact.",
+                outputIndicator: "A detailed architectural plan and workflow description for a PALM system that integrates language understanding with programmatic code generation, including the role of each module and data flow.",
+                description: "Program-Aided Language Models (PALM) combine the power of large language models with external programmatic tools or code. The AI can generate code, execute it, debug it, and use the results to refine its reasoning or generate further outputs. It's about AI writing and running its own code."
+            },
+            "react": {
+                instruction: "Debug a broken webpage layout on a mobile device.",
+                context: "The issue involves an element overflowing horizontally, specifically in the footer section, when viewed on small screens. The layout uses Flexbox.",
+                inputData: "Observe the problem (simulated): The 'copyright' text overlaps the 'social media icons'.\\n\\nThink: What CSS properties are likely causing horizontal overflow in Flexbox?\\nAct: Check `flex-wrap`, `min-width`, `padding` on footer elements.\\nObserve: `min-width` on social icons is too high.\\nThink: How to fix `min-width` without breaking desktop layout?\\nAct: Use media query to adjust `min-width` for mobile only.",
+                outputIndicator: "A step-by-step debugging guide presented as a 'Thought, Action, Observation' sequence, leading to the identification and proposed CSS fix for the layout issue.",
+                description: "ReAct (Reasoning and Acting) is a prompting strategy that encourages the AI to alternate between 'Thought' (internal reasoning, planning) and 'Action' (interacting with external tools or making decisions). This mimics how humans humans solve problems, leading to more robust and verifiable results."
+            },
+            "reflexion": {
+                instruction: "Reflect on the impact of a recent UX design change to a e-commerce product page (e.g., moving 'Add to Cart' button above the fold).",
+                context: "The change was implemented to improve conversion rates. Data available includes A/B test results, user heatmaps, and qualitative feedback.",
+                inputData: "A/B Test Result: 'Add to Cart' clicks increased by 15%, but overall conversions only increased by 2%.\\nHeatmap: Users are scrolling less but are also clicking on product images more.\\nFeedback: Some users found the page felt 'cramped'.\\n\\nBased on this, reflect on what went well, what didn't, and why, and suggest next steps.",
+                outputIndicator: "A comprehensive reflective report that critically analyzes the design change's impact, identifies discrepancies between metrics, postulates reasons for observed behaviors, and outlines iterative improvements for future designs.",
+                description: "Reflexion is an advanced prompting technique where the AI learns from its past actions and errors. It involves the AI performing a task, then 'reflecting' on its performance (identifying errors, learning from success/failure), and using these reflections to improve its future attempts on similar tasks."
+            },
+            "multimodal-cot": {
+                instruction: "Create a detailed UX design proposal for a new mobile app feature: 'AR-powered furniture preview'.",
+                context: "The app is for interior design. The feature allows users to place virtual furniture in their real space using AR. The proposal needs to be highly visual and textual.",
+                inputData: "Textual description: 'Users point their camera, select furniture, and see it in AR.'\\nVisual input (hypothetical): 'Image A: User holding phone, seeing a virtual sofa in their living room. Image B: Wireframe of AR controls (rotate, scale, move).' (Describe these images to the AI)\\nVideo input (hypothetical): 'Short clip showing smooth AR object placement.' (Describe the video's content and flow)",
+                outputIndicator: "A comprehensive multimodal design proposal document that integrates text descriptions of the user flow, annotated visual mockups (described), and a narrative explaining the interactive elements (informed by video description), demonstrating how the text, images, and video collectively inform the design rationale.",
+                description: "Multimodal CoT (Chain-of-Thought) extends CoT prompting to scenarios where the input is multimodal (e.g., text, images, audio, video). The AI generates step-by-step reasoning that incorporates information from all modalities, leading to a more holistic and informed response. It reasons across different data types."
+            },
+            "graph-prompting": {
+                instruction: "Generate a graph-based prompt to visualize user journey data for an e-learning platform.",
+                context: "The data includes user sign-ups, course enrollments, module completions, and quiz scores. The goal is to identify common drop-off points.",
+                inputData: "Nodes: 'Signed Up', 'Browsed Courses', 'Enrolled in Course', 'Completed Module 1', 'Completed Quiz 1', 'Dropped Off'. Edges: Transitions between these states. Metrics: Count of users at each node and edge, average time spent.",
+                outputIndicator: "A structured prompt describing a graph representation (e.g., a directed acyclic graph (DAG) or flowchart) that visuals the user journey, including definitions for nodes, edges, and associated metrics, allowing for analysis of user flow and identification of friction points.",
+                description: "Graph Prompting involves structuring a prompt to leverage graph-based representations (e.g., knowledge graphs, flowcharts, decision trees) to aid the AI's understanding, reasoning, or generation process. The AI can process and output information in a structured, connected manner."
+            }
+        };
+
+        // Examples for different personas
+        const personaExamples = {
+            "designer": {
+                description: "A Designer focuses on creating visually appealing, user-friendly, and accessible interfaces. They prioritize aesthetics, usability, user experience, and often think in terms of flows, wireframes, and prototypes."
+            },
+            "developer": {
+                description: "A Developer is responsible for building and maintaining software applications. They focus on functionality, performance, code quality, scalability, and technical feasibility. They often think in terms of logic, algorithms, and system architecture."
+            },
+            "manager": {
+                description: "A Manager (e.g., Product Manager, Project Manager) oversees projects and teams, ensuring goals are met on time and within budget. They focus on strategic planning, coordination, resource allocation, and communication, aiming for business objectives and team efficiency."
+            },
+            "researcher": {
+                description: "A Researcher (e.g., UX Researcher, Data Scientist) conducts studies, gathers data, and analyzes findings to inform design and development decisions. They focus on user behavior, needs, preferences, market trends, and data-driven insights."
+            }
+        };
+
+        const instructionTextarea = document.getElementById("instruction");
+        const contextTextarea = document.getElementById("context");
+        const inputDataTextarea = document.getElementById("inputData");
+        const outputIndicatorTextarea = document.getElementById("outputIndicator");
+        const promptTypeSelect = document.getElementById("promptType");
+        const personaTypeSelect = document.getElementById("personaType");
+        const descriptionDiv = document.getElementById("description");
+        const personaDescriptionDiv = document.getElementById("personaDescription");
+        const outputDiv = document.getElementById("output");
+        const outputContainer = document.getElementById("outputContainer");
+        const aiResponseCard = document.getElementById("aiResponseCard");
+        const aiResponseDiv = document.getElementById("aiResponse");
+        const loadingIndicator = document.getElementById("loadingIndicator");
+        const generatePromptBtn = document.getElementById("generatePromptBtn");
+        const copyPromptBtn = document.getElementById("copyPromptBtn");
+        const testPromptBtn = document.getElementById("testPromptBtn");
+
+        // Function to update input fields with example data based on selected prompt type
+        function updateExamples() {
+            let selected = promptTypeSelect.value;
+            let example = promptExamples[selected] || {};
+
+            // Clear fields if no technique is selected
+            if (!selected) {
+                instructionTextarea.value = "";
+                contextTextarea.value = "";
+                inputDataTextarea.value = "";
+                outputIndicatorTextarea.value = "";
+            } else {
+                // Populate fields with example data
+                instructionTextarea.value = example.instruction || "";
+                contextTextarea.value = example.context || "";
+                inputDataTextarea.value = example.inputData || "";
+                outputIndicatorTextarea.value = example.outputIndicator || "";
+            }
+
+            // Update the description of the selected prompting technique
+            const descriptionContent = document.querySelector('#description .info-box-content');
+            descriptionContent.innerText = example.description || "Select a prompting technique to see its description and examples.";
+            
+            // Update progress and check if generate button should be enabled/disabled
+            updateProgress();
+            toggleGenerateButtonState();
+        }
+
+        // Function to update persona description based on selected persona type
+        function updatePersona() {
+            let selected = personaTypeSelect.value;
+            let example = personaExamples[selected] || {};
+
+            const personaContent = document.querySelector('#personaDescription .info-box-content');
+            personaContent.innerText = example.description || "Select a persona to define the AI's role and perspective.";
+            
+            // Update progress and check if generate button should be enabled/disabled
+            updateProgress();
+            toggleGenerateButtonState();
+        }
+
+        // Function to check if the generate button should be enabled
+        function toggleGenerateButtonState() {
+            const hasInstruction = instructionTextarea.value.trim() !== '';
+            const hasOutputIndicator = outputIndicatorTextarea.value.trim() !== '';
+            // Enable generate button if at least instruction or output indicator is provided
+            generatePromptBtn.disabled = !(hasInstruction || hasOutputIndicator);
+        }
+
+        // Function to generate the AI prompt dynamically
+        function generatePrompt() {
+            const instruction = instructionTextarea.value.trim();
+            const context = contextTextarea.value.trim();
+            const inputData = inputDataTextarea.value.trim();
+            const outputIndicator = outputIndicatorTextarea.value.trim();
+
+            const personaType = personaTypeSelect.value;
+            const personaDescription = personaExamples[personaType]?.description || "a helpful AI assistant";
+
+            const promptTechnique = promptTypeSelect.value;
+            const promptTechniqueText = promptExamples[promptTechnique]?.description ? `${promptTechnique} prompting` : promptTechnique;
+
+            let generatedText = "";
+            let isValidInput = false;
+
+            if (instruction || context || inputData || outputIndicator) {
+                isValidInput = true;
+                
+                // Enhanced prompt structure
+                if (promptTechnique) {
+                    generatedText += `**Prompting Technique:** ${promptTechniqueText}\n\n`;
+                }
+
+                generatedText += `**Role:** Act as a professional ${personaType}.\n\n`;
+
+                if (context) {
+                    generatedText += `**Context:** ${context}\n\n`;
+                }
+                
+                if (instruction) {
+                    generatedText += `**Task:** ${instruction}\n\n`;
+                }
+                
+                if (inputData) {
+                    generatedText += `**Input:** ${inputData}\n\n`;
+                }
+                
+                if (outputIndicator) {
+                    generatedText += `**Expected Output:** ${outputIndicator}`;
+                }
+                
+                // Add quality guidelines
+                generatedText += `\n\n**Quality Guidelines:**\n- Be precise and comprehensive\n- Use clear, professional language\n- Provide actionable insights\n- Structure your response logically`;
+                
+            } else {
+                generatedText = "Please fill in at least one field above to generate your prompt.";
+            }
+
+            outputDiv.innerText = generatedText;
+
+            // Show/hide containers based on content
+            if (isValidInput) {
+                outputContainer.style.display = 'block';
+                showMessage('Prompt generated successfully!', 'success', 2000);
+            } else {
+                outputContainer.style.display = 'none';
+            }
+
+            // Always hide AI response when prompt is regenerated/cleared
+            aiResponseCard.style.display = 'none';
+            aiResponseDiv.innerText = '';
+            
+            // Update progress
+            updateProgress();
+        }
+
+        // Function to copy the generated prompt to clipboard
+        function copyPrompt() {
+            const promptText = outputDiv.innerText;
+            if (!promptText || promptText.includes("Please fill in")) {
+                showMessage("No prompt to copy. Please generate a prompt first.");
+                return;
+            }
+
+            navigator.clipboard.writeText(promptText).then(() => {
+                const originalButtonText = copyPromptBtn.innerText;
+                copyPromptBtn.innerText = 'Copied!';
+                setTimeout(() => {
+                    copyPromptBtn.innerText = originalButtonText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                // Fallback for environments where clipboard.writeText might not be available (e.g., some iframes)
+                const textarea = document.createElement('textarea');
+                textarea.value = promptText;
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy'); // Deprecated but might work as fallback
+                    const originalButtonText = copyPromptBtn.innerText;
+                    copyPromptBtn.innerText = 'Copied! (Fallback)';
+                    setTimeout(() => {
+                        copyPromptBtn.innerText = originalButtonText;
+                    }, 2000);
+                } catch (ex) {
+                    showMessage('Failed to copy the prompt. Please copy it manually.');
+                } finally {
+                    document.body.removeChild(textarea);
+                }
+            });
+        }
+
+        // Function to test the generated prompt with AI
+        async function testPrompt() {
+            const promptText = outputDiv.innerText;
+
+            if (!promptText || promptText.includes("Please fill in")) {
+                showMessage("Please generate a valid prompt before testing.", 'error');
+                return;
+            }
+
+            if (!aiConfig.isConfigured || !aiConfig.apiKey) {
+                showMessage("Please configure your AI settings first by clicking the settings button.", 'warning');
+                return;
+            }
+
+            aiResponseCard.style.display = 'block';
+            loadingIndicator.style.display = 'flex'; // Show loading indicator
+            aiResponseDiv.innerText = ''; // Clear previous response
+
+            try {
+                const response = await callAI(promptText);
+                aiResponseDiv.innerText = response;
+                showMessage('AI response generated successfully!', 'success');
+            } catch (error) {
+                console.error('Error calling AI:', error);
+                aiResponseDiv.innerText = "Error generating AI response. Please check your AI configuration and try again.";
+                showMessage(error.message || "Failed to get AI response.", 'error');
+            } finally {
+                loadingIndicator.style.display = 'none'; // Hide loading indicator
+            }
+        }
+
+        // Call AI based on configured provider
+        async function callAI(promptText) {
+            const { provider, apiKey, model, endpoint } = aiConfig;
+            
+            switch (provider) {
+                case 'gemini':
+                    return await callGemini(apiKey, model, promptText);
+                case 'openai':
+                    return await callOpenAI(apiKey, model, promptText);
+                case 'claude':
+                    return await callClaude(apiKey, model, promptText);
+                case 'autodesk':
+                    return await callAutodesk(apiKey, model, endpoint, promptText);
+                default:
+                    throw new Error(`Unsupported AI provider: ${provider}`);
+            }
+        }
+
+        // Gemini API call
+        async function callGemini(apiKey, model, promptText) {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{
+                    role: "user",
+                    parts: [{ text: promptText }]
+                }]
+            };
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Gemini API error: ${response.status} ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            
+            if (result.candidates && result.candidates.length > 0 &&
+                result.candidates[0].content && result.candidates[0].content.parts &&
+                result.candidates[0].content.parts.length > 0) {
+                return result.candidates[0].content.parts[0].text;
+            } else {
+                throw new Error("No response from Gemini or unexpected response format");
+            }
+        }
+
+        // OpenAI API call
+        async function callOpenAI(apiKey, model, promptText) {
+            const apiUrl = 'https://api.openai.com/v1/chat/completions';
+            const payload = {
+                model: model,
+                messages: [{ role: "user", content: promptText }],
+                max_tokens: 2000
+            };
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`OpenAI API error: ${response.status} ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            
+            if (result.choices && result.choices.length > 0) {
+                return result.choices[0].message.content;
+            } else {
+                throw new Error("No response from OpenAI or unexpected response format");
+            }
+        }
+
+        // Claude API call
+        async function callClaude(apiKey, model, promptText) {
+            const apiUrl = 'https://api.anthropic.com/v1/messages';
+            const payload = {
+                model: model,
+                max_tokens: 2000,
+                messages: [{ role: "user", content: promptText }]
+            };
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': apiKey,
+                    'anthropic-version': '2023-06-01'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Claude API error: ${response.status} ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            
+            if (result.content && result.content.length > 0) {
+                return result.content[0].text;
+            } else {
+                throw new Error("No response from Claude or unexpected response format");
+            }
+        }
+
+        // AutodeskGPT API call (placeholder)
+        async function callAutodesk(apiKey, model, endpoint, promptText) {
+            const apiUrl = `${endpoint}/chat/completions`;
+            const payload = {
+                model: model,
+                messages: [{ role: "user", content: promptText }],
+                max_tokens: 2000
+            };
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`AutodeskGPT API error: ${response.status} ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            
+            if (result.choices && result.choices.length > 0) {
+                return result.choices[0].message.content;
+            } else {
+                throw new Error("No response from AutodeskGPT or unexpected response format");
+            }
+        }
+
+        // Add event listeners for real-time updates
+        instructionTextarea.addEventListener('input', () => {
+            toggleGenerateButtonState();
+            updateProgress();
+        });
+        contextTextarea.addEventListener('input', () => {
+            toggleGenerateButtonState();
+            updateProgress();
+        });
+        inputDataTextarea.addEventListener('input', () => {
+            toggleGenerateButtonState();
+            updateProgress();
+        });
+        outputIndicatorTextarea.addEventListener('input', () => {
+            toggleGenerateButtonState();
+            updateProgress();
+        });
+        promptTypeSelect.addEventListener('change', updateExamples);
+        personaTypeSelect.addEventListener('change', updatePersona);
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTheme();
+            loadAIConfig(); // Load AI configuration
+            updateExamples();
+            updatePersona();
+            outputContainer.style.display = 'none';
+            aiResponseCard.style.display = 'none';
+            toggleGenerateButtonState();
+            updateProgress();
+            
+            // Add subtle animations to form elements
+            const formElements = document.querySelectorAll('textarea, select');
+            formElements.forEach(element => {
+                element.addEventListener('focus', () => {
+                    element.style.transform = 'scale(1.02)';
+                });
+                element.addEventListener('blur', () => {
+                    element.style.transform = 'scale(1)';
+                });
+            });
+
+            // Initialize help navigation
+            initializeHelpNavigation();
+        });
+
+        // Help navigation functionality
+        function initializeHelpNavigation() {
+            const helpNavLinks = document.querySelectorAll('.help-nav-link');
+            helpNavLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        const helpPanelContent = document.querySelector('.help-panel-content');
+                        const offsetTop = targetElement.offsetTop - 100; // Account for sticky header
+                        
+                        helpPanelContent.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Keyboard navigation for help panel and settings modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const helpPanel = document.getElementById('helpPanel');
+                const settingsModal = document.getElementById('settingsModal');
+                
+                if (settingsModal.classList.contains('open')) {
+                    closeSettings();
+                } else if (helpPanel.classList.contains('open')) {
+                    closeHelp();
+                }
+            }
+        });
+    </script>
+
+    <style>
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    </style>
+</body>
+</html>
