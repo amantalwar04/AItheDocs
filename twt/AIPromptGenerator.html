@@ -1279,9 +1279,6 @@
              background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
          }
 
-         .ai-provider-icon.autodesk {
-             background: linear-gradient(135deg, #0696d7 0%, #005a70 100%);
-         }
 
          .ai-provider-icon.openai {
              background: linear-gradient(135deg, #10a37f 0%, #1a7f64 100%);
@@ -1572,7 +1569,7 @@
                         <i class="fas fa-bullhorn"></i>
                         Instruction <span class="required">*</span>
                     </label>
-                    <textarea id="instruction" rows="3" placeholder="e.g., 'Write a UX case study for a newly designed Autodesk product.'"></textarea>
+                    <textarea id="instruction" rows="3" placeholder="e.g., 'Write a UX case study for a newly designed product.'"></textarea>
                     <p class="field-description">A specific task or instruction you want the model to perform. What should the AI *do*?</p>
                 </div>
 
@@ -1665,8 +1662,7 @@
     <footer class="footer-section">
         <div class="footer-content">
             <h3>AI Prompt Generator</h3>
-            <p>Developed by Aman Talwar & Jayanath Perera</p>
-            <p>Team: Content Design</p>
+            <p>Developed by Aman Talwar</p>
             <div class="footer-links">
                 <a href="#" onclick="showAbout()">About</a>
                 <a href="#" onclick="showHelp()">Help</a>
@@ -1716,41 +1712,6 @@
                                      <option value="gemini-1.5-flash">Gemini 1.5 Flash (Recommended)</option>
                                      <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
                                      <option value="gemini-pro">Gemini Pro</option>
-                                 </select>
-                             </div>
-                         </div>
-                     </div>
-
-                     <div class="ai-provider-card" data-provider="autodesk" onclick="selectAIProvider('autodesk')">
-                         <div class="ai-provider-header">
-                             <div class="ai-provider-icon autodesk">
-                                 <i class="fas fa-cube"></i>
-                             </div>
-                             <div>
-                                 <div class="ai-provider-name">AutodeskGPT</div>
-                                 <p class="ai-provider-description">Autodesk's specialized AI for design and engineering workflows</p>
-                             </div>
-                         </div>
-                         <div class="api-config" id="autodesk-config">
-                             <div class="config-field">
-                                 <label class="config-label" for="autodesk-api-key">
-                                     <i class="fas fa-key"></i> API Key
-                                 </label>
-                                 <input type="password" id="autodesk-api-key" class="config-input" placeholder="Enter your AutodeskGPT API key">
-                             </div>
-                             <div class="config-field">
-                                 <label class="config-label" for="autodesk-endpoint">
-                                     <i class="fas fa-link"></i> API Endpoint
-                                 </label>
-                                 <input type="url" id="autodesk-endpoint" class="config-input" placeholder="https://api.autodesk.com/ai/v1">
-                             </div>
-                             <div class="config-field">
-                                 <label class="config-label" for="autodesk-model">
-                                     <i class="fas fa-cogs"></i> Model
-                                 </label>
-                                 <select id="autodesk-model" class="config-input">
-                                     <option value="autodesk-gpt-4">AutodeskGPT-4</option>
-                                     <option value="autodesk-gpt-3.5">AutodeskGPT-3.5</option>
                                  </select>
                              </div>
                          </div>
@@ -2283,8 +2244,6 @@ Now generate for: 'Learn More'"
                         return await testOpenAIConnection(apiKey, model, testPrompt);
                     case 'claude':
                         return await testClaudeConnection(apiKey, model, testPrompt);
-                    case 'autodesk':
-                        return await testAutodeskConnection(apiKey, model, testPrompt);
                     default:
                         throw new Error('Unsupported AI provider');
                 }
@@ -2371,36 +2330,6 @@ Now generate for: 'Learn More'"
             return result.content && result.content.length > 0;
         }
 
-        // AutodeskGPT connection test (placeholder - actual implementation would depend on Autodesk's API)
-        async function testAutodeskConnection(apiKey, model, testPrompt) {
-            // This is a placeholder implementation
-            // Replace with actual AutodeskGPT API call when available
-            const endpointInput = document.getElementById('autodesk-endpoint');
-            const endpoint = endpointInput ? endpointInput.value.trim() : 'https://api.autodesk.com/ai/v1';
-            
-            const apiUrl = `${endpoint}/chat/completions`;
-            const payload = {
-                model: model,
-                messages: [{ role: "user", content: testPrompt }],
-                max_tokens: 50
-            };
-
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
-                },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-                throw new Error(`AutodeskGPT API error: ${response.status} ${response.statusText}`);
-            }
-
-            const result = await response.json();
-            return result.choices && result.choices.length > 0;
-        }
 
         // Theme management
         function toggleTheme() {
@@ -2548,7 +2477,7 @@ Now generate for: 'Learn More'"
         }
 
         function showContact() {
-            showMessage('Contact: Aman Talwar & Jayanath Perera - Content Design Team', 'info', 4000);
+            showMessage('Contact: Aman Talwar', 'info', 4000);
         }
 
         // Examples for different prompting techniques in content & UX design
@@ -2908,8 +2837,6 @@ Now generate for: 'Learn More'"
                     return await callOpenAI(apiKey, model, promptText);
                 case 'claude':
                     return await callClaude(apiKey, model, promptText);
-                case 'autodesk':
-                    return await callAutodesk(apiKey, model, endpoint, promptText);
                 default:
                     throw new Error(`Unsupported AI provider: ${provider}`);
             }
@@ -3009,36 +2936,6 @@ Now generate for: 'Learn More'"
             }
         }
 
-        // AutodeskGPT API call (placeholder)
-        async function callAutodesk(apiKey, model, endpoint, promptText) {
-            const apiUrl = `${endpoint}/chat/completions`;
-            const payload = {
-                model: model,
-                messages: [{ role: "user", content: promptText }],
-                max_tokens: 2000
-            };
-
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
-                },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-                throw new Error(`AutodeskGPT API error: ${response.status} ${response.statusText}`);
-            }
-
-            const result = await response.json();
-            
-            if (result.choices && result.choices.length > 0) {
-                return result.choices[0].message.content;
-            } else {
-                throw new Error("No response from AutodeskGPT or unexpected response format");
-            }
-        }
 
         // Add event listeners for real-time updates
         instructionTextarea.addEventListener('input', () => {
