@@ -669,17 +669,284 @@
         .title-slide {
             background: white;
             color: var(--text-color);
+            position: relative;
+            overflow: hidden;
         }
 
+        /* Neural Network Animation Background */
+        .neural-network-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .neural-node {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .neural-node::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--primary-color) 0%, transparent 100%);
+            opacity: 0.2;
+            transform-origin: left center;
+            animation: rotate-line 12s linear infinite;
+        }
+
+        .neural-node:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .neural-node:nth-child(2) { top: 20%; left: 15%; animation-delay: 1s; }
+        .neural-node:nth-child(3) { top: 15%; left: 85%; animation-delay: 2s; }
+        .neural-node:nth-child(4) { top: 30%; left: 90%; animation-delay: 0.5s; }
+        .neural-node:nth-child(5) { top: 70%; left: 8%; animation-delay: 1.5s; }
+        .neural-node:nth-child(6) { top: 80%; left: 20%; animation-delay: 2.5s; }
+        .neural-node:nth-child(7) { top: 75%; left: 85%; animation-delay: 0.8s; }
+        .neural-node:nth-child(8) { top: 85%; left: 92%; animation-delay: 1.8s; }
+        .neural-node:nth-child(9) { top: 40%; left: 3%; animation-delay: 3s; }
+        .neural-node:nth-child(10) { top: 50%; left: 95%; animation-delay: 2.2s; }
+        .neural-node:nth-child(11) { top: 5%; left: 50%; animation-delay: 1.2s; }
+        .neural-node:nth-child(12) { top: 92%; left: 50%; animation-delay: 0.3s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+            50% { transform: translateY(-20px) scale(1.2); opacity: 0.6; }
+        }
+
+        @keyframes rotate-line {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Animated gradient orbs */
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.15;
+            animation: pulse-orb 6s ease-in-out infinite;
+        }
+
+        .gradient-orb.orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary-color);
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .gradient-orb.orb-2 {
+            width: 350px;
+            height: 350px;
+            background: var(--secondary-color);
+            top: -50px;
+            right: -100px;
+            animation-delay: 2s;
+        }
+
+        .gradient-orb.orb-3 {
+            width: 300px;
+            height: 300px;
+            background: var(--success-color);
+            bottom: 10%;
+            left: 10%;
+            animation-delay: 4s;
+        }
+
+        .gradient-orb.orb-4 {
+            width: 250px;
+            height: 250px;
+            background: var(--primary-color);
+            bottom: 5%;
+            right: 5%;
+            animation-delay: 1s;
+        }
+
+        @keyframes pulse-orb {
+            0%, 100% { transform: scale(1); opacity: 0.15; }
+            50% { transform: scale(1.1); opacity: 0.25; }
+        }
+
+        /* Animated title styles */
         .title-slide h1 {
-            background: var(--gradient-primary);
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 25%, #2563eb 50%, #06b6d4 75%, #2563eb 100%);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: gradient-shift 6s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Pulsing brain icon */
+        .title-slide h1 .fa-brain {
+            display: inline-block;
+            animation: brain-pulse 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(37, 99, 235, 0.5));
+        }
+
+        @keyframes brain-pulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(37, 99, 235, 0.5)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(37, 99, 235, 0.8)); }
+        }
+
+        /* Animated subtitle */
+        .title-slide .subtitle {
+            animation: fade-slide-up 1s ease-out 0.5s both;
+        }
+
+        @keyframes fade-slide-up {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Slide content z-index */
+        .title-slide .slide-content {
+            position: relative;
+            z-index: 1;
         }
 
         .title-slide p {
             color: var(--text-muted);
+        }
+
+        /* Sparkle animation for the info box */
+        .title-slide .info-card-animated {
+            animation: card-appear 0.8s ease-out 0.8s both;
+        }
+
+        @keyframes card-appear {
+            0% { opacity: 0; transform: translateY(40px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Prompt Flow Graphic Styles */
+        .prompt-flow-graphic {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 2rem 1rem;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.03) 0%, rgba(124, 58, 237, 0.03) 100%);
+            border-radius: var(--border-radius-xl);
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .flow-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .flow-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .flow-icon.user-icon {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            animation: pulse-icon 3s ease-in-out infinite;
+        }
+
+        .flow-icon.ai-icon {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            color: white;
+            animation: pulse-icon 3s ease-in-out infinite 1s;
+        }
+
+        .flow-icon.ai-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid rgba(37, 99, 235, 0.3);
+            animation: ripple 2s ease-out infinite;
+        }
+
+        .flow-icon.output-icon {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            animation: pulse-icon 3s ease-in-out infinite 2s;
+        }
+
+        @keyframes pulse-icon {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .flow-label {
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        .flow-arrow {
+            animation: arrow-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes arrow-pulse {
+            0%, 100% { opacity: 0.5; transform: translateX(0); }
+            50% { opacity: 1; transform: translateX(5px); }
+        }
+
+        /* Responsive adjustments for flow graphic */
+        @media (max-width: 768px) {
+            .prompt-flow-graphic {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+
+            .flow-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
         }
 
 
@@ -718,106 +985,207 @@
 
         <!-- Slide 1: Title -->
         <div class="slide active title-slide" id="slide1">
+            <!-- Animated Background -->
+            <div class="neural-network-bg">
+                <!-- Gradient Orbs -->
+                <div class="gradient-orb orb-1"></div>
+                <div class="gradient-orb orb-2"></div>
+                <div class="gradient-orb orb-3"></div>
+                <div class="gradient-orb orb-4"></div>
+                <!-- Neural Nodes -->
+                <div class="neural-node"></div>
+                <div class="neural-node"></div>
+                <div class="neural-node"></div>
+                <div class="neural-node"></div>
+                <div class="neural-node"></div>
+                <div class="neural-node"></div>
+                <div class="neural-node"></div>
+                <div class="neural-node"></div>
+                <div class="neural-node"></div>
+                <div class="neural-node"></div>
+                <div class="neural-node"></div>
+                <div class="neural-node"></div>
+            </div>
+            
             <div class="slide-content">
                 <h1><i class="fas fa-brain"></i> Mastering AI Prompting Techniques</h1>
                 <p class="subtitle">How Effective Prompts Generate Better Output & Reduce Iterations</p>
                 
-                <!-- Resource Reference Section -->
-                <div style="margin-top: 4rem; background: var(--card-background); padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-md); max-width: 800px; margin-left: auto; margin-right: auto;">
-                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-                        <i class="fas fa-info-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
-                        <h3 style="color: var(--text-color); margin: 0; font-size: 1.3rem;">Additional Resources</h3>
+                <!-- AI Prompt Flow Graphic -->
+                <div class="info-card-animated" style="margin-top: 3rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+                    <div class="prompt-flow-graphic">
+                        <div class="flow-step">
+                            <div class="flow-icon user-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="flow-label">Your Prompt</div>
+                        </div>
+                        <div class="flow-arrow">
+                            <svg width="60" height="24" viewBox="0 0 60 24">
+                                <defs>
+                                    <linearGradient id="arrowGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:#2563eb;stop-opacity:0.3" />
+                                        <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <path d="M0 12 L50 12 M40 4 L52 12 L40 20" stroke="url(#arrowGrad1)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="flow-step">
+                            <div class="flow-icon ai-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="flow-label">AI Processing</div>
+                        </div>
+                        <div class="flow-arrow">
+                            <svg width="60" height="24" viewBox="0 0 60 24">
+                                <path d="M0 12 L50 12 M40 4 L52 12 L40 20" stroke="url(#arrowGrad1)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="flow-step">
+                            <div class="flow-icon output-icon">
+                                <i class="fas fa-magic"></i>
+                            </div>
+                            <div class="flow-label">Better Output</div>
+                        </div>
                     </div>
                     
-                    <div style="background: var(--info-background); border: 1px solid var(--info-border); border-radius: var(--border-radius-md); padding: 1.5rem; margin-bottom: 1rem;">
-                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234285f4'%3E%3Cpath d='M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z'/%3E%3Cpath d='M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z'/%3E%3Cpath d='M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z'/%3E%3Cpath d='M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z'/%3E%3C/svg%3E" alt="Google Cloud" style="width: 24px; height: 24px;" />
-                            <strong style="color: var(--primary-color); font-size: 1.1rem;">Google Cloud AI & ML Resources</strong>
+                    <!-- Prompt Engineering Guide Link -->
+                    <div style="margin-top: 2.5rem; background: var(--card-background); border-radius: var(--border-radius-lg); padding: 1.5rem; box-shadow: var(--shadow-md); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="background: var(--gradient-primary); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-book-open" style="color: white; font-size: 1.3rem;"></i>
+                            </div>
+                            <div style="text-align: left;">
+                                <strong style="color: var(--text-color); font-size: 1.1rem; display: block;">Google Cloud Prompt Engineering Guide</strong>
+                                <span style="color: var(--text-muted); font-size: 0.9rem;">Comprehensive techniques, examples & best practices</span>
+                            </div>
                         </div>
-                        <p style="margin: 0; color: var(--text-muted); font-size: 1rem; line-height: 1.5;">
-                            Comprehensive learning materials on prompt engineering, AI applications, and machine learning fundamentals are available through Google Cloud's extensive documentation and guides.
-                        </p>
-                    </div>
-                    
-                    <div style="background: var(--background-secondary); border-radius: var(--border-radius-md); padding: 1.25rem; text-align: left;">
-                        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
-                            <i class="fas fa-external-link-alt" style="color: var(--primary-color); font-size: 1.1rem;"></i>
-                            <strong style="color: var(--text-color); font-size: 1rem;">Explore More Resources:</strong>
-                        </div>
-                        <a href="https://cloud.google.com/discover?hl=en" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: none; font-size: 1rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; transition: color var(--transition-fast); margin-bottom: 0.75rem;">
-                            <i class="fas fa-globe" style="font-size: 0.9rem;"></i>
-                            cloud.google.com/discover
-                            <i class="fas fa-arrow-right" style="font-size: 0.8rem; margin-left: auto;"></i>
+                        <a href="https://cloud.google.com/discover/what-is-prompt-engineering?hl=en#types-of-prompts" target="_blank" rel="noopener noreferrer" style="background: var(--gradient-primary); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: var(--border-radius-md); font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.5rem; transition: transform var(--transition-fast), box-shadow var(--transition-fast); box-shadow: var(--shadow-sm);">
+                            Read the Guide
+                            <i class="fas fa-external-link-alt" style="font-size: 0.85rem;"></i>
                         </a>
-                        <a href="https://cloud.google.com/discover/what-is-prompt-engineering?hl=en#types-of-prompts" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: none; font-size: 1rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; transition: color var(--transition-fast);">
-                            <i class="fas fa-book-open" style="font-size: 0.9rem;"></i>
-                            Prompt Engineering Guide
-                            <i class="fas fa-arrow-right" style="font-size: 0.8rem; margin-left: auto;"></i>
-                        </a>
-                        <p style="margin: 0.75rem 0 0 0; color: var(--text-muted); font-size: 0.9rem;">
-                            Discover AI applications, prompt engineering guides, machine learning fundamentals, and enterprise AI implementation strategies.
-                        </p>
                     </div>
                 </div>
 
             </div>
         </div>
 
-        <!-- Slide 2: The Problem -->
+        <!-- Slide 2: The Problem & Solution -->
         <div class="slide" id="slide2">
             <div class="slide-content">
-                <h2><i class="fas fa-chart-line"></i> Research-Backed Impact of Effective Prompting</h2>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin: 2rem 0; align-items: center;">
-                    <!-- Infographic Section -->
-                    <div style="text-align: center;">
-                        <div style="background: var(--gradient-primary); color: white; padding: 3rem 2rem; border-radius: var(--border-radius-xl); box-shadow: var(--shadow-lg); position: relative; overflow: hidden;">
-                            <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%; transform: translate(30px, -30px);"></div>
-                            <div style="position: absolute; bottom: 0; left: 0; width: 80px; height: 80px; background: rgba(255,255,255,0.1); border-radius: 50%; transform: translate(-20px, 20px);"></div>
-                            <i class="fas fa-brain" style="font-size: 4rem; margin-bottom: 1rem; color: white; opacity: 1; position: relative; z-index: 2;"></i>
-                            <h3 style="margin-bottom: 2rem; font-size: 1.5rem; color: white; font-weight: 600; position: relative; z-index: 2;">MIT Sloan Research</h3>
-                            <div style="font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem; color: white; position: relative; z-index: 2;">50%</div>
-                            <p style="font-size: 1.1rem; line-height: 1.4; margin: 0; color: white; font-weight: 500; position: relative; z-index: 2;">of AI performance gains come from effective prompting, not just the model itself</p>
+                <h2><i class="fas fa-puzzle-piece"></i> The Problem & Solution</h2>
+                
+                <!-- Problem vs Solution Grid -->
+                <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 2rem; margin: 2rem 0; align-items: stretch;">
+                    
+                    <!-- The Problem -->
+                    <div style="background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); border: 2px solid #fecaca; border-radius: var(--border-radius-xl); padding: 2rem; text-align: left;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                            <div style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-exclamation-triangle" style="color: white; font-size: 1.3rem;"></i>
+                            </div>
+                            <h3 style="margin: 0; color: #dc2626; font-size: 1.4rem;">The Challenge</h3>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.25rem; padding: 1rem; background: white; border-radius: var(--border-radius-md); border-left: 4px solid #ef4444;">
+                            <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                                <i class="fas fa-random" style="color: #ef4444; margin-top: 0.2rem;"></i>
+                                <div>
+                                    <strong style="color: var(--text-color); display: block; margin-bottom: 0.25rem;">Inconsistent Results</strong>
+                                    <span style="color: var(--text-muted); font-size: 0.9rem;">Creating effective AI prompts consistently is difficult—output quality varies wildly</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.25rem; padding: 1rem; background: white; border-radius: var(--border-radius-md); border-left: 4px solid #ef4444;">
+                            <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                                <i class="fas fa-clock" style="color: #ef4444; margin-top: 0.2rem;"></i>
+                                <div>
+                                    <strong style="color: var(--text-color); display: block; margin-bottom: 0.25rem;">Time-Consuming Process</strong>
+                                    <span style="color: var(--text-muted); font-size: 0.9rem;">Manual prompt crafting requires multiple iterations and constant refinement</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="padding: 1rem; background: white; border-radius: var(--border-radius-md); border-left: 4px solid #ef4444;">
+                            <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                                <i class="fas fa-bug" style="color: #ef4444; margin-top: 0.2rem;"></i>
+                                <div>
+                                    <strong style="color: var(--text-color); display: block; margin-bottom: 0.25rem;">Error-Prone</strong>
+                                    <span style="color: var(--text-muted); font-size: 0.9rem;">Missing context, vague instructions, and poor structure lead to subpar AI responses</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
-                    <!-- Data Points -->
-                    <div>
-                        <div class="metric-card" style="margin-bottom: 1.5rem; border-left: 4px solid var(--success-color);">
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <i class="fas fa-rocket" style="font-size: 2rem; color: var(--success-color);"></i>
+                    <!-- Arrow Divider -->
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <div style="background: var(--gradient-primary); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-lg);">
+                            <i class="fas fa-arrow-right" style="color: white; font-size: 1.5rem;"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- The Solution -->
+                    <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 2px solid #bbf7d0; border-radius: var(--border-radius-xl); padding: 2rem; text-align: left;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                            <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-lightbulb" style="color: white; font-size: 1.3rem;"></i>
+                            </div>
+                            <h3 style="margin: 0; color: #059669; font-size: 1.4rem;">The Vision</h3>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.25rem; padding: 1rem; background: white; border-radius: var(--border-radius-md); border-left: 4px solid #10b981;">
+                            <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                                <i class="fas fa-magic" style="color: #10b981; margin-top: 0.2rem;"></i>
                                 <div>
-                                    <span class="metric-value" style="font-size: 2.5rem;">55.8%</span>
-                                    <div class="metric-label">faster task completion with AI assistance<br/><small style="color: var(--text-light);">Source: GitHub Copilot Study (arXiv, 2023)</small></div>
+                                    <strong style="color: var(--text-color); display: block; margin-bottom: 0.25rem;">Automated Prompt Generation</strong>
+                                    <span style="color: var(--text-muted); font-size: 0.9rem;">Leverage proven templates and techniques to generate exemplary prompts automatically</span>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="metric-card" style="margin-bottom: 1.5rem; border-left: 4px solid var(--warning-color);">
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <i class="fas fa-target" style="font-size: 2rem; color: var(--warning-color);"></i>
+                        <div style="margin-bottom: 1.25rem; padding: 1rem; background: white; border-radius: var(--border-radius-md); border-left: 4px solid #10b981;">
+                            <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                                <i class="fas fa-check-double" style="color: #10b981; margin-top: 0.2rem;"></i>
                                 <div>
-                                    <span class="metric-value" style="font-size: 2.5rem;">45%</span>
-                                    <div class="metric-label">accuracy improvement with Chain-of-Thought prompting<br/><small style="color: var(--text-light);">Source: Prompt Engineering Research (2024)</small></div>
+                                    <strong style="color: var(--text-color); display: block; margin-bottom: 0.25rem;">Consistent Quality</strong>
+                                    <span style="color: var(--text-muted); font-size: 0.9rem;">Structured frameworks ensure every prompt includes context, examples, and clear requirements</span>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="metric-card" style="border-left: 4px solid var(--primary-color);">
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <i class="fas fa-users" style="font-size: 2rem; color: var(--primary-color);"></i>
+                        <div style="padding: 1rem; background: white; border-radius: var(--border-radius-md); border-left: 4px solid #10b981;">
+                            <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                                <i class="fas fa-bolt" style="color: #10b981; margin-top: 0.2rem;"></i>
                                 <div>
-                                    <span class="metric-value" style="font-size: 2.5rem;">92%</span>
-                                    <div class="metric-label">of developers report better AI outputs with structured prompts<br/><small style="color: var(--text-light);">Source: Stack Overflow Developer Survey (2024)</small></div>
+                                    <strong style="color: var(--text-color); display: block; margin-bottom: 0.25rem;">Faster Results</strong>
+                                    <span style="color: var(--text-muted); font-size: 0.9rem;">Reduce iterations and get better AI outputs on the first try</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div style="background: var(--info-background); border: 1px solid var(--info-border); border-radius: var(--border-radius-lg); padding: 1.5rem; margin-top: 2rem; margin-bottom: 6rem; text-align: center;">
-                    <p style="margin: 0; font-size: 1.2rem; color: var(--primary-color); font-weight: 600;">
-                        <i class="fas fa-lightbulb"></i> Research consistently shows: effective prompting is as important as the AI model itself
-                    </p>
+                <!-- Research Statistics Bar -->
+                <div style="background: var(--card-background); border: 1px solid var(--border-color); border-radius: var(--border-radius-xl); padding: 1.5rem 2rem; margin-top: 1.5rem; margin-bottom: 6rem; box-shadow: var(--shadow-md);">
+                    <div style="text-align: center; margin-bottom: 1rem;">
+                        <span style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Research-Backed Impact</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; text-align: center;">
+                        <div style="border-right: 1px solid var(--border-color);">
+                            <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary-color);">50%</div>
+                            <div style="color: var(--text-muted); font-size: 0.9rem;">of AI gains from effective prompting<br/><small style="color: var(--text-light);">MIT Sloan Research</small></div>
+                        </div>
+                        <div style="border-right: 1px solid var(--border-color);">
+                            <div style="font-size: 2.5rem; font-weight: 800; color: var(--success-color);">55.8%</div>
+                            <div style="color: var(--text-muted); font-size: 0.9rem;">faster task completion<br/><small style="color: var(--text-light);">GitHub Copilot Study (arXiv, 2023)</small></div>
+                        </div>
+                        <div>
+                            <div style="font-size: 2.5rem; font-weight: 800; color: var(--warning-color);">92%</div>
+                            <div style="color: var(--text-muted); font-size: 0.9rem;">report better outputs with structured prompts<br/><small style="color: var(--text-light);">Stack Overflow Survey (2024)</small></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
