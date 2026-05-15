@@ -1,0 +1,11 @@
+# Ignore node_modules and all its contents
+node_modules/
+
+# Ignore all JSON files
+*.json
+
+# Ignore all PowerPoint files
+*.pptx
+
+# Ignore all JavaScript files
+*.js

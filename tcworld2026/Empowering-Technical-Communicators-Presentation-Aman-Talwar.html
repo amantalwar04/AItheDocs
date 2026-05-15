@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Empowering Technical Communicators with MCP Servers</title>
+    <title>From Manual to Automated: A Practical Introduction to the Model Context Protocol for Technical Writers</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css">
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
@@ -16,9 +16,22 @@
             --warm-slate: #D5D5CB;
         }
 
+        body {
+            background: #000000 !important;
+        }
+
+        html {
+            background: #000000 !important;
+        }
+
         .reveal {
+            background: #000000 !important;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             font-size: 32px;
+        }
+
+        .reveal .slides {
+            background: #000000 !important;
         }
 
         .reveal h1 {
@@ -243,6 +256,10 @@
             color: #999;
         }
 
+        .reveal section {
+            background: #000000;
+        }
+
         .reveal ul {
             list-style: none;
             margin: 10px 0;
@@ -355,7 +372,7 @@
                 <aside class="notes">
                     <strong>⏱ TIME: 0:00-1:30 (90 seconds)</strong><br><br>
                     
-                    Good [morning/afternoon], everyone. Welcome to our session on "Empowering Technical Communicators with MCP Servers."<br><br>
+                    Good [morning/afternoon], everyone. Welcome to our session on "From Manual to Automated: A Practical Introduction to the Model Context Protocol for Technical Writers."<br><br>
                     
                     My name is Amandeep Singh Talwar, and I'm a Content Design Manager at Autodesk.<br><br>
                     
@@ -485,17 +502,16 @@
             <!-- Category Tag -->
             <g>
               <rect x="0" y="0" width="4" height="32" fill="#f97316"/>
-              <text x="16" y="22" font-family="monospace" font-weight="bold" font-size="14" fill="#94a3b8" letter-spacing="2">STC INDIA ANNUAL TECHNICAL WRITERS SUMMIT 2025</text>
+              <text x="16" y="22" font-family="monospace" font-weight="bold" font-size="14" fill="#94a3b8" letter-spacing="2">tcworld China 2026</text>
             </g>
 
             <!-- Main Headline (Adjusted size for length) -->
-            <text x="0" y="120" font-family="sans-serif" font-weight="900" font-size="52" fill="#FFFF00" letter-spacing="-1">EMPOWERING</text>
-            <text x="0" y="180" font-family="sans-serif" font-weight="900" font-size="52" fill="#FFFF00" letter-spacing="-1">TECHNICAL COMMUNICATORS</text>
+            <text x="0" y="120" font-family="sans-serif" font-weight="900" font-size="52" fill="#FFFF00" letter-spacing="-1">From Manual to Automated</text>
             
             <!-- Sub-headline -->
             <text x="0" y="250" font-family="sans-serif" font-weight="bold" font-size="24" fill="#ffffff" letter-spacing="0">
-              <tspan x="0" dy="0">FROM ROUTINE TASKS TO</tspan>
-              <tspan x="0" dy="32">AI-POWERED AUTOMATION WITH MCP SERVERS</tspan>
+              <tspan x="0" dy="0">A Practical Introduction to the Model Context Protocol (MCP)</tspan>
+              <tspan x="0" dy="32"> for Technical Writers</tspan>
             </text>
             
           </g>
@@ -516,8 +532,8 @@
                <circle cx="35" cy="35" r="37" fill="none" stroke="#22d3ee" stroke-width="2" opacity="0.8"/>
                <!-- Image -->
                <image 
-                 xlink:href="https://media.licdn.com/dms/image/v2/D5603AQGOqVyPAwjM3Q/profile-displayphoto-scale_200_200/B56ZfoS6P_HEAk-/0/1751948961468?e=1765411200&amp;v=beta&amp;t=CzGkQHfI2ZrHe5CEO3OFiXlD1lxntbXcHIOYuAFhSo4"
-                 href="https://media.licdn.com/dms/image/v2/D5603AQGOqVyPAwjM3Q/profile-displayphoto-scale_200_200/B56ZfoS6P_HEAk-/0/1751948961468?e=1765411200&amp;v=beta&amp;t=CzGkQHfI2ZrHe5CEO3OFiXlD1lxntbXcHIOYuAFhSo4"
+                 xlink:href="./AmanTalwar.png"
+                 href="./AmanTalwar.png"
                  width="70" height="70" 
                  clip-path="url(#profileClip)" 
                  preserveAspectRatio="xMidYMid slice"
@@ -588,17 +604,17 @@
             <section>
                 <aside class="notes">
                     <strong>⏱ TIME: 3:00-4:45 (105 seconds)</strong><br><br>
-                    
+
                     Let's be honest about the challenges we face daily.<br><br>
-                    
+
                     <strong>Look at these numbers:</strong> 60% of our time goes to repetitive tasks. We're juggling 15 or more different tools and platforms. And we're making hundreds of manual updates every single month.<br><br>
-                    
+
                     <strong>On the left:</strong> Manual document generation from scattered sources, endless copy-pasting between systems, reformatting the same content for different platforms.<br><br>
-                    
+
                     <strong>On the right:</strong> Keeping documentation in sync across multiple locations, version control nightmares, and constantly extracting data from different sources.<br><br>
-                    
+
                     <strong>Show of hands</strong> - How many of you have spent more than an hour this week just copy-pasting content between systems? (pause for response)<br><br>
-                    
+
                     Exactly. This is where MCP servers come in. They eliminate these pain points by automating the connections between your tools.
                 </aside>
                 <h2>The Technical Writer's Daily Struggle</h2>
@@ -913,61 +929,217 @@
                 </div>
             </section>
 
-            <!-- Quick Start -->
+            <!-- Transition: Release Notes Story with Image -->
             <section>
                 <aside class="notes">
-                    <strong>⏱ TIME: 9:00-11:00 (120 seconds)</strong><br><br>
-                    
-                    So how do you actually GET STARTED? Here are three concrete steps:<br><br>
-                    
-                    <strong>STEP 1: EXPLORE EXISTING MCPs</strong><br>
-                    Visit modelcontextprotocol.io—that's the official registry. You'll find dozens of pre-built MCP servers. Popular ones include GitHub (for repository access), Confluence (for wiki content), and Google Drive (for document access).<br><br>
-                    
-                    Installation is simple. If you're using Claude Desktop, for example, you just add a few lines to a config file. Most MCP servers come with installation guides.<br><br>
-                    
-                    <strong>STEP 2: IDENTIFY REPETITIVE TASKS</strong><br>
-                    This is crucial. Don't try to automate everything at once. Look for tasks you do multiple times per week. Focus on data aggregation—pulling info from multiple sources. Think about multi-source documentation workflows.<br><br>
-                    
-                    For example: Do you regularly compile information from JIRA tickets, GitHub commits, and Confluence pages? That's a perfect candidate for automation.<br><br>
-                    
-                    <strong>STEP 3: START SMALL, SCALE SMART</strong><br>
-                    Begin with ONE use case. Measure the time saved. If it works, iterate. If it doesn't, try another approach. Then, share your successful automations with your team.<br><br>
-                    
-                    The key is to start small and prove the value before scaling up.
+                    <strong>⏱ TIME: 9:00-9:30 (30 seconds)</strong><br><br>
+
+                    Let me tell you a story. A few months ago, I was working on release notes for a major product update. It should have been straightforward, right? Write what changed, what's new, what's fixed.<br><br>
+
+                    But here's the reality: I needed to gather information from JIRA (for bug fixes), Confluence (for feature details), Slack (for team context), and GitHub (for code changes). That's four different systems, four different data sources, four different formats.<br><br>
+
+                    What should have taken 2 hours took 6 hours. Most of that time wasn't writing—it was hunting, copying, formatting, and stitching everything together.<br><br>
+
+                    That's when I realized: this is exactly what MCP servers are designed for.<br><br>
+
+                    Let me show you how I solved this problem.
                 </aside>
-                <h2>Quick Start: 3 Ways to Begin</h2>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-top: 2em;">
-                    <div class="solution-box" style="position: relative; padding-top: 50px;">
-                        <div style="position: absolute; top: 15px; left: 15px; font-size: 2em; font-weight: bold; color: var(--hello-yellow);">1</div>
-                        <h3 style="font-size: 0.95em; margin-bottom: 15px;">Explore Existing MCPs</h3>
-                        <ul style="font-size: 0.75em; text-align: left; line-height: 1.6;">
-                            <li>Browse registry: <code style="font-size: 0.9em;">modelcontextprotocol.io</code></li>
-                            <li>Try GitHub, Confluence, and Google Drive servers</li>
-                            <li>Install via Claude Desktop or compatible AI tools</li>
-                        </ul>
+                <h2 style="margin-bottom: 1.5em;">The Release Notes Challenge</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 50px; align-items: center; margin-top: 2em; height: 480px;">
+                    <!-- Left: Impactful Image -->
+                    <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+                        <img src="./Picture1.png" alt="Technical Writer Overwhelmed" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                     </div>
-                    
-                    <div class="solution-box" style="position: relative; padding-top: 50px;">
-                        <div style="position: absolute; top: 15px; left: 15px; font-size: 2em; font-weight: bold; color: var(--hello-yellow);">2</div>
-                        <h3 style="font-size: 0.95em; margin-bottom: 15px;">Identify Repetitive Tasks</h3>
-                        <ul style="font-size: 0.75em; text-align: left; line-height: 1.6;">
-                            <li>Look for tasks you do multiple times a week</li>
-                            <li>Focus on data aggregation and formatting tasks</li>
-                            <li>Consider multi-source documentation workflows</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="solution-box" style="position: relative; padding-top: 50px;">
-                        <div style="position: absolute; top: 15px; left: 15px; font-size: 2em; font-weight: bold; color: var(--hello-yellow);">3</div>
-                        <h3 style="font-size: 0.95em; margin-bottom: 15px;">Start Small, Scale Smart</h3>
-                        <ul style="font-size: 0.75em; text-align: left; line-height: 1.6;">
-                            <li>Begin with one automation use case</li>
-                            <li>Measure time saved and iterate</li>
-                            <li>Share successful automations with your team</li>
-                        </ul>
+
+                    <!-- Right: Bold Messaging -->
+                    <div style="display: flex; flex-direction: column; justify-content: center; gap: 1.5em;">
+                        <div>
+                            <p style="font-size: 1.4em; font-weight: 900; color: var(--hello-yellow); line-height: 1.3; margin: 0;">
+                                2 hours of writing<br>
+                                6 hours of hunting
+                            </p>
+                        </div>
+                        <div style="background: rgba(255, 255, 0, 0.15); border-left: 4px solid var(--hello-yellow); padding: 20px; border-radius: 8px;">
+                            <p style="font-size: 1.05em; line-height: 1.7; margin: 0; color: #ffffff;">
+                                Information scattered across <strong>JIRA</strong>, <strong>Confluence</strong>, <strong>Slack</strong>, and <strong>GitHub</strong>
+                            </p>
+                            <p style="font-size: 1.05em; line-height: 1.7; margin-top: 1em; color: #ffffff;">
+                                Most time spent <strong style="color: var(--hello-yellow);">hunting, copying, and formatting</strong> — not writing.
+                            </p>
+                        </div>
+                        <p style="font-size: 0.95em; opacity: 0.85; margin: 0; font-style: italic;">
+                            This is the exact problem MCP servers solve.
+                        </p>
                     </div>
                 </div>
             </section>
+
+            <!-- Release Notes Demo Title -->
+            <section class="title-slide">
+                <aside class="notes">
+                    <strong>⏱ TIME: 9:30-10:00 (30 seconds)</strong><br><br>
+
+                    This demo shows how I rebuilt my entire release notes workflow using an MCP server.<br><br>
+
+                    Watch how the system automatically gathers information from all those sources, organizes it, and generates structured release notes—no manual copy-pasting, no formatting headaches.<br><br>
+
+                    The key insight: Release notes aren't just writing. They're reconstruction—taking raw data from multiple sources and turning it into a coherent narrative.
+                </aside>
+                <h1 style="margin-bottom: 0.3em;">Release Notes Demo</h1>
+                <p style="font-size: 0.95em; color: #ffffff; font-weight: bold; margin-bottom: 1em;">
+                    It's not just writing release notes.<br>
+                    <span style="color: #ffffff; font-weight: normal;">It's reconstruction.</span>
+                </p>
+                <div style="margin-top: 0.5em; display: flex; justify-content: center; flex: 1;">
+                    <img src="./release_notes.png" alt="Release Notes Generator" style="max-width: 95%; max-height: 550px; object-fit: contain;">
+                </div>
+            </section>
+
+            <!-- Release Notes Generator Overview -->
+            <section>
+                <aside class="notes">
+                    <strong>⏱ TIME: 10:00-10:45 (45 seconds)</strong><br><br>
+
+                    The Release Notes Generator works through four integrated steps with built-in quality checks and automation.<br><br>
+
+                    <strong>Step 1: Configure</strong> - You tell it what you need. Select your Autodesk products, templates, data sources (JIRA, Confluence, GitHub), and batch size. No credentials re-entered, no browser tabs, no copy-pasting. One form, one click.<br><br>
+
+                    <strong>Step 2: Generate</strong> - The AI pulls JIRA tickets via JQL, extracts Confluence pages and GitHub PRs from ticket links, automatically detects and merges near-duplicates, and verifies coverage while mapping traceability.<br><br>
+
+                    <strong>Step 3: Edit</strong> - The AI writes the draft, but you maintain control. Refine inside VS Code with brand voice validation, readiness gates, and severity checks built in.<br><br>
+
+                    <strong>Step 4: Download</strong> - Publish-ready release notes with images, complete traceability, and trusted output.<br><br>
+
+                    Notice the quality gates throughout: duplicate detection, coverage verification, brand voice validation, release readiness gates, and safe-to-publish checks ensure enterprise-grade output every time.
+                </aside>
+                <h2>How Release Notes Generator Works</h2>
+                                <div style="margin-top: 2em; display: flex; justify-content: center; align-items: center; min-height: 500px;">
+                                    <img src='./rnprocess.png' alt='Release Notes Generator Process' style='width: 100%; max-width: 1400px; max-height: 90vh; border-radius: 18px; background: #000; box-shadow: 0 4px 48px 0 #000c;'>
+                                </div>
+            </section>
+
+            <!-- Step 1: Configure -->
+            <section>
+                <aside class="notes">
+                    <strong>⏱ TIME: 10:45-11:15 (30 seconds)</strong><br><br>
+
+                    This is Step 1: Configure.<br><br>
+
+                    Tell the generator what you need. Select your Autodesk product. Choose a template—we have 5 pre-built templates or you can create your own.<br><br>
+
+                    Then specify your data sources. Which JIRA project? Which Confluence spaces? Which GitHub repositories?<br><br>
+
+                    No credentials re-entered. No browser tabs. No copy-pasting. One form, one click.<br><br>
+
+                    That's it. Configuration is done.
+                </aside>
+                <h2><span style="color: var(--hello-yellow);">Step 1:</span> Configure</h2>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; margin-top: 1.5em;">
+                        <!-- Left: Key Points -->
+                        <div>
+                            <ul style="font-size: 0.9em; line-height: 2; text-align: left;">
+                                <li>✓ Tell it what you need</li>
+                                <li>✓ No credentials to re-enter</li>
+                                <li>✓ No browser tabs</li>
+                                <li>✓ No copy-pasting</li>
+                                <li style="color: var(--hello-yellow); font-weight: bold;">✓ One form, one click</li>
+                            </ul>
+                        </div>
+
+                        <!-- Right: Configuration GIF -->
+                            <div style="display: flex; align-items: center; justify-content: center;">
+                                <img src="./step1.png" alt="Configure Step" style="max-width: 100%; max-height: 500px; object-fit: contain; border-radius: 14px; box-shadow: 0 4px 32px 0 #000a; background: #000;">
+                            </div>
+                    </div>
+            </section>
+
+            <!-- Step 2: Generate -->
+            <section>
+                <aside class="notes">
+                    <strong>⏱ TIME: 11:15-11:45 (30 seconds)</strong><br><br>
+
+                    This is Step 2: Generate. The heavy lifting happens here.<br><br>
+
+                    The system automatically fetches JIRA tickets using JQL—your specific query, your specific scope.<br><br>
+
+                    It extracts Confluence pages and GitHub PRs from the ticket links you've provided. Smart extraction—it knows where to look.<br><br>
+
+                    It detects near-duplicate tickets—sometimes the same bug is filed multiple times—and automatically merges them before generation.<br><br>
+
+                    Coverage is verified. Traceability is mapped. Output is normalized.<br><br>
+
+                    The AI then writes a coherent narrative from all that raw data. Not lists. Actual prose.
+                </aside>
+                <h2><span style="color: var(--hello-yellow);">Step 2:</span> Generate</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; margin-top: 1.5em;">
+                    <!-- Left: Key Points -->
+                    <div>
+                        <ul style="font-size: 0.85em; line-height: 1.9; text-align: left;">
+                            <li>📊 JIRA tickets fetched via JQL</li>
+                            <li>📄 Confluence pages extracted automatically</li>
+                            <li>🔗 GitHub PRs pulled from links</li>
+                            <li style="color: var(--hello-yellow); font-weight: bold;">🔄 Near-duplicate detection & merge</li>
+                            <li style="color: var(--hello-yellow); font-weight: bold;">✓ Coverage verified</li>
+                            <li style="color: var(--hello-yellow); font-weight: bold;">📍 Traceability mapped</li>
+                            <li style="color: var(--hello-yellow); font-weight: bold;">✍️ AI writes coherent narrative</li>
+                        </ul>
+                    </div>
+
+                    <!-- Right: Generation Screenshot -->
+                        <div style="display: flex; align-items: center; justify-content: center;">
+                            <img src="./step2.gif" alt="Generate Step" style="max-width: 100%; max-height: 540px; object-fit: contain; border-radius: 14px; box-shadow: 0 4px 32px 0 #000a; background: #000;">
+                        </div>
+                </div>
+            </section>
+
+            <!-- Step 3: Edit -->
+            <section>
+                <h2><span style="color: var(--hello-yellow);">Step 3:</span> <span style="color: #fff;">Edit</span></h2>
+                <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: start; margin-top: 1.5em;">
+                    <!-- Left: Key Points -->
+                    <div>
+                        <ul style="font-size: 1em; line-height: 2; text-align: left; color: #fff;">
+                            <li>Three tabs – full editorial control</li>
+                            <li>Preview rendered HTML</li>
+                            <li>Markdown Live Editor</li>
+                            <li>Quality check</li>
+                        </ul>
+                    </div>
+                    <!-- Right: Screenshot -->
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <img src="./step3.gif" alt="Edit Step" style="max-width: 100%; max-height: 420px; object-fit: contain; border-radius: 14px; box-shadow: 0 4px 32px 0 #000a; background: #000;">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 4: Download -->
+            <section>
+                <h2><span style="color: var(--hello-yellow);">Step 4:</span> <span style="color: #fff;">Download</span></h2>
+                <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: start; margin-top: 1.5em;">
+                    <!-- Left: Key Points -->
+                    <div>
+                        <ul style="font-size: 1em; line-height: 2; text-align: left; color: #fff;">
+                            <li>Fully formatted HTML output with JIRA images embedded online</li>
+                            <li>Copy Markdown directly into Confluence, GitHub or your CMS</li>
+                        </ul>
+                    </div>
+                    <!-- Right: Screenshot -->
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <img src="./step4.gif" alt="Download Step" style="max-width: 100%; max-height: 420px; object-fit: contain; border-radius: 14px; box-shadow: 0 4px 32px 0 #000a; background: #000;">
+                    </div>
+                </div>
+            </section>
+
+            <!-- The Bigger Pattern -->
+            <section>
+                <h2 style="color: #fff; font-size: 2.2em; margin-bottom: 0.7em; text-align: left;">
+                    The <span style="color: var(--hello-yellow); font-weight: bold;">Bigger</span> Pattern
+                </h2>
+                <div style="display: flex; align-items: center; justify-content: center; margin-top: 1.5em;">
+                    <img src="./pattern.png" alt="The Bigger Pattern" style="width: 100%; object-fit: contain; border-radius: 16px; background: #000; box-shadow: 0 4px 32px 0 #000a;">
+                </div>
+            </section>
+
 
             <!-- Remember -->
             <section class="title-slide">
@@ -1018,71 +1190,19 @@
                         <a href="https://www.linkedin.com/in/amantalwar04/" target="_blank" style="color: var(--hello-yellow); text-decoration: none;">linkedin.com/in/amantalwar04</a>
                     </p>
                     <p style="opacity: 0.7;">
-                        <a href="https://stcindia.org/annual-summit" target="_blank" style="color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9em;">STC India Annual Summit 2025</a>
+                        <a href="https://www.tcworld-china.cn/en/program-2026/" target="_blank" style="color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9em;">tcworld China 2026</a>
                     </p>
                 </div>
             </section>
 
             <!-- Release Notes MCP Server in Action -->
-            <section class="title-slide" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);">
-                <aside class="notes">
-                    <strong>⏱ TIME: 12:30-15:00 (150 seconds - includes Q&A buffer)</strong><br><br>
-                    
-                    <strong>DEMO INTRO (10 seconds):</strong><br>
-                    Now, let me show you a real-world example. This is a Release Notes MCP Server I built. It connects to GitHub and automatically generates release notes from commit history and pull requests.<br><br>
-                    
-                    <strong>DEMO WALKTHROUGH (60 seconds):</strong><br>
-                    Click "Open Full Demo" to show the interface.<br>
-                    - Point out the simple interface: just enter a repo URL and date range<br>
-                    - Show how it pulls data from GitHub (commits, PRs, issues)<br>
-                    - Demonstrate the AI formatting the output into professional release notes<br>
-                    - Highlight time savings: What used to take 3 hours now takes 15 minutes<br><br>
-                    
-                    <strong>KEY POINTS (30 seconds):</strong><br>
-                    Notice three things:<br>
-                    1. No manual data entry—it's all pulled automatically<br>
-                    2. The AI understands context and categorizes changes intelligently<br>
-                    3. The output is publication-ready, not just raw data<br><br>
-                    
-                    <strong>CLOSING (20 seconds):</strong><br>
-                    This is just ONE example. You could build similar workflows for API documentation, user guides, or technical specifications.<br><br>
-                    
-                    <strong>Q&A TRANSITION (30 seconds):</strong><br>
-                    I have time for a few quick questions. Who has questions about getting started, specific use cases, or technical implementation?<br><br>
-                    
-                    <strong>BACKUP IF NO QUESTIONS:</strong><br>
-                    If you think of questions later, please reach out on LinkedIn. I'm happy to help you get started with MCP servers.<br><br>
-                    
-                    Thank you for your time today!
-                </aside>
-                <h1 style="color: var(--hello-yellow); margin-bottom: 0.5em;">Release Notes MCP Server in Action</h1>
-                  <a href="Empowering-Technical-Communicators-Demo-Aman-Talwar.html" target="_blank" 
-                   style="display: inline-block; background: var(--hello-yellow); color: #000; 
-                          padding: 10px 10px; font-size: 1.2em; font-weight: bold; 
-                          text-decoration: none; border-radius: 8px; 
-                          transition: transform 0.2s;">
-                    Open Full Demo →
-                </a>
-                <iframe src="Empowering-Technical-Communicators-Demo-Aman-Talwar.html" 
-                        style="width: 85%; height: 500px; border: 2px solid var(--hello-yellow); border-radius: 10px; margin-bottom: 1.5em;"
-                        title="Release Notes Generator Demo"></iframe>
-                <a href="Empowering-Technical-Communicators-Demo-Aman-Talwar.html" target="_blank" 
-                   style="display: inline-block; background: var(--hello-yellow); color: #000; 
-                          padding: 10px 10px; font-size: 1.2em; font-weight: bold; 
-                          text-decoration: none; border-radius: 8px; 
-                          transition: transform 0.2s;">
-                    Open Full Demo →
-                </a>
-                <p style="font-size: 0.75em; margin-top: 1.5em; color: #999;">
-                    No installation required • Works in your browser • Uses sample data
-                </p>
-            </section>
+
 
         </div>
         
         <!-- Footer -->
         <div class="slide-footer">
-            Presented at STC India Annual Summit 2025
+            Presented at tcworld China 2026
         </div>
     </div>
 
