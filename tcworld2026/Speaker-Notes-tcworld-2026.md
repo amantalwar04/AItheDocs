@@ -1,7 +1,7 @@
-# Speaker Notes: Empowering Technical Communicators with MCP Servers
-**STC India Annual Technical Writers Summit 2025**  
+# Speaker Notes: From Manual to Automated: A Practical Introduction to the Model Context Protocol for Technical Writers
+**tcworld China 2026**  
 **Presenter:** Amandeep Singh Talwar, Content Design Manager, Autodesk  
-**Total Duration:** 15 minutes
+**Total Duration:** 45 minutes
 
 ---
 
